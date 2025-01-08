@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\HerdEntryReason>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Api\V1\RestrictionReasons>
  */
-class HerdEntryReasonFactory extends Factory
+class RestrictionReasonFactory extends Factory
 {
     /**
      * Define the model's default state.

@@ -3,13 +3,11 @@
 namespace Feature\Controllers\Api;
 
 use AllowDynamicProperties;
-use App\Models\RestrictionReason;
-use App\Models\ZootechnicalExitReason;
+use App\Models\HerdEntryReason;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Arr;
 use Tests\TestCase;
 
-#[AllowDynamicProperties] class ZootechnicalExitReasonsControllerTest extends TestCase
+#[AllowDynamicProperties] class HerdEntryReasonControllerTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -17,11 +15,12 @@ use Tests\TestCase;
     {
         parent::setUp();
         $this->artisan('db:seed');
+        HerdEntryReason::factory()->count(10)->create();
     }
 
     public function test_index_for_admin()
     {
-        $response = $this->actingAs($this->admin)->getJson(route('api.zootechnical-exit-reasons.index'));
+        $response = $this->actingAs($this->admin)->getJson(route('api.herd-entry-reasons.index'));
         $response->assertOk();
         $response->assertJsonStructure([
             'message',
@@ -46,7 +45,7 @@ use Tests\TestCase;
 
     public function test_index_for_non_admin()
     {
-        $response = $this->actingAs($this->user)->getJson(route('api.zootechnical-exit-reasons.index'));
+        $response = $this->actingAs($this->user)->getJson(route('api.herd-entry-reasons.index'));
         $response->assertOk();
         $response->assertJsonStructure([
             'message',
@@ -77,7 +76,7 @@ use Tests\TestCase;
             'is_active' => true,
         ];
 
-        $response = $this->actingAs($this->admin)->postJson(route('api.zootechnical-exit-reasons.store'), $data);
+        $response = $this->actingAs($this->admin)->postJson(route('api.herd-entry-reasons.store'), $data);
         $response->assertSuccessful();
         $response->assertJsonStructure([
             'message',
@@ -91,7 +90,7 @@ use Tests\TestCase;
             ],
         ]);
 
-        $this->assertDatabaseHas('zootechnical_exit_reasons', $data);
+        $this->assertDatabaseHas('herd_entry_reasons', $data);
     }
 
     public function test_store_for_non_admin()
@@ -102,7 +101,7 @@ use Tests\TestCase;
             'is_active' => true,
         ];
 
-        $response = $this->actingAs($this->user)->postJson(route('api.zootechnical-exit-reasons.store'), $data);
+        $response = $this->actingAs($this->user)->postJson(route('api.herd-entry-reasons.store'), $data);
         $response->assertSuccessful();
         $response->assertJsonStructure([
             'message',
@@ -116,39 +115,34 @@ use Tests\TestCase;
             ],
         ]);
 
-        $this->assertDatabaseHas('zootechnical_exit_reasons', $data);
+        $this->assertDatabaseHas('herd_entry_reasons', $data);
     }
 
     public function test_show_for_admin()
     {
-        $zootechnicalExitReason = ZootechnicalExitReason::query()->first();
-        $response = $this->actingAs($this->admin)->getJson(route('api.zootechnical-exit-reasons.show', $zootechnicalExitReason));
-
+        $item = HerdEntryReason::query()->first();
+        $response = $this->actingAs($this->admin)->json('GET', route('api.herd-entry-reasons.show', $item));
         $response->assertOk();
         $response->assertJsonStructure([
             'message',
             'success',
             'error',
             'data' => [
-                'zootechnicalExitReason' => [
+                'herdEntryReason' => [
                     'id',
                     'name',
                     'description',
                     'is_active',
-                    'created_at',
-                    'updated_at',
                 ]
             ],
         ]);
         $response->assertJson([
             'data' => [
-                'zootechnicalExitReason' => [
-                    'id' => $zootechnicalExitReason->id,
-                    'name' => $zootechnicalExitReason->name,
-                    'description' => $zootechnicalExitReason->description,
-                    'is_active' => $zootechnicalExitReason->is_active,
-                    'created_at' => $zootechnicalExitReason->created_at,
-                    'updated_at' => $zootechnicalExitReason->updated_at,
+                'herdEntryReason' => [
+                    'id' => $item->id,
+                    'name' => $item->name,
+                    'description' => $item->description,
+                    'is_active' => $item->is_active,
                 ]
             ]
         ]);
@@ -156,34 +150,29 @@ use Tests\TestCase;
 
     public function test_show_for_non_admin()
     {
-        $zootechnicalExitReason = ZootechnicalExitReason::query()->first();
-        $response = $this->actingAs($this->user)->getJson(route('api.zootechnical-exit-reasons.show', $zootechnicalExitReason));
-
+        $item = HerdEntryReason::query()->first();
+        $response = $this->actingAs($this->user)->json('GET', route('api.herd-entry-reasons.show', $item));
         $response->assertOk();
         $response->assertJsonStructure([
             'message',
             'success',
             'error',
             'data' => [
-                'zootechnicalExitReason' => [
+                'herdEntryReason' => [
                     'id',
                     'name',
                     'description',
                     'is_active',
-                    'created_at',
-                    'updated_at',
                 ]
             ],
         ]);
         $response->assertJson([
             'data' => [
-                'zootechnicalExitReason' => [
-                    'id' => $zootechnicalExitReason->id,
-                    'name' => $zootechnicalExitReason->name,
-                    'description' => $zootechnicalExitReason->description,
-                    'is_active' => $zootechnicalExitReason->is_active,
-                    'created_at' => $zootechnicalExitReason->created_at,
-                    'updated_at' => $zootechnicalExitReason->updated_at,
+                'herdEntryReason' => [
+                    'id' => $item->id,
+                    'name' => $item->name,
+                    'description' => $item->description,
+                    'is_active' => $item->is_active,
                 ]
             ]
         ]);
@@ -191,83 +180,67 @@ use Tests\TestCase;
 
     public function test_update_for_admin()
     {
-        $zootechnicalExitReason = ZootechnicalExitReason::query()->first();
+        $item = HerdEntryReason::query()->first();
 
-        $restrictionReason = RestrictionReason::query()->first();
-
-        $requestData = [
+        $data = [
             'name' => 'Updated Name',
             'description' => 'Updated Description',
             'is_active' => false,
-            'restriction_reason' => $restrictionReason->id,
         ];
 
-        $responseData = Arr::except($requestData, ['restriction_reason']);
-
-        $response = $this->actingAs($this->admin)->putJson(route('api.zootechnical-exit-reasons.update', $zootechnicalExitReason->id), $requestData);
-
+        $response = $this->actingAs($this->admin)->putJson(route('api.herd-entry-reasons.update', $item->id), $data);
         $response->assertOk();
         $response->assertJsonStructure([
             'message',
             'success',
             'error',
             'data' => [
-                [
+                'herdEntryReason' => [
                     'id',
                     'name',
                     'description',
                     'is_active',
-                    'created_at',
-                    'updated_at',
                 ]
             ],
         ]);
 
-        $this->assertDatabaseHas('zootechnical_exit_reasons', $responseData);
+        $this->assertDatabaseHas('herd_entry_reasons', $data);
     }
 
     public function test_update_for_non_admin()
     {
-        $zootechnicalExitReason = ZootechnicalExitReason::query()->first();
+        $item = HerdEntryReason::query()->first();
 
-        $restrictionReason = RestrictionReason::query()->first();
-
-        $requestData = [
+        $data = [
             'name' => 'Updated Name',
             'description' => 'Updated Description',
             'is_active' => false,
-            'restriction_reason' => $restrictionReason->id,
         ];
 
-        $responseData = Arr::except($requestData, ['restriction_reason']);
-
-        $response = $this->actingAs($this->user)->putJson(route('api.zootechnical-exit-reasons.update', $zootechnicalExitReason->id), $requestData);
-
+        $response = $this->actingAs($this->user)->putJson(route('api.herd-entry-reasons.update', $item->id), $data);
         $response->assertOk();
         $response->assertJsonStructure([
             'message',
             'success',
             'error',
             'data' => [
-                [
+                'herdEntryReason' => [
                     'id',
                     'name',
                     'description',
                     'is_active',
-                    'created_at',
-                    'updated_at',
                 ]
             ],
         ]);
 
-        $this->assertDatabaseHas('zootechnical_exit_reasons', $responseData);
+        $this->assertDatabaseHas('herd_entry_reasons', $data);
     }
 
     public function test_destroy_for_admin()
     {
-        $zootechnicalExitReason = ZootechnicalExitReason::query()->first();
+        $item = HerdEntryReason::query()->first();
 
-        $response = $this->actingAs($this->admin)->deleteJson(route('api.zootechnical-exit-reasons.destroy', $zootechnicalExitReason->id));
+        $response = $this->actingAs($this->admin)->deleteJson(route('api.herd-entry-reasons.destroy', $item->id));
 
         $response->assertOk();
         $response->assertJson([
@@ -275,14 +248,14 @@ use Tests\TestCase;
             'error' => null,
         ]);
 
-        $this->assertDatabaseMissing('zootechnical_exit_reasons', ['id' => $zootechnicalExitReason->id]);
+        $this->assertDatabaseMissing('herd_entry_reasons', ['id' => $item->id]);
     }
 
     public function test_destroy_for_non_admin()
     {
-        $zootechnicalExitReason = ZootechnicalExitReason::query()->first();
+        $item = HerdEntryReason::query()->first();
 
-        $response = $this->actingAs($this->user)->deleteJson(route('api.zootechnical-exit-reasons.destroy', $zootechnicalExitReason->id));
+        $response = $this->actingAs($this->user)->deleteJson(route('api.herd-entry-reasons.destroy', $item->id));
 
         $response->assertOk();
         $response->assertJson([
@@ -290,17 +263,6 @@ use Tests\TestCase;
             'error' => null,
         ]);
 
-        $this->assertDatabaseMissing('zootechnical_exit_reasons', ['id' => $zootechnicalExitReason->id]);
+        $this->assertDatabaseMissing('herd_entry_reasons', ['id' => $item->id]);
     }
-
-    // TODO: (учтонить) включить, если пользователю запрещено удалять
-    // public function test_destroy_forbidden_for_non_admin()
-    // {
-    //     $zootechnicalExitReason = ZootechnicalExitReason::query()->first();
-
-    //     $response = $this->actingAs($this->user)->deleteJson(route('api.zootechnical-exit-reasons.destroy', $zootechnicalExitReason->id));
-    //     $response->assertForbidden();
-
-    //     $this->assertDatabaseHas('zootechnical_exit_reasons', ['id' => $zootechnicalExitReason->id]);
-    // }
 }

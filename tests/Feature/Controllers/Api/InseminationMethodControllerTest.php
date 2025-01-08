@@ -3,13 +3,11 @@
 namespace Feature\Controllers\Api;
 
 use AllowDynamicProperties;
-use App\Models\RestrictionReason;
-use App\Models\ZootechnicalExitReason;
+use App\Models\InseminationMethod;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Arr;
 use Tests\TestCase;
 
-#[AllowDynamicProperties] class ZootechnicalExitReasonsControllerTest extends TestCase
+#[AllowDynamicProperties] class InseminationMethodControllerTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -21,7 +19,7 @@ use Tests\TestCase;
 
     public function test_index_for_admin()
     {
-        $response = $this->actingAs($this->admin)->getJson(route('api.zootechnical-exit-reasons.index'));
+        $response = $this->actingAs($this->admin)->getJson(route('api.insemination-methods.index'));
         $response->assertOk();
         $response->assertJsonStructure([
             'message',
@@ -46,7 +44,7 @@ use Tests\TestCase;
 
     public function test_index_for_non_admin()
     {
-        $response = $this->actingAs($this->user)->getJson(route('api.zootechnical-exit-reasons.index'));
+        $response = $this->actingAs($this->user)->getJson(route('api.insemination-methods.index'));
         $response->assertOk();
         $response->assertJsonStructure([
             'message',
@@ -77,7 +75,7 @@ use Tests\TestCase;
             'is_active' => true,
         ];
 
-        $response = $this->actingAs($this->admin)->postJson(route('api.zootechnical-exit-reasons.store'), $data);
+        $response = $this->actingAs($this->admin)->postJson(route('api.insemination-methods.store'), $data);
         $response->assertSuccessful();
         $response->assertJsonStructure([
             'message',
@@ -88,10 +86,12 @@ use Tests\TestCase;
                 'name',
                 'description',
                 'is_active',
+                'created_at',
+                'updated_at',
             ],
         ]);
 
-        $this->assertDatabaseHas('zootechnical_exit_reasons', $data);
+        $this->assertDatabaseHas('insemination_methods', $data);
     }
 
     public function test_store_for_non_admin()
@@ -102,7 +102,7 @@ use Tests\TestCase;
             'is_active' => true,
         ];
 
-        $response = $this->actingAs($this->user)->postJson(route('api.zootechnical-exit-reasons.store'), $data);
+        $response = $this->actingAs($this->user)->postJson(route('api.insemination-methods.store'), $data);
         $response->assertSuccessful();
         $response->assertJsonStructure([
             'message',
@@ -113,24 +113,25 @@ use Tests\TestCase;
                 'name',
                 'description',
                 'is_active',
+                'created_at',
+                'updated_at',
             ],
         ]);
 
-        $this->assertDatabaseHas('zootechnical_exit_reasons', $data);
+        $this->assertDatabaseHas('insemination_methods', $data);
     }
 
     public function test_show_for_admin()
     {
-        $zootechnicalExitReason = ZootechnicalExitReason::query()->first();
-        $response = $this->actingAs($this->admin)->getJson(route('api.zootechnical-exit-reasons.show', $zootechnicalExitReason));
-
+        $item = InseminationMethod::query()->first();
+        $response = $this->actingAs($this->admin)->json('GET', route('api.insemination-methods.show', $item));
         $response->assertOk();
         $response->assertJsonStructure([
             'message',
             'success',
             'error',
             'data' => [
-                'zootechnicalExitReason' => [
+                [
                     'id',
                     'name',
                     'description',
@@ -142,13 +143,13 @@ use Tests\TestCase;
         ]);
         $response->assertJson([
             'data' => [
-                'zootechnicalExitReason' => [
-                    'id' => $zootechnicalExitReason->id,
-                    'name' => $zootechnicalExitReason->name,
-                    'description' => $zootechnicalExitReason->description,
-                    'is_active' => $zootechnicalExitReason->is_active,
-                    'created_at' => $zootechnicalExitReason->created_at,
-                    'updated_at' => $zootechnicalExitReason->updated_at,
+                [
+                    'id' => $item->id,
+                    'name' => $item->name,
+                    'description' => $item->description,
+                    'is_active' => $item->is_active,
+                    'created_at' => $item->created_at,
+                    'updated_at' => $item->updated_at,
                 ]
             ]
         ]);
@@ -156,16 +157,15 @@ use Tests\TestCase;
 
     public function test_show_for_non_admin()
     {
-        $zootechnicalExitReason = ZootechnicalExitReason::query()->first();
-        $response = $this->actingAs($this->user)->getJson(route('api.zootechnical-exit-reasons.show', $zootechnicalExitReason));
-
+        $item = InseminationMethod::query()->first();
+        $response = $this->actingAs($this->user)->json('GET', route('api.insemination-methods.show', $item));
         $response->assertOk();
         $response->assertJsonStructure([
             'message',
             'success',
             'error',
             'data' => [
-                'zootechnicalExitReason' => [
+                [
                     'id',
                     'name',
                     'description',
@@ -177,13 +177,13 @@ use Tests\TestCase;
         ]);
         $response->assertJson([
             'data' => [
-                'zootechnicalExitReason' => [
-                    'id' => $zootechnicalExitReason->id,
-                    'name' => $zootechnicalExitReason->name,
-                    'description' => $zootechnicalExitReason->description,
-                    'is_active' => $zootechnicalExitReason->is_active,
-                    'created_at' => $zootechnicalExitReason->created_at,
-                    'updated_at' => $zootechnicalExitReason->updated_at,
+                [
+                    'id' => $item->id,
+                    'name' => $item->name,
+                    'description' => $item->description,
+                    'is_active' => $item->is_active,
+                    'created_at' => $item->created_at,
+                    'updated_at' => $item->updated_at,
                 ]
             ]
         ]);
@@ -191,21 +191,16 @@ use Tests\TestCase;
 
     public function test_update_for_admin()
     {
-        $zootechnicalExitReason = ZootechnicalExitReason::query()->first();
+        $item = InseminationMethod::query()->first();
 
-        $restrictionReason = RestrictionReason::query()->first();
-
-        $requestData = [
+        // TODO: is_active есть в fillable, но его значение не обновляется, так как is_active нет в UpdateInseminationMethodRequest
+        $data = [
             'name' => 'Updated Name',
             'description' => 'Updated Description',
             'is_active' => false,
-            'restriction_reason' => $restrictionReason->id,
         ];
 
-        $responseData = Arr::except($requestData, ['restriction_reason']);
-
-        $response = $this->actingAs($this->admin)->putJson(route('api.zootechnical-exit-reasons.update', $zootechnicalExitReason->id), $requestData);
-
+        $response = $this->actingAs($this->admin)->putJson(route('api.insemination-methods.update', $item->id), $data);
         $response->assertOk();
         $response->assertJsonStructure([
             'message',
@@ -223,26 +218,21 @@ use Tests\TestCase;
             ],
         ]);
 
-        $this->assertDatabaseHas('zootechnical_exit_reasons', $responseData);
+        $this->assertDatabaseHas('insemination_methods', $data);
     }
 
     public function test_update_for_non_admin()
     {
-        $zootechnicalExitReason = ZootechnicalExitReason::query()->first();
+        $item = InseminationMethod::query()->first();
 
-        $restrictionReason = RestrictionReason::query()->first();
-
-        $requestData = [
+        // TODO: is_active есть в fillable, но его значение не обновляется, так как is_active нет в UpdateInseminationMethodRequest
+        $data = [
             'name' => 'Updated Name',
             'description' => 'Updated Description',
             'is_active' => false,
-            'restriction_reason' => $restrictionReason->id,
         ];
 
-        $responseData = Arr::except($requestData, ['restriction_reason']);
-
-        $response = $this->actingAs($this->user)->putJson(route('api.zootechnical-exit-reasons.update', $zootechnicalExitReason->id), $requestData);
-
+        $response = $this->actingAs($this->user)->putJson(route('api.insemination-methods.update', $item->id), $data);
         $response->assertOk();
         $response->assertJsonStructure([
             'message',
@@ -260,14 +250,14 @@ use Tests\TestCase;
             ],
         ]);
 
-        $this->assertDatabaseHas('zootechnical_exit_reasons', $responseData);
+        $this->assertDatabaseHas('insemination_methods', $data);
     }
 
     public function test_destroy_for_admin()
     {
-        $zootechnicalExitReason = ZootechnicalExitReason::query()->first();
+        $item = InseminationMethod::query()->first();
 
-        $response = $this->actingAs($this->admin)->deleteJson(route('api.zootechnical-exit-reasons.destroy', $zootechnicalExitReason->id));
+        $response = $this->actingAs($this->admin)->deleteJson(route('api.insemination-methods.destroy', $item->id));
 
         $response->assertOk();
         $response->assertJson([
@@ -275,14 +265,14 @@ use Tests\TestCase;
             'error' => null,
         ]);
 
-        $this->assertDatabaseMissing('zootechnical_exit_reasons', ['id' => $zootechnicalExitReason->id]);
+        $this->assertDatabaseMissing('insemination_methods', ['id' => $item->id]);
     }
 
     public function test_destroy_for_non_admin()
     {
-        $zootechnicalExitReason = ZootechnicalExitReason::query()->first();
+        $item = InseminationMethod::query()->first();
 
-        $response = $this->actingAs($this->user)->deleteJson(route('api.zootechnical-exit-reasons.destroy', $zootechnicalExitReason->id));
+        $response = $this->actingAs($this->user)->deleteJson(route('api.insemination-methods.destroy', $item->id));
 
         $response->assertOk();
         $response->assertJson([
@@ -290,17 +280,6 @@ use Tests\TestCase;
             'error' => null,
         ]);
 
-        $this->assertDatabaseMissing('zootechnical_exit_reasons', ['id' => $zootechnicalExitReason->id]);
+        $this->assertDatabaseMissing('insemination_methods', ['id' => $item->id]);
     }
-
-    // TODO: (учтонить) включить, если пользователю запрещено удалять
-    // public function test_destroy_forbidden_for_non_admin()
-    // {
-    //     $zootechnicalExitReason = ZootechnicalExitReason::query()->first();
-
-    //     $response = $this->actingAs($this->user)->deleteJson(route('api.zootechnical-exit-reasons.destroy', $zootechnicalExitReason->id));
-    //     $response->assertForbidden();
-
-    //     $this->assertDatabaseHas('zootechnical_exit_reasons', ['id' => $zootechnicalExitReason->id]);
-    // }
 }
