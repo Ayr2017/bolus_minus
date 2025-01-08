@@ -17,8 +17,6 @@ use Tests\TestCase;
     {
         parent::setUp();
         $this->artisan('db:seed');
-        $this->artisan('db:seed --class=ZootechnicalExitReasonSeeder');
-        $this->artisan('db:seed --class=RestrictionReasonsSeeder');
     }
 
     public function test_index_for_admin()
