@@ -21,7 +21,7 @@ class UpdateBreedingBullRequest extends FormRequest
      */
     public function rules(): array
     {
-        $breedingBullId = $this->route('breeding_bull'); // Получаем ID из маршрута, если оно передаётся
+        $breedingBullId = $this->route('breeding_bull')->id; // Получаем ID из маршрута, если оно передаётся
 
         return [
             'type' => 'required|string|max:255', // Тип (обязательное строковое поле)
@@ -36,6 +36,8 @@ class UpdateBreedingBullRequest extends FormRequest
             'breed_id' => 'nullable|exists:breeds,id', // Порода (необязательное поле, ссылается на таблицу пород)
             'is_selected' => 'nullable|boolean', // Флаг выбора (необязательное булево поле)
             'is_own' => 'nullable|boolean',
+            'is_active' => 'nullable|boolean', // Added
+            'coat_color_id' => 'nullable|exists:coat_colors,id', // Added
         ];
     }
 }

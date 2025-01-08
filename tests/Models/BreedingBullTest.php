@@ -8,13 +8,28 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Illuminate\Database\QueryException;
 use Carbon\Carbon;
-
-
+use Illuminate\Support\Facades\Schema;
 use function Symfony\Component\Clock\now;
 
 #[AllowDynamicProperties] class BreedingBullTest extends TestCase
 {
     use RefreshDatabase;
+
+    public function test_fillable_matches_table_columns()
+    {
+        $tableColumns = Schema::getColumnListing('breeding_bulls');
+        $fillable = (new BreedingBull())->getFillable();
+
+        foreach ($fillable as $field) {
+            $this->assertContains($field, $tableColumns, "Поле '$field' указано в fillable, но отсутствует в таблице.");
+        }
+
+        foreach ($tableColumns as $column) {
+            if ($column !== 'id' && $column !== 'created_at' && $column !== 'updated_at') {
+                $this->assertContains($column, $fillable, "Колонка '$column' есть в таблице, но отсутствует в fillable.");
+            }
+        }
+    }
 
     public function test_mass_assignment()
     {
