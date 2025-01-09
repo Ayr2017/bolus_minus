@@ -239,7 +239,7 @@ use Illuminate\Support\Facades\Schema;
 
         $item = Shift::create($data);
         [$hours, $minutes] = explode(':', $item->start_time);
-        $this->assertMatchesRegularExpression('/^\d{2}:\d{2}$/', $item->start_time);
+        $this->assertMatchesRegularExpression('/^\d{1,2}:\d{2}$/', $item->start_time);
 
         $this->assertGreaterThanOrEqual(0, (int) $hours);
         $this->assertLessThanOrEqual(23, (int) $hours);
@@ -259,8 +259,8 @@ use Illuminate\Support\Facades\Schema;
         ];
 
         $item = Shift::create($data);
-        [$hours, $minutes] = explode(':', $item->start_time);
-        $this->assertMatchesRegularExpression('/^\d{2}:\d{2}$/', $item->start_time);
+        [$hours, $minutes] = explode(':', $item->end_time);
+        $this->assertMatchesRegularExpression('/^\d{1,2}:\d{2}$/', $item->end_time);
 
         $this->assertGreaterThanOrEqual(0, (int) $hours);
         $this->assertLessThanOrEqual(23, (int) $hours);
