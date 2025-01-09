@@ -23,7 +23,7 @@ class ShiftResource extends PaginatedJsonResponse
             'start_time' => $this->start_time,
             'end_time' => $this->end_time,
             'is_active' => $this->is_active,
-            'created_at' => $this->created_at->toDateTimeString(),
+            'created_at' => $this->created_at?->toDateTimeString() ?? null,
         ];
     }
 }
