@@ -3,22 +3,22 @@
 namespace Feature\Models;
 
 use AllowDynamicProperties;
-use App\Models\Shift;
+use App\Models\Milking;
 use App\Models\Organisation;
+use App\Models\Shift;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Schema;
 
-
-#[AllowDynamicProperties] class ShiftTest extends TestCase
+#[AllowDynamicProperties] class MilkingTest extends TestCase
 {
     use RefreshDatabase;
 
     public function test_fillable_matches_table_columns()
     {
-        $tableColumns = Schema::getColumnListing('shifts');
-        $fillable = (new Shift())->getFillable();
+        $tableColumns = Schema::getColumnListing('milkings');
+        $fillable = (new Milking())->getFillable();
 
         foreach ($fillable as $field) {
             $this->assertContains($field, $tableColumns, "Поле '$field' указано в fillable, но отсутствует в таблице.");
@@ -34,15 +34,15 @@ use Illuminate\Support\Facades\Schema;
     public function test_mass_assignment()
     {
         $data = [
-            'name' => 'Test Name',
+            'is_active' => true,
             'organization_id' => 1,
             'department_id' => 1,
+            'shift_id' => 1,
             'start_time' => '09:00',
             'end_time' => '18:00',
-            'is_active' => true,
         ];
 
-        $item = Shift::create($data);
+        $item = Milking::create($data);
 
         foreach ($data as $key => $value) {
             $this->assertEquals($value, $item->$key);
@@ -52,129 +52,98 @@ use Illuminate\Support\Facades\Schema;
     public function test_create()
     {
         $data = [
-            'name' => 'Test Name',
+            'is_active' => true,
             'organization_id' => 1,
             'department_id' => 1,
+            'shift_id' => 1,
             'start_time' => '09:00',
             'end_time' => '18:00',
         ];
 
-        Shift::create($data);
+        Milking::create($data);
 
-        $this->assertDatabaseHas('shifts', $data);
+        $this->assertDatabaseHas('milkings', $data);
     }
 
     public function test_read()
     {
-        $item = Shift::create([
-            'name' => 'Test Name',
+        $data = [
+            'is_active' => true,
             'organization_id' => 1,
             'department_id' => 1,
+            'shift_id' => 1,
             'start_time' => '09:00',
             'end_time' => '18:00',
-        ]);
+        ];
 
-        $foundItem = Shift::find($item->id);
+        $item = Milking::create($data);
+        $foundItem = Milking::find($item->id);
 
-        $this->assertEquals('Test Name', $foundItem->name);
         $this->assertEquals(1, $foundItem->organization_id);
         $this->assertEquals(1, $foundItem->department_id);
+        $this->assertEquals(1, $foundItem->shift_id);
         $this->assertEquals('09:00', $foundItem->start_time);
         $this->assertEquals('18:00', $foundItem->end_time);
     }
 
     public function test_update()
     {
-        $item = Shift::create([
-            'name' => 'Test Name',
+        $data = [
+            'is_active' => true,
             'organization_id' => 1,
             'department_id' => 1,
+            'shift_id' => 1,
             'start_time' => '09:00',
             'end_time' => '18:00',
-            'is_active' => true
-        ]);
+        ];
 
-        $item->update([
-            'name' => 'Updated Name',
+        $item = Milking::create($data);
+
+        $updatedData = [
+            'is_active' => false,
             'organization_id' => 2,
             'department_id' => 2,
+            'shift_id' => 2,
             'start_time' => '11:11',
             'end_time' => '22:22',
-            'is_active' => false,
-        ]);
+        ];
 
-        $this->assertDatabaseHas('shifts', [
-            'name' => 'Updated Name',
-            'organization_id' => 2,
-            'department_id' => 2,
-            'start_time' => '11:11',
-            'end_time' => '22:22',
-            'is_active' => false,
-        ]);
+        $item->update($updatedData);
+
+        $this->assertDatabaseHas('milkings', $updatedData);
     }
 
     public function test_delete()
     {
-        $item = Shift::create([
-            'name' => 'Test Name',
+        $data = [
+            'is_active' => true,
             'organization_id' => 1,
             'department_id' => 1,
+            'shift_id' => 1,
             'start_time' => '09:00',
             'end_time' => '18:00',
-        ]);
+        ];
+
+        $item = Milking::create($data);
 
         $item->delete();
 
-        $this->assertDatabaseMissing('shifts', [
+        $this->assertDatabaseMissing('milkings', [
             'id' => $item->id,
         ]);
-    }
-
-    public function test_name_is_not_unique()
-    {
-        $data = [
-            'name' => 'Test Name',
-            'organization_id' => 1,
-            'department_id' => 1,
-            'start_time' => '09:00',
-            'end_time' => '18:00',
-        ];
-
-        Shift::create($data);
-
-        $item = Shift::create($data);
-
-        $this->assertDatabaseHas('shifts', [
-            'id' => $item->id,
-        ]);
-    }
-
-    public function test_name_is_required()
-    {
-        $this->expectException(QueryException::class);
-
-        $data = [
-            'name' => null,
-            'organization_id' => 1,
-            'department_id' => 1,
-            'start_time' => '09:00',
-            'end_time' => '18:00',
-        ];
-
-        Shift::create($data);
     }
 
     public function test_is_active_default_is_true()
     {
         $data = [
-            'name' => 'Test Name',
             'organization_id' => 1,
             'department_id' => 1,
+            'shift_id' => 1,
             'start_time' => '09:00',
             'end_time' => '18:00',
         ];
 
-        $item = Shift::create($data);
+        $item = Milking::create($data);
 
         $item->refresh();
 
@@ -184,15 +153,15 @@ use Illuminate\Support\Facades\Schema;
     public function test_is_active_casts_to_boolean()
     {
         $data = [
-            'name' => 'Test Name',
+            'is_active' => 1,
             'organization_id' => 1,
             'department_id' => 1,
+            'shift_id' => 1,
             'start_time' => '09:00',
             'end_time' => '18:00',
-            'is_active' => 1,
         ];
 
-        $item = Shift::create($data);
+        $item = Milking::create($data);
 
         $this->assertTrue($item->is_active);
     }
@@ -202,14 +171,28 @@ use Illuminate\Support\Facades\Schema;
         $this->expectException(QueryException::class);
 
         $data = [
-            'name' => 'Test Name',
             'organization_id' => 1,
             'department_id' => 1,
-            'start_time' => null,
+            'shift_id' => 1,
             'end_time' => '18:00',
         ];
 
-        Shift::create($data);
+        Milking::create($data);
+    }
+
+    public function test_start_time_is_not_null()
+    {
+        $this->expectException(QueryException::class);
+
+        $data = [
+            'organization_id' => 1,
+            'department_id' => 1,
+            'shift_id' => 1,
+            'end_time' => '18:00',
+            'start_time' => null,
+        ];
+
+        Milking::create($data);
     }
 
     public function test_end_time_is_required()
@@ -217,27 +200,42 @@ use Illuminate\Support\Facades\Schema;
         $this->expectException(QueryException::class);
 
         $data = [
-            'name' => 'Test Name',
             'organization_id' => 1,
             'department_id' => 1,
+            'shift_id' => 1,
+            'start_time' => '09:00',
+        ];
+
+        Milking::create($data);
+    }
+
+    public function test_end_time_is_not_null()
+    {
+        $this->expectException(QueryException::class);
+
+        $data = [
+            'organization_id' => 1,
+            'department_id' => 1,
+            'shift_id' => 1,
             'start_time' => '09:00',
             'end_time' => null,
         ];
 
-        Shift::create($data);
+        Milking::create($data);
     }
 
     public function test_start_time_is_time()
     {
         $data = [
-            'name' => 'Test Name',
+            'is_active' => 1,
             'organization_id' => 1,
             'department_id' => 1,
-            'start_time' => '10:00',
+            'shift_id' => 1,
+            'start_time' => '09:00',
             'end_time' => '18:00',
         ];
 
-        $item = Shift::create($data);
+        $item = Milking::create($data);
         [$hours, $minutes] = explode(':', $item->start_time);
         $this->assertMatchesRegularExpression('/^\d{1,2}:\d{2}$/', $item->start_time);
 
@@ -251,14 +249,15 @@ use Illuminate\Support\Facades\Schema;
     public function test_end_time_is_time()
     {
         $data = [
-            'name' => 'Test Name',
+            'is_active' => 1,
             'organization_id' => 1,
             'department_id' => 1,
-            'start_time' => '10:00',
-            'end_time' => '18:00',
+            'shift_id' => 1,
+            'start_time' => '09:00',
+            'end_time' => '08:00',
         ];
 
-        $item = Shift::create($data);
+        $item = Milking::create($data);
         [$hours, $minutes] = explode(':', $item->end_time);
         $this->assertMatchesRegularExpression('/^\d{1,2}:\d{2}$/', $item->end_time);
 
@@ -273,35 +272,59 @@ use Illuminate\Support\Facades\Schema;
     {
         $organization = Organisation::factory()->create();
         $department = Organisation::factory()->create();
-        $item = Shift::factory()->create(
+        $shift = Shift::factory()->create();
+        $item = Milking::factory()->create(
             [
                 'organization_id' => $organization->id,
                 'department_id' => $department->id,
+                'shift_id' => $shift->id,
+                'start_time' => '09:00',
+                'end_time' => '18:00',
             ]
         );
 
-        $this->assertDatabaseHas('shifts', [
+        $this->assertDatabaseHas('milkings', [
             'id' => $item->id,
         ]);
-
-        $this->assertNotNull($item->name);
     }
 
-    public function test_shift_belongs_to_organization()
+    public function test_milking_organization_is_organization()
     {
         $organization = Organisation::factory()->create();
         $department = Organisation::factory()->create();
-        $shift = Shift::factory()->create(
+        $shift = Shift::factory()->create();
+
+        $item = Milking::create(
             [
                 'organization_id' => $organization->id,
                 'department_id' => $department->id,
+                'shift_id' => $shift->id,
+                'start_time' => '09:00',
+                'end_time' => '18:00',
             ]
         );
 
-        $this->assertInstanceOf(Organisation::class, $shift->organization);
-        $this->assertInstanceOf(Organisation::class, $shift->department);
+        $this->assertInstanceOf(Organisation::class, $item->organization);
+        $this->assertEquals($organization->id, $item->organization->id);
+    }
 
-        $this->assertEquals($organization->id, $shift->organization->id);
-        $this->assertEquals($department->id, $shift->department->id);
+    public function test_milking_department_is_organization()
+    {
+        $organization = Organisation::factory()->create();
+        $department = Organisation::factory()->create();
+        $shift = Shift::factory()->create();
+
+        $item = Milking::create(
+            [
+                'organization_id' => $organization->id,
+                'department_id' => $department->id,
+                'shift_id' => $shift->id,
+                'start_time' => '09:00',
+                'end_time' => '18:00',
+            ]
+        );
+
+        $this->assertInstanceOf(Organisation::class, $item->department);
+        $this->assertEquals($department->id, $item->department->id);
     }
 }

@@ -21,8 +21,8 @@ class ShiftFactory extends Factory
             'name' => fake()->word(),
             'organization_id' => Organisation::query()->inRandomOrder()->first()->id,
             'department_id' => Organisation::query()->inRandomOrder()->first()->id,
-            'start_time' => fake()->time(),
-            'end_time' => fake()->time(),
+            'start_time' => fake()->time('H:i'),
+            'end_time' => fake()->time('H:i'),
         ];
     }
 }
