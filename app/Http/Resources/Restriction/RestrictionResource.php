@@ -16,7 +16,7 @@ class RestrictionResource extends PaginatedJsonResponse
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'title' => $this->title,
+            'description' => $this->description,
             'is_active' => $this->is_active,
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString()
