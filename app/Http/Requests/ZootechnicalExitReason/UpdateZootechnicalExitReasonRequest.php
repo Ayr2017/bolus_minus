@@ -21,13 +21,13 @@ class UpdateZootechnicalExitReasonRequest extends FormRequest
      */
     public function rules(): array
     {
-
         return [
-            'restriction_reason' => [
-                'required',
-                'integer',
-                'exists:restriction_reasons,id',
-            ],
+            //TODO: для чего это
+//            'restriction_reason' => [
+//                'required',
+//                'integer',
+//                'exists:restriction_reasons,id',
+//            ],
             'name' => [
                 'required',
                 'string',
@@ -46,7 +46,7 @@ class UpdateZootechnicalExitReasonRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'zootechnicalExitReason' => $this->route('zootechnicalExitReason'),
+            'zootechnicalExitReason' => $this->route('zootechnical_exit_reason')->id,
         ]);
     }
 }

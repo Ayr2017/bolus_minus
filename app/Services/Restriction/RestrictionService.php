@@ -29,9 +29,11 @@ class RestrictionService extends Service
         return false;
     }
 
-    public function updateRestriction(array $validated, Restriction $restriction): ?Restriction
+    public function update(array $validated, Restriction $restriction): ?Restriction
     {
         try {
+            dd($validated);
+
             $result = $restriction->update($validated);
             if($result){
                 return $restriction;

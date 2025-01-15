@@ -27,11 +27,4 @@ class UpdateRestrictionRequest extends FormRequest
             'is_active'=>['nullable','boolean'],
         ];
     }
-
-//    protected function prepareForValidation(): void
-//    {
-//        $this->merge([
-//            'id' => $this->route('restriction')->id,
-//        ]);
-//    }
 }
