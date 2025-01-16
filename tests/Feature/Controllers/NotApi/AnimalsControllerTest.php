@@ -1,6 +1,6 @@
 <?php
 
-namespace Feature\Controllers\NotApi\Animal;
+namespace Tests\Feature\Controllers\NotApi;
 
 use AllowDynamicProperties;
 use App\Models\Animal;
