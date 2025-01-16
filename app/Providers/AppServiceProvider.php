@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Sanctum\PersonalAccessToken;
 use Laravel\Sanctum\Sanctum;
+use Dedoc\Scramble\Scramble;
+use Dedoc\Scramble\Support\Generator\OpenApi;
+use Dedoc\Scramble\Support\Generator\SecurityScheme;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,9 +30,11 @@ class AppServiceProvider extends ServiceProvider
     {
         Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
         Paginator::useBootstrap();
-        if(App::environment('production'))
-        {
+        if (App::environment('production')) {
             URL::forceScheme('https');
         }
+        Scramble::afterOpenApiGenerated(function (OpenApi $openApi) {
+            $openApi->secure(SecurityScheme::http('bearer')->setDescription('Токен авторизации Sanctum'));
+        });
     }
 }

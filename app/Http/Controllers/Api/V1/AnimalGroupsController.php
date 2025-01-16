@@ -18,13 +18,19 @@ use Illuminate\Http\Request;
 
 class AnimalGroupsController extends Controller
 {
+
+    /**
+     * @param IndexAnimalGroupRequest $request
+     * @param AnimalGroupService $animalGroupService
+     * @return JsonResponse
+     */
     public function index(IndexAnimalGroupRequest $request, AnimalGroupService $animalGroupService): JsonResponse
     {
         try {
             $animalGroups = $animalGroupService->getAnimalGroups($request->validated());
             return ApiResponse::success(AnimalGroupResource::paginatedCollection($animalGroups));
-        }catch (\Throwable $throwable){
-            ErrorLog::write(__METHOD__,__LINE__,$throwable->getMessage());
+        } catch (\Throwable $throwable) {
+            ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
         }
 
         return ApiResponse::error('Something went wrong!');
@@ -43,8 +49,8 @@ class AnimalGroupsController extends Controller
             $animalGroup = $animalGroupService->storeAnimalGroup($request->validated());
 
             return ApiResponse::success(new AnimalGroupResource($animalGroup));
-        } catch (\Throwable $throwable){
-            ErrorLog::write(__METHOD__,__LINE__,$throwable->getMessage());
+        } catch (\Throwable $throwable) {
+            ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
         }
 
         return ApiResponse::error('Something went wrong!');
