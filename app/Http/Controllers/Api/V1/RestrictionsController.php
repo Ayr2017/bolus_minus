@@ -4,10 +4,9 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Helpers\ErrorLog;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Breed\ShowBreadRequest;
 use App\Http\Requests\Restriction\DeleteRestrictionRequest;
 use App\Http\Requests\Restriction\IndexRestrictionRequest;
-use App\Http\Requests\Restriction\IndexTagColorRequest;
-use App\Http\Requests\Restriction\ShowBreadRequest;
 use App\Http\Requests\Restriction\ShowRestrictionRequest;
 use App\Http\Requests\Restriction\StoreRestrictionRequest;
 use App\Http\Requests\Restriction\UpdateRestrictionRequest;
@@ -50,8 +49,8 @@ class RestrictionsController extends Controller
             $restriction = $restrictionService->storeRestriction($request->validated());
 
             return ApiResponse::success(new RestrictionResource($restriction));
-        } catch (\Throwable $throwable){
-            ErrorLog::write(__METHOD__,__LINE__,$throwable->getMessage());
+        } catch (\Throwable $throwable) {
+            ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
         }
 
         return ApiResponse::error('Something went wrong!');
@@ -87,7 +86,7 @@ class RestrictionsController extends Controller
     public function update(UpdateRestrictionRequest $request, RestrictionService $restrictionService, Restriction $restriction): JsonResponse
     {
         try {
-            $restriction = $restrictionService->updateRestriction($request->validated(), $restriction);
+            $restriction = $restrictionService->update($request->validated(), $restriction);
             return ApiResponse::success(['restriction' => RestrictionResource::make($restriction)]);
         } catch (\Throwable $throwable) {
             ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());

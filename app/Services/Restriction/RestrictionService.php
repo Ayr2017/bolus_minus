@@ -32,8 +32,6 @@ class RestrictionService extends Service
     public function update(array $validated, Restriction $restriction): ?Restriction
     {
         try {
-            dd($validated);
-
             $result = $restriction->update($validated);
             if($result){
                 return $restriction;
@@ -49,14 +47,13 @@ class RestrictionService extends Service
         try {
             $restriction = Restriction::query()->create($data);
 
-            if($restriction){
+            if ($restriction) {
                 return $restriction;
             }
         } catch (\Exception $e) {
-            Log::error(__METHOD__." ".$e->getMessage());
+            Log::error(__METHOD__ . " " . $e->getMessage());
         }
         return null;
-
     }
 
     /**

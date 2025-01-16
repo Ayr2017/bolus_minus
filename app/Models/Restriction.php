@@ -11,9 +11,8 @@ class Restriction extends Model
     protected $fillable = [
         'id',
         'name',
-        'title',
-        'icon',
-        'is_active'
+        'is_active',
+        "description",
     ];
 
     protected $casts = [
