@@ -15,12 +15,11 @@ use Illuminate\Http\Request;
 
 class AnimalsController extends Controller
 {
-    public function __construct(readonly AnimalService $animalService)
-    {
-    }
+    public function __construct(readonly AnimalService $animalService) {}
 
     /**
-     * Display a listing of the resource.
+     * @param GetAnimalsRequest $request
+     * @return JsonResponse
      */
     public function index(GetAnimalsRequest $request): JsonResponse
     {

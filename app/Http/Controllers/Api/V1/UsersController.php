@@ -9,16 +9,14 @@ use App\Http\Requests\User\SearchUsersRequest;
 use App\Http\Resources\User\UserResource;
 use App\Http\Responses\ApiResponse;
 use App\Models\User;
-use App\Services\User\TagColorService;
+use App\Services\User\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class UsersController extends Controller
 {
-    public function __construct(readonly TagColorService $userService)
-    {
-    }
+    public function __construct(readonly UserService $userService) {}
 
     /**
      * Display a listing of the resource.
@@ -89,7 +87,7 @@ class UsersController extends Controller
             $currentUser = auth()->user();
             return ApiResponse::success(UserResource::make($currentUser));
         } catch (\Throwable $throwable) {
-            ErrorLog::write(method: __METHOD__, line:  __LINE__ , errorMessage: $throwable->getMessage());
+            ErrorLog::write(method: __METHOD__, line: __LINE__, errorMessage: $throwable->getMessage());
         }
 
         return ApiResponse::error('Something went wrong');
