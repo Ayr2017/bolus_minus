@@ -1,6 +1,6 @@
 <?php
 
-namespace Feature\Controllers\NotApi\Organisation;
+namespace Tests\Feature\Controllers\NotApi;
 
 use App\Models\Organisation;
 use App\Models\StructuralUnit;

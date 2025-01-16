@@ -1,6 +1,6 @@
 <?php
 
-namespace Feature\Models;
+namespace Tests\Models;
 
 use AllowDynamicProperties;
 use App\Models\Milking;

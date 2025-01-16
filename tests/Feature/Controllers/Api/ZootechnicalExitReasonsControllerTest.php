@@ -1,6 +1,6 @@
 <?php
 
-namespace Feature\Controllers\Api;
+namespace Tests\Feature\Controllers\Api;
 
 use AllowDynamicProperties;
 use App\Models\RestrictionReason;
