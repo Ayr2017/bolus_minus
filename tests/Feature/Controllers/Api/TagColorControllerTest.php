@@ -34,7 +34,7 @@ use Tests\TestCase;
                         'hex',
                     ],
                 ],
-                "current_page",
+                'current_page',
                 'first_page_url',
                 'from',
                 'last_page',

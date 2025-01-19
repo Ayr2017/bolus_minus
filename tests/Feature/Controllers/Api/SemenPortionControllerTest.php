@@ -27,7 +27,7 @@ use Tests\TestCase;
             'error',
             'data' => [
                 'items',
-                "current_page",
+                'current_page',
                 'first_page_url',
                 'from',
                 'last_page',
@@ -52,7 +52,7 @@ use Tests\TestCase;
             'error',
             'data' => [
                 'items',
-                "current_page",
+                'current_page',
                 'first_page_url',
                 'from',
                 'last_page',
