@@ -24,13 +24,34 @@ use Tests\TestCase;
     {
         $response = $this->actingAs($this->admin)->getJson(route('api.milkings.index'));
         $response->assertOk();
-
-        // TODO: уточнить, возвращается непагинированный результат - это ок?
         $response->assertJsonStructure([
             'message',
             'success',
             'error',
-            'data'
+            'data' => [
+                'items' => [
+                    '*' => [
+                        'id',
+                        'shift',
+                        'organization',
+                        'department',
+                        'start_time',
+                        'end_time',
+                        'created_at',
+                    ],
+                ],
+                'current_page',
+                'first_page_url',
+                'from',
+                'last_page',
+                'last_page_url',
+                'next_page_url',
+                'path',
+                'per_page',
+                'prev_page_url',
+                'to',
+                'total',
+            ]
         ]);
     }
 
@@ -38,13 +59,34 @@ use Tests\TestCase;
     {
         $response = $this->actingAs($this->user)->getJson(route('api.milkings.index'));
         $response->assertOk();
-
-        // TODO: уточнить, возвращается непагинированный результат - это ок?
         $response->assertJsonStructure([
             'message',
             'success',
             'error',
-            'data'
+            'data' => [
+                'items' => [
+                    '*' => [
+                        'id',
+                        'shift',
+                        'organization',
+                        'department',
+                        'start_time',
+                        'end_time',
+                        'created_at',
+                    ],
+                ],
+                'current_page',
+                'first_page_url',
+                'from',
+                'last_page',
+                'last_page_url',
+                'next_page_url',
+                'path',
+                'per_page',
+                'prev_page_url',
+                'to',
+                'total',
+            ]
         ]);
     }
 
@@ -73,8 +115,8 @@ use Tests\TestCase;
                     'id',
                     'uuid',
                     'name',
-                    'structural_unit_id',
                     'parent_id',
+                    'structural_unit_id',
                     'is_active',
                     'created_at',
                     'updated_at',
@@ -83,8 +125,8 @@ use Tests\TestCase;
                     'id',
                     'uuid',
                     'name',
-                    'structural_unit_id',
                     'parent_id',
+                    'structural_unit_id',
                     'is_active',
                     'created_at',
                     'updated_at',
@@ -96,7 +138,6 @@ use Tests\TestCase;
                     'end_time',
                     'is_active',
                     'created_at',
-                    // 'updated_at', TODO: уточнить, не возвращается updated_at для shift - это ок?
                 ]
             ],
         ]);
@@ -129,8 +170,8 @@ use Tests\TestCase;
                     'id',
                     'uuid',
                     'name',
-                    'structural_unit_id',
                     'parent_id',
+                    'structural_unit_id',
                     'is_active',
                     'created_at',
                     'updated_at',
@@ -139,8 +180,8 @@ use Tests\TestCase;
                     'id',
                     'uuid',
                     'name',
-                    'structural_unit_id',
                     'parent_id',
+                    'structural_unit_id',
                     'is_active',
                     'created_at',
                     'updated_at',
@@ -152,7 +193,6 @@ use Tests\TestCase;
                     'end_time',
                     'is_active',
                     'created_at',
-                    // 'updated_at', TODO: уточнить, не возвращается updated_at для shift - это ок?
                 ]
             ],
         ]);
@@ -160,7 +200,6 @@ use Tests\TestCase;
         $this->assertDatabaseHas('milkings', $data);
     }
 
-    // TODO: залогиненный пользователь не может просматривать, в ShowMilkingRequest authorize сделать true
     public function test_show_for_admin()
     {
         $item = Milking::query()->first();
@@ -205,7 +244,6 @@ use Tests\TestCase;
                         'end_time',
                         'is_active',
                         'created_at',
-                        // 'updated_at', TODO: уточнить, не возвращается updated_at для shift - это ок?
                     ]
                 ]
             ],
@@ -220,7 +258,6 @@ use Tests\TestCase;
                     'organization' => $item->organization->toArray(),
                     'department' => $item->department->toArray(),
                     'shift' => [
-                        // TODO: уточнить. структура shift в ответе отличается от структуры в бд (нет updated_at), при этом organization, department возвращаются как в бд
                         'id' => $item->shift->id,
                         'name' => $item->shift->name,
                         'start_time' => $item->shift->start_time,
@@ -233,7 +270,6 @@ use Tests\TestCase;
         ]);
     }
 
-    // TODO: залогиненный пользователь не может просматривать, в ShowMilkingRequest authorize сделать true
     public function test_show_for_non_admin()
     {
         $item = Milking::query()->first();
@@ -278,7 +314,6 @@ use Tests\TestCase;
                         'end_time',
                         'is_active',
                         'created_at',
-                        // 'updated_at', TODO: уточнить, не возвращается updated_at для shift - это ок?
                     ]
                 ]
             ],
@@ -293,7 +328,6 @@ use Tests\TestCase;
                     'organization' => $item->organization->toArray(),
                     'department' => $item->department->toArray(),
                     'shift' => [
-                        // TODO: уточнить. структура shift в ответе отличается от структуры в бд (нет updated_at), при этом organization, department возвращаются как в бд
                         'id' => $item->shift->id,
                         'name' => $item->shift->name,
                         'start_time' => $item->shift->start_time,
@@ -336,6 +370,9 @@ use Tests\TestCase;
             'data' => [
                 'milking' => [
                     'id',
+                    'shift',
+                    'organization',
+                    'department',
                     'start_time',
                     'end_time',
                     'created_at',
@@ -343,7 +380,6 @@ use Tests\TestCase;
             ],
         ]);
 
-        // TODO: данные в бд не обновляются, проверить rules в UpdateMilkingRequest
         $this->assertDatabaseHas('milkings', $updatedData);
     }
 
@@ -377,6 +413,9 @@ use Tests\TestCase;
             'data' => [
                 'milking' => [
                     'id',
+                    'shift',
+                    'organization',
+                    'department',
                     'start_time',
                     'end_time',
                     'created_at',
@@ -384,11 +423,9 @@ use Tests\TestCase;
             ],
         ]);
 
-        // TODO: данные в бд не обновляются, проверить rules в UpdateMilkingRequest
         $this->assertDatabaseHas('milkings', $updatedData);
     }
 
-    // // TODO: залогиненный пользователь не может удалять, в DeleteMilkingRequest authorize сделать true
     public function test_destroy_for_admin()
     {
         $item = Milking::query()->first();
@@ -404,7 +441,6 @@ use Tests\TestCase;
         $this->assertDatabaseMissing('milkings', ['id' => $item->id]);
     }
 
-    // // TODO: залогиненный пользователь не может удалять, в DeleteMilkingRequest authorize сделать true
     public function test_destroy_for_non_admin()
     {
         $item = Milking::query()->first();

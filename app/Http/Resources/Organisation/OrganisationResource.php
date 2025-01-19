@@ -19,10 +19,10 @@ class OrganisationResource extends PaginatedJsonResponse
             'id' => $this->id,
             'uuid' => $this->uuid,
             'name' => $this->name,
+            'parent' => $this->parent,
+            'structural_unit' => $this->structuralUnit,
             'structural_unit_id' => $this->structural_unit_id,
             'is_active' => $this->is_active,
-            'parent'=>$this->parent,
-            'structural_unit' => $this->structuralUnit,
             'created_at' => $this->created_at?->toDateTimeString(),
             'updated_at' => $this->updated_at?->toDateTimeString(),
         ];

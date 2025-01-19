@@ -26,7 +26,7 @@ class MilkingsController extends Controller
     {
         try {
             $milkings = $milkingService->index($request->validated());
-            return ApiResponse::success(MilkingResource::collection($milkings));
+            return ApiResponse::success(MilkingResource::paginatedCollection($milkings));
         } catch (\Throwable $throwable) {
             ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
         }

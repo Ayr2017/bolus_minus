@@ -21,7 +21,7 @@ class AnimalFactory extends Factory
             'name' => $this->faker->name(),
             'number' => strval($this->faker->randomNumber(6)),
             'organisation_id' => Organisation::inRandomOrder()->first()->id,
-            'birthday' => $this->faker->date(),
+            'birthday' => $this->faker->dateTimeThisCentury()->format('Y-m-d H:i:s'),
             'breed_id' => Breed::inRandomOrder()->first()->id,
             'number_rshn' => strval($this->faker->randomNumber(6)),
             'bolus_id' => Bolus::inRandomOrder()->first()->id,

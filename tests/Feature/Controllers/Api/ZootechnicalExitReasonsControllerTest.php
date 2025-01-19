@@ -29,7 +29,7 @@ use Tests\TestCase;
             'error',
             'data' => [
                 'items',
-                "current_page",
+                'current_page',
                 'first_page_url',
                 'from',
                 'last_page',
@@ -54,7 +54,7 @@ use Tests\TestCase;
             'error',
             'data' => [
                 'items',
-                "current_page",
+                'current_page',
                 'first_page_url',
                 'from',
                 'last_page',
@@ -292,15 +292,4 @@ use Tests\TestCase;
 
         $this->assertDatabaseMissing('zootechnical_exit_reasons', ['id' => $zootechnicalExitReason->id]);
     }
-
-    // TODO: (учтонить) включить, если пользователю запрещено удалять
-    // public function test_destroy_forbidden_for_non_admin()
-    // {
-    //     $zootechnicalExitReason = ZootechnicalExitReason::query()->first();
-
-    //     $response = $this->actingAs($this->user)->deleteJson(route('api.zootechnical-exit-reasons.destroy', $zootechnicalExitReason->id));
-    //     $response->assertForbidden();
-
-    //     $this->assertDatabaseHas('zootechnical_exit_reasons', ['id' => $zootechnicalExitReason->id]);
-    // }
 }

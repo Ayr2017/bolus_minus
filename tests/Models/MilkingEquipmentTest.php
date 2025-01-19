@@ -11,6 +11,8 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Schema;
 use InvalidArgumentException;
 use App\Enums\EquipmentType;
+use Illuminate\Validation\ValidationException;
+
 
 
 
@@ -40,7 +42,7 @@ use App\Enums\EquipmentType;
             'is_active' => true,
             'organization_id' => 1,
             'department_id' => 1,
-            'equipment_type' => 'Test Equipment Type',
+            'equipment_type' => EquipmentType::PARALLEL->value,
             'milking_places_amount' => 1,
             'milking_per_day_amount' => 1,
         ];
@@ -57,7 +59,7 @@ use App\Enums\EquipmentType;
         $data = [
             'organization_id' => 1,
             'department_id' => 1,
-            'equipment_type' => 'Test Equipment Type',
+            'equipment_type' => EquipmentType::PARALLEL->value,
             'milking_places_amount' => 1,
         ];
 
@@ -71,7 +73,7 @@ use App\Enums\EquipmentType;
         $data = [
             'organization_id' => 1,
             'department_id' => 1,
-            'equipment_type' => 'Test Equipment Type',
+            'equipment_type' => EquipmentType::PARALLEL->value,
             'milking_places_amount' => 1,
         ];
 
@@ -80,7 +82,7 @@ use App\Enums\EquipmentType;
 
         $this->assertEquals(1, $foundItem->organization_id);
         $this->assertEquals(1, $foundItem->department_id);
-        $this->assertEquals('Test Equipment Type', $foundItem->equipment_type);
+        $this->assertEquals(EquipmentType::PARALLEL->value, $foundItem->equipment_type);
         $this->assertEquals(1, $foundItem->milking_places_amount);
     }
 
@@ -90,7 +92,7 @@ use App\Enums\EquipmentType;
             'is_active' => true,
             'organization_id' => 1,
             'department_id' => 1,
-            'equipment_type' => 'Test Equipment Type',
+            'equipment_type' => EquipmentType::PARALLEL->value,
             'milking_places_amount' => 1,
             'milking_per_day_amount' => 1,
         ];
@@ -101,7 +103,7 @@ use App\Enums\EquipmentType;
             'is_active' => false,
             'organization_id' => 2,
             'department_id' => 2,
-            'equipment_type' => 'Updated Test Equipment Type',
+            'equipment_type' => EquipmentType::HERRINGBONE->value,
             'milking_places_amount' => 2,
             'milking_per_day_amount' => 2,
         ];
@@ -116,7 +118,7 @@ use App\Enums\EquipmentType;
         $data = [
             'organization_id' => 1,
             'department_id' => 1,
-            'equipment_type' => 'Test Equipment Type',
+            'equipment_type' => EquipmentType::PARALLEL->value,
             'milking_places_amount' => 1,
         ];
 
@@ -134,7 +136,7 @@ use App\Enums\EquipmentType;
         $data = [
             'organization_id' => 1,
             'department_id' => 1,
-            'equipment_type' => 'Test Equipment Type',
+            'equipment_type' => EquipmentType::PARALLEL->value,
             'milking_places_amount' => 1,
         ];
 
@@ -151,7 +153,7 @@ use App\Enums\EquipmentType;
             'is_active' => 1,
             'organization_id' => 1,
             'department_id' => 1,
-            'equipment_type' => 'Test Equipment Type',
+            'equipment_type' => EquipmentType::PARALLEL->value,
             'milking_places_amount' => 1,
         ];
 
@@ -162,7 +164,7 @@ use App\Enums\EquipmentType;
 
     public function test_equipment_type_is_required()
     {
-        $this->expectException(QueryException::class);
+        $this->expectException(ValidationException::class);
 
         $data = [
             'organization_id' => 1,
@@ -175,7 +177,7 @@ use App\Enums\EquipmentType;
 
     public function test_equipment_type_is_not_null()
     {
-        $this->expectException(QueryException::class);
+        $this->expectException(ValidationException::class);
 
         $data = [
             'organization_id' => 1,
@@ -189,12 +191,26 @@ use App\Enums\EquipmentType;
 
     public function test_milking_places_amount_is_required()
     {
-        $this->expectException(QueryException::class);
+        $this->expectException(ValidationException::class);
+
+        $data = [
+            'organization_id' => 1,
+            'department_id' => 1,
+            'equipment_type' => EquipmentType::PARALLEL->value,
+        ];
+
+        MilkingEquipment::create($data);
+    }
+
+    public function test_milking_places_amount_is_integer()
+    {
+        $this->expectException(ValidationException::class);
 
         $data = [
             'organization_id' => 1,
             'department_id' => 1,
             'equipment_type' => 'Test Equipment Type',
+            'milking_places_amount' => 'Test', // Строка вместо числа
         ];
 
         MilkingEquipment::create($data);
@@ -205,7 +221,7 @@ use App\Enums\EquipmentType;
         $data = [
             'organization_id' => 1,
             'department_id' => 1,
-            'equipment_type' => 'Test Equipment Type',
+            'equipment_type' => EquipmentType::PARALLEL->value,
             'milking_places_amount' => 1,
         ];
 
@@ -215,21 +231,6 @@ use App\Enums\EquipmentType;
 
         $this->assertNotNull($item->milking_per_day_amount);
     }
-
-    // TODO: уточнить, надо ли проверять тип данных. если да, то в модели в метод booted() добавить валидатор, который выдаст нужную ошибку
-    // public function test_milking_places_amount_is_integer()
-    // {
-    //     $this->expectException(ValidationException::class);
-
-    //     $data = [
-    //         'organization_id' => 1,
-    //         'department_id' => 1,
-    //         'equipment_type' => 'Test Equipment Type',
-    //         'milking_places_amount' => 'Test', // Строка вместо числа
-    //     ];
-
-    //     MilkingEquipment::create($data);
-    // }
 
     public function test_equipment_type_is_valid_enum()
     {
@@ -246,10 +247,7 @@ use App\Enums\EquipmentType;
 
     public function test_equipment_type_is_not_invalid_enum()
     {
-        // TODO: добавить enum в миграцию
-        // $table->enum('equipment_type', array_column(EquipmentType::cases(), 'value'));
-
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(ValidationException::class);
 
         $data = [
             'organization_id' => 1,
@@ -269,7 +267,7 @@ use App\Enums\EquipmentType;
             [
                 'organization_id' => $organization->id,
                 'department_id' => $department->id,
-                'equipment_type' => 'Test Equipment Type',
+                'equipment_type' => EquipmentType::PARALLEL->value,
                 'milking_places_amount' => 1,
             ]
         );
@@ -288,7 +286,7 @@ use App\Enums\EquipmentType;
             [
                 'organization_id' => $organization->id,
                 'department_id' => $department->id,
-                'equipment_type' => 'Test Equipment Type',
+                'equipment_type' => EquipmentType::PARALLEL->value,
                 'milking_places_amount' => 1,
             ]
         );
@@ -307,7 +305,7 @@ use App\Enums\EquipmentType;
             [
                 'organization_id' => $organization->id,
                 'department_id' => $department->id,
-                'equipment_type' => 'Test Equipment Type',
+                'equipment_type' => EquipmentType::PARALLEL->value,
                 'milking_places_amount' => 1,
             ]
         );

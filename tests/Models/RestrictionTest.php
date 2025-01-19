@@ -14,8 +14,6 @@ use Illuminate\Support\Facades\Schema;
 {
     use RefreshDatabase;
 
-    //TODO: fillable не соответствует полям в миграции, поэтому тесты не проходят -> исправить миграцию или fillable
-
     public function test_fillable_matches_table_columns()
     {
         $tableColumns = Schema::getColumnListing('restrictions');
@@ -36,8 +34,7 @@ use Illuminate\Support\Facades\Schema;
     {
         $data = [
             'name' => 'Test Name',
-            'title' => 'Test Title',
-            'icon' => 'test-icon.png',
+            'description' => 'Test Description',
             'is_active' => true,
         ];
 
@@ -52,8 +49,7 @@ use Illuminate\Support\Facades\Schema;
     {
         $data = [
             'name' => 'Test Name',
-            'title' => 'Test Title',
-            'icon' => 'test-icon.png',
+            'description' => 'Test Description',
             'is_active' => true,
         ];
 
@@ -81,15 +77,13 @@ use Illuminate\Support\Facades\Schema;
 
         $result->update([
             'name' => 'Updated Name',
-            'title' => 'Updated Title',
-            'icon' => 'updated-icon.png',
+            'description' => 'Updated Description',
             'is_active' => false
         ]);
 
         $this->assertDatabaseHas('restrictions', [
             'name' => 'Updated Name',
-            'title' => 'Updated Title',
-            'icon' => 'updated-icon.png',
+            'description' => 'Updated Description',
             'is_active' => false
         ]);
     }

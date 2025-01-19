@@ -3,32 +3,16 @@
 namespace Tests\Models;
 
 use AllowDynamicProperties;
-use App\Models\HerdEntryReason;
+use App\Models\StructuralUnit;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Schema;
 
 
-#[AllowDynamicProperties] class HerdEntryReasonTest extends TestCase
+#[AllowDynamicProperties] class StructuralUnitTest extends TestCase
 {
     use RefreshDatabase;
-
-    public function test_fillable_matches_table_columns()
-    {
-        $tableColumns = Schema::getColumnListing('herd_entry_reasons');
-        $fillable = (new HerdEntryReason())->getFillable();
-
-        foreach ($fillable as $field) {
-            $this->assertContains($field, $tableColumns, "Поле '$field' указано в fillable, но отсутствует в таблице.");
-        }
-
-        foreach ($tableColumns as $column) {
-            if ($column !== 'id' && $column !== 'created_at' && $column !== 'updated_at') {
-                $this->assertContains($column, $fillable, "Колонка '$column' есть в таблице, но отсутствует в fillable.");
-            }
-        }
-    }
 
     public function test_mass_assignment()
     {
@@ -38,7 +22,7 @@ use Illuminate\Support\Facades\Schema;
             'is_active' => true,
         ];
 
-        $result = HerdEntryReason::create($data);
+        $result = StructuralUnit::create($data);
 
         foreach ($data as $key => $value) {
             $this->assertEquals($value, $result->$key);
@@ -53,25 +37,25 @@ use Illuminate\Support\Facades\Schema;
             'is_active' => true,
         ];
 
-        HerdEntryReason::create($data);
+        StructuralUnit::create($data);
 
-        $this->assertDatabaseHas('herd_entry_reasons', $data);
+        $this->assertDatabaseHas('structural_units', $data);
     }
 
     public function test_read()
     {
-        $result = HerdEntryReason::create([
+        $result = StructuralUnit::create([
             'name' => 'Test Name',
         ]);
 
-        $found = HerdEntryReason::find($result->id);
+        $found = StructuralUnit::find($result->id);
 
         $this->assertEquals('Test Name', $found->name);
     }
 
     public function test_update()
     {
-        $result = HerdEntryReason::create([
+        $result = StructuralUnit::create([
             'name' => 'Test Name',
             'description' => 'Test Description',
         ]);
@@ -82,7 +66,7 @@ use Illuminate\Support\Facades\Schema;
             'is_active' => false
         ]);
 
-        $this->assertDatabaseHas('herd_entry_reasons', [
+        $this->assertDatabaseHas('structural_units', [
             'name' => 'Updated Name',
             'description' => 'Updated Description',
             'is_active' => false
@@ -91,26 +75,33 @@ use Illuminate\Support\Facades\Schema;
 
     public function test_delete()
     {
-        $result = HerdEntryReason::create([
+        $result = StructuralUnit::create([
             'name' => 'Test Name',
         ]);
 
         $result->delete();
 
-        $this->assertDatabaseMissing('herd_entry_reasons', [
+        $this->assertDatabaseMissing('structural_units', [
             'id' => $result->id,
         ]);
+    }
+
+    public function test_name_is_unique()
+    {
+        StructuralUnit::create(['name' => 'Test Name']);
+        $this->expectException(QueryException::class);
+        StructuralUnit::create(['name' => 'Test Name']);
     }
 
     public function test_name_is_required()
     {
         $this->expectException(QueryException::class);
-        HerdEntryReason::create(['name' => null]);
+        StructuralUnit::create(['name' => null]);
     }
 
     public function test_description_is_nullable()
     {
-        $result = HerdEntryReason::create([
+        $result = StructuralUnit::create([
             'name' => 'Test Name',
             'description' => null,
         ]);
@@ -120,7 +111,7 @@ use Illuminate\Support\Facades\Schema;
 
     public function test_is_active_default_is_true()
     {
-        $result = HerdEntryReason::create([
+        $result = StructuralUnit::create([
             'name' => 'Test Name',
         ]);
 
@@ -131,7 +122,7 @@ use Illuminate\Support\Facades\Schema;
 
     public function test_is_active_casts_to_boolean()
     {
-        $result = HerdEntryReason::create([
+        $result = StructuralUnit::create([
             'name' => 'Test Name',
             'is_active' => 1
         ]);
@@ -141,9 +132,9 @@ use Illuminate\Support\Facades\Schema;
 
     public function test_factory()
     {
-        $result = HerdEntryReason::factory()->create();
+        $result = StructuralUnit::factory()->create();
 
-        $this->assertDatabaseHas('herd_entry_reasons', [
+        $this->assertDatabaseHas('structural_units', [
             'id' => $result->id,
         ]);
 

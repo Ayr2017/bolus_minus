@@ -32,7 +32,7 @@ class MilkingService extends Service
         try {
             $result = $milking->update($validated);
             if ($result) {
-                return $milking;
+                return $milking->load('organization', 'department', 'shift');
             }
         } catch (\Exception $e) {
             Log::error(__METHOD__ . " " . $e->getMessage());

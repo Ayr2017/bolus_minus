@@ -28,8 +28,19 @@ use Tests\TestCase;
             'success',
             'error',
             'data' => [
-                'items',
-                "current_page",
+                'items' => [
+                    '*' => [
+                        'id',
+                        'name',
+                        'organization',
+                        'department',
+                        'start_time',
+                        'end_time',
+                        'is_active',
+                        'created_at',
+                    ],
+                ],
+                'current_page',
                 'first_page_url',
                 'from',
                 'last_page',
@@ -53,8 +64,19 @@ use Tests\TestCase;
             'success',
             'error',
             'data' => [
-                'items',
-                "current_page",
+                'items' => [
+                    '*' => [
+                        'id',
+                        'name',
+                        'organization',
+                        'department',
+                        'start_time',
+                        'end_time',
+                        'is_active',
+                        'created_at',
+                    ],
+                ],
+                'current_page',
                 'first_page_url',
                 'from',
                 'last_page',
@@ -89,6 +111,8 @@ use Tests\TestCase;
                 'id',
                 'name',
                 'is_active',
+                'start_time',
+                'end_time',
                 'organization' => [
                     'id',
                     'uuid',
@@ -135,6 +159,8 @@ use Tests\TestCase;
                 'id',
                 'name',
                 'is_active',
+                'start_time',
+                'end_time',
                 'organization' => [
                     'id',
                     'uuid',
@@ -177,6 +203,8 @@ use Tests\TestCase;
                     'id',
                     'name',
                     'is_active',
+                    'start_time',
+                    'end_time',
                     'organization' => [
                         'id',
                         'uuid',
@@ -231,6 +259,8 @@ use Tests\TestCase;
                     'id',
                     'name',
                     'is_active',
+                    'start_time',
+                    'end_time',
                     'organization' => [
                         'id',
                         'uuid',
@@ -287,9 +317,9 @@ use Tests\TestCase;
             'department_id' => 2,
             'start_time' => '11:00',
             'end_time' => '22:00',
+            'is_active' => false,
         ];
 
-        // TODO: данные не обновляются, проверить rules в UpdateShiftRequest
         $response = $this->actingAs($this->admin)->putJson(route('api.shifts.update', $item), $updatedData);
         $response->assertOk();
         $response->assertJsonStructure([
@@ -301,6 +331,8 @@ use Tests\TestCase;
                     'id',
                     'name',
                     'is_active',
+                    'start_time',
+                    'end_time',
                     'organization' => [
                         'id',
                         'uuid',
@@ -346,9 +378,9 @@ use Tests\TestCase;
             'department_id' => 2,
             'start_time' => '11:00',
             'end_time' => '22:00',
+            'is_active' => false,
         ];
 
-        // TODO: данные не обновляются, проверить rules в UpdateShiftRequest
         $response = $this->actingAs($this->user)->putJson(route('api.shifts.update', $item), $updatedData);
         $response->assertOk();
         $response->assertJsonStructure([
@@ -360,6 +392,8 @@ use Tests\TestCase;
                     'id',
                     'name',
                     'is_active',
+                    'start_time',
+                    'end_time',
                     'organization' => [
                         'id',
                         'uuid',
@@ -387,7 +421,6 @@ use Tests\TestCase;
         $this->assertDatabaseHas('shifts', $updatedData);
     }
 
-    // TODO: залогиненный пользователь не может удалять, в DeleteShiftRequest authorize сделать true
     public function test_destroy_for_admin()
     {
         $item = Shift::query()->first();
@@ -403,7 +436,6 @@ use Tests\TestCase;
         $this->assertDatabaseMissing('shifts', ['id' => $item->id]);
     }
 
-    // TODO: залогиненный пользователь не может удалять, в DeleteShiftRequest authorize сделать true
     public function test_destroy_for_non_admin()
     {
         $item = Shift::query()->first();

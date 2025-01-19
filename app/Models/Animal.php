@@ -41,7 +41,8 @@ class Animal extends Model
         'birthday' => 'datetime',
         'is_active' => 'boolean',
     ];
-    public mixed $birthday;
+
+    // public mixed $birthday;
 
     public static function boot(): void
     {
@@ -51,21 +52,21 @@ class Animal extends Model
         });
     }
 
-    public function organisation():BelongsTo
+    public function organisation(): BelongsTo
     {
         return $this->belongsTo(Organisation::class);
     }
 
-    public function bolus():BelongsTo
+    public function bolus(): BelongsTo
     {
         return $this->belongsTo(Bolus::class);
     }
-    public function breed():BelongsTo
+    public function breed(): BelongsTo
     {
         return $this->belongsTo(Breed::class);
     }
 
-    public function status():BelongsTo
+    public function status(): BelongsTo
     {
         return $this->belongsTo(Status::class);
     }
@@ -73,10 +74,10 @@ class Animal extends Model
     /**
      * @return Attribute
      */
-    public function birthdayYmd():Attribute
+    public function birthdayYmd(): Attribute
     {
         return Attribute::make(
-            get: fn()=>Carbon::make($this->birthday)?->format('Y-m-d'),
+            get: fn() => Carbon::make($this->birthday)?->format('Y-m-d'),
         );
     }
 }

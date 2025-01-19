@@ -22,7 +22,12 @@ class UpdateMilkingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'organization_id' => ['required', 'exists:organisations,id'],
+            'department_id' => ['required', 'exists:organisations,id'],
+            'shift_id' => ['required', 'exists:shifts,id'],
+            'start_time' => ['required', 'date_format:H:i'],
+            'end_time' => ['required', 'date_format:H:i', 'after:start_time'],
+            'is_active' => ['nullable', 'boolean'],
         ];
     }
 }

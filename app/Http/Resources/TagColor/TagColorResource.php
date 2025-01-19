@@ -17,10 +17,9 @@ class TagColorResource extends PaginatedJsonResponse
     {
         return [
             'id' => $this->id,
-            'name' => $this->name ?? null,
-            'slug' => $this->surname?? null,
-            'created_at' => $this->created_at?->toDateTimeString() ?? null,
-            'updated_at' => $this->updated_at?->toDateTimeString() ?? null,
+            'name' => $this->name,
+            'slug' => $this->slug,
+            'hex' => $this->hex,
         ];
     }
 }

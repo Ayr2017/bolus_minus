@@ -32,7 +32,7 @@ class UpdateBreedingBullRequest extends FormRequest
             'tag_number' => 'nullable|string|max:255', // Номер бирки (необязательное строковое поле)
             'semen_code' => 'nullable|string|max:255', // Код семени (необязательное строковое поле)
             'rshn_id' => 'nullable|string|unique:breeding_bulls,rshn_id,' . $breedingBullId . '|max:255', // Идентификационный номер РСХН (обязательное уникальное строковое поле, исключая текущее значение)
-            'color' => 'nullable|string|max:255', // Масть (необязательное строковое поле)
+            // 'color' => 'nullable|string|max:255', // Масть (необязательное строковое поле)
             'breed_id' => 'nullable|exists:breeds,id', // Порода (необязательное поле, ссылается на таблицу пород)
             'is_selected' => 'nullable|boolean', // Флаг выбора (необязательное булево поле)
             'is_own' => 'nullable|boolean',
