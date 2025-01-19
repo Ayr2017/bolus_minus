@@ -9,9 +9,11 @@ use Illuminate\Support\Str;
 class StructuralUnit extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        'uuid',
+        // 'uuid',
         'name',
+        'description',
         'is_active'
     ];
 

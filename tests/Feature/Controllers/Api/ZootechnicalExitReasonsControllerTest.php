@@ -292,15 +292,4 @@ use Tests\TestCase;
 
         $this->assertDatabaseMissing('zootechnical_exit_reasons', ['id' => $zootechnicalExitReason->id]);
     }
-
-    // TODO: (учтонить) включить, если пользователю запрещено удалять
-    // public function test_destroy_forbidden_for_non_admin()
-    // {
-    //     $zootechnicalExitReason = ZootechnicalExitReason::query()->first();
-
-    //     $response = $this->actingAs($this->user)->deleteJson(route('api.zootechnical-exit-reasons.destroy', $zootechnicalExitReason->id));
-    //     $response->assertForbidden();
-
-    //     $this->assertDatabaseHas('zootechnical_exit_reasons', ['id' => $zootechnicalExitReason->id]);
-    // }
 }

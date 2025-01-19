@@ -42,6 +42,7 @@ class BreedingBull extends Model
     {
         return $this->where('is_selected', true);
     }
+
     public function coatColor(): BelongsTo
     {
         return $this->belongsTo(CoatColor::class, 'coat_color_id', 'id');

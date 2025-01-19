@@ -30,7 +30,17 @@ use App\Models\Organisation;
             'success',
             'error',
             'data' => [
-                'items',
+                'items' => [
+                    '*' => [
+                        'id',
+                        'organization',
+                        'department',
+                        'equipment_type',
+                        'milking_places_amount',
+                        'milking_per_day_amount',
+                        'created_at',
+                    ],
+                ],
                 "current_page",
                 'first_page_url',
                 'from',
@@ -55,7 +65,17 @@ use App\Models\Organisation;
             'success',
             'error',
             'data' => [
-                'items',
+                'items' => [
+                    '*' => [
+                        'id',
+                        'organization',
+                        'department',
+                        'equipment_type',
+                        'milking_places_amount',
+                        'milking_per_day_amount',
+                        'created_at',
+                    ],
+                ],
                 "current_page",
                 'first_page_url',
                 'from',
@@ -78,7 +98,7 @@ use App\Models\Organisation;
             'department_id' => 1,
             'equipment_type' => EquipmentType::PARALLEL->value,
             'milking_places_amount' => 1,
-            'milking_per_day_amount' => 1, //TODO: уточнить. здесь поле обязательно, а в бд не обязательно -> сделать обязательным?
+            'milking_per_day_amount' => 1,
         ];
 
         $response = $this->actingAs($this->admin)->postJson(route('api.milking-equipments.store'), $data);
@@ -89,16 +109,16 @@ use App\Models\Organisation;
             'error',
             'data' => [
                 'id',
-                'equipment_type', // TODO: пофиксить, возвращает null
+                'equipment_type',
                 'created_at',
-                'milking_places_amount', // TODO: уточнить - не возвращает поле - это ок?
-                'milking_per_day_amount', // TODO: уточнить - не возвращает поле - это ок?
+                'milking_places_amount',
+                'milking_per_day_amount',
                 'organization' => [
                     'id',
                     'uuid',
                     'name',
-                    'structural_unit_id',
                     'parent_id',
+                    'structural_unit_id',
                     'is_active',
                     'created_at',
                     'updated_at',
@@ -107,8 +127,8 @@ use App\Models\Organisation;
                     'id',
                     'uuid',
                     'name',
-                    'structural_unit_id',
                     'parent_id',
+                    'structural_unit_id',
                     'is_active',
                     'created_at',
                     'updated_at',
@@ -126,7 +146,7 @@ use App\Models\Organisation;
             'department_id' => 1,
             'equipment_type' => EquipmentType::PARALLEL->value,
             'milking_places_amount' => 1,
-            'milking_per_day_amount' => 1, //TODO: уточнить. здесь поле обязательно, а в бд не обязательно -> сделать обязательным?
+            'milking_per_day_amount' => 1,
         ];
 
         $response = $this->actingAs($this->user)->postJson(route('api.milking-equipments.store'), $data);
@@ -137,16 +157,16 @@ use App\Models\Organisation;
             'error',
             'data' => [
                 'id',
-                'equipment_type', // TODO: пофиксить, возвращает null
+                'equipment_type',
                 'created_at',
-                'milking_places_amount', // TODO: уточнить - не возвращает поле - это ок?
-                'milking_per_day_amount', // TODO: уточнить - не возвращает поле - это ок?
+                'milking_places_amount',
+                'milking_per_day_amount',
                 'organization' => [
                     'id',
                     'uuid',
                     'name',
-                    'structural_unit_id',
                     'parent_id',
+                    'structural_unit_id',
                     'is_active',
                     'created_at',
                     'updated_at',
@@ -155,8 +175,8 @@ use App\Models\Organisation;
                     'id',
                     'uuid',
                     'name',
-                    'structural_unit_id',
                     'parent_id',
+                    'structural_unit_id',
                     'is_active',
                     'created_at',
                     'updated_at',
@@ -182,15 +202,15 @@ use App\Models\Organisation;
                 [
                     'id',
                     'equipment_type',
+                    'milking_places_amount',
+                    'milking_per_day_amount',
                     'created_at',
-                    'milking_places_amount', // TODO: уточнить - не возвращает поле - это ок?
-                    'milking_per_day_amount', // TODO: уточнить - не возвращает поле - это ок?
                     'organization' => [
                         'id',
                         'uuid',
                         'name',
-                        'structural_unit_id',
                         'parent_id',
+                        'structural_unit_id',
                         'is_active',
                         'created_at',
                         'updated_at',
@@ -199,8 +219,8 @@ use App\Models\Organisation;
                         'id',
                         'uuid',
                         'name',
-                        'structural_unit_id',
                         'parent_id',
+                        'structural_unit_id',
                         'is_active',
                         'created_at',
                         'updated_at',
@@ -212,10 +232,12 @@ use App\Models\Organisation;
             'data' => [
                 [
                     'id' => $item->id,
-                    'equipment_type' => $item->equipment_type, // TODO: пофиксить, возвращает null
-                    'created_at' => $item->created_at->toDateTimeString(),
                     'organization' => $item->organization->toArray(),
                     'department' => $item->department->toArray(),
+                    'equipment_type' => $item->equipment_type,
+                    'milking_places_amount' => $item->milking_places_amount,
+                    'milking_per_day_amount' => $item->milking_per_day_amount,
+                    'created_at' => $item->created_at->toDateTimeString(),
                 ]
             ],
         ]);
@@ -236,15 +258,15 @@ use App\Models\Organisation;
                 [
                     'id',
                     'equipment_type',
+                    'milking_places_amount',
+                    'milking_per_day_amount',
                     'created_at',
-                    'milking_places_amount', // TODO: уточнить - не возвращает поле - это ок?
-                    'milking_per_day_amount', // TODO: уточнить - не возвращает поле - это ок?
                     'organization' => [
                         'id',
                         'uuid',
                         'name',
-                        'structural_unit_id',
                         'parent_id',
+                        'structural_unit_id',
                         'is_active',
                         'created_at',
                         'updated_at',
@@ -253,8 +275,8 @@ use App\Models\Organisation;
                         'id',
                         'uuid',
                         'name',
-                        'structural_unit_id',
                         'parent_id',
+                        'structural_unit_id',
                         'is_active',
                         'created_at',
                         'updated_at',
@@ -266,10 +288,12 @@ use App\Models\Organisation;
             'data' => [
                 [
                     'id' => $item->id,
-                    'equipment_type' => $item->equipment_type, // TODO: пофиксить, возвращает null
-                    'created_at' => $item->created_at->toDateTimeString(),
                     'organization' => $item->organization->toArray(),
                     'department' => $item->department->toArray(),
+                    'equipment_type' => $item->equipment_type,
+                    'milking_places_amount' => $item->milking_places_amount,
+                    'milking_per_day_amount' => $item->milking_per_day_amount,
+                    'created_at' => $item->created_at->toDateTimeString(),
                 ]
             ],
         ]);
@@ -304,10 +328,12 @@ use App\Models\Organisation;
             'data' => [
                 [
                     'id',
-                    'equipment_type',
-                    'created_at',
                     'organization',
                     'department',
+                    'equipment_type',
+                    'milking_places_amount',
+                    'milking_per_day_amount',
+                    'created_at',
                 ]
             ],
         ]);
@@ -315,10 +341,12 @@ use App\Models\Organisation;
             'data' => [
                 [
                     'id' => $item->id,
-                    'equipment_type' => $updatedData['equipment_type'], // TODO: пофиксить, возвращает null
-                    'created_at' => $item->created_at->toDateTimeString(),
                     'organization' => Organisation::find($updatedData['organization_id'])->toArray(),
                     'department' => Organisation::find($updatedData['department_id'])->toArray(),
+                    'equipment_type' => $updatedData['equipment_type'],
+                    'milking_places_amount' => $updatedData['milking_places_amount'],
+                    'milking_per_day_amount' => $updatedData['milking_per_day_amount'],
+                    'created_at' => $item->created_at->toDateTimeString(),
                 ]
             ],
         ]);
@@ -355,10 +383,12 @@ use App\Models\Organisation;
             'data' => [
                 [
                     'id',
-                    'equipment_type',
-                    'created_at',
                     'organization',
                     'department',
+                    'equipment_type',
+                    'milking_places_amount',
+                    'milking_per_day_amount',
+                    'created_at',
                 ]
             ],
         ]);
@@ -366,10 +396,12 @@ use App\Models\Organisation;
             'data' => [
                 [
                     'id' => $item->id,
-                    'equipment_type' => $updatedData['equipment_type'], // TODO: пофиксить, возвращает null
-                    'created_at' => $item->created_at->toDateTimeString(),
                     'organization' => Organisation::find($updatedData['organization_id'])->toArray(),
                     'department' => Organisation::find($updatedData['department_id'])->toArray(),
+                    'equipment_type' => $updatedData['equipment_type'],
+                    'milking_places_amount' => $updatedData['milking_places_amount'],
+                    'milking_per_day_amount' => $updatedData['milking_per_day_amount'],
+                    'created_at' => $item->created_at->toDateTimeString(),
                 ]
             ],
         ]);

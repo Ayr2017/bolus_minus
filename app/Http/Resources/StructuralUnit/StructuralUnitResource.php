@@ -18,7 +18,7 @@ class StructuralUnitResource extends PaginatedJsonResponse
             'id' => $this->id,
             'uuid' => $this->uuid,
             'name' => $this->name,
-            'description' => $this->structural_unit_id,
+            'description' => $this->description,
             'is_active' => $this->is_active,
             'created_at' => $this->created_at?->toDateTimeString(),
             'updated_at' => $this->updated_at?->toDateTimeString(),

@@ -18,15 +18,16 @@ class AnimalService extends Service
     public function storeAnimal(array $data): ?Animal
     {
         $animal = Animal::query()->create($data);
-        if($animal){
+        if ($animal) {
             return $animal;
         }
         return null;
     }
+
     public function updateAnimal(array $data, Animal $animal): ?Animal
     {
         $result = $animal->update($data);
-        if($result){
+        if ($result) {
             return $animal;
         }
         return null;
@@ -35,5 +36,14 @@ class AnimalService extends Service
     public function getAnimals(mixed $validated)
     {
         return $this->animalRepository->getAnimals($validated);
+    }
+
+    public function deleteAnimal(Animal $animal)
+    {
+        try {
+            return $animal->delete();
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 }

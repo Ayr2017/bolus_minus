@@ -20,7 +20,6 @@ use Tests\TestCase;
         Restriction::factory()->count(10)->create();
     }
 
-    //TODO: fillable не соответствует полям в миграции, поэтому тесты не проходят -> исправить миграцию или fillable
     public function test_index_for_admin()
     {
         $response = $this->actingAs($this->admin)->getJson(route('api.restrictions.index'));
@@ -30,7 +29,16 @@ use Tests\TestCase;
             'success',
             'error',
             'data' => [
-                'items',
+                'items' => [
+                    '*' => [
+                        'id',
+                        'name',
+                        'description',
+                        'is_active',
+                        'created_at',
+                        'updated_at',
+                    ],
+                ],
                 "current_page",
                 'first_page_url',
                 'from',
@@ -55,7 +63,16 @@ use Tests\TestCase;
             'success',
             'error',
             'data' => [
-                'items',
+                'items' => [
+                    '*' => [
+                        'id',
+                        'name',
+                        'description',
+                        'is_active',
+                        'created_at',
+                        'updated_at',
+                    ],
+                ],
                 "current_page",
                 'first_page_url',
                 'from',
@@ -88,7 +105,7 @@ use Tests\TestCase;
             'data' => [
                 'id',
                 'name',
-                'title',
+                'description',
                 'is_active',
                 'created_at',
                 'updated_at',
@@ -115,7 +132,7 @@ use Tests\TestCase;
             'data' => [
                 'id',
                 'name',
-                'title',
+                'description',
                 'is_active',
                 'created_at',
                 'updated_at',
@@ -138,7 +155,7 @@ use Tests\TestCase;
                 'restriction' => [
                     'id',
                     'name',
-                    'title',
+                    'description',
                     'is_active',
                     'created_at',
                     'updated_at',
@@ -150,7 +167,7 @@ use Tests\TestCase;
                 'restriction' => [
                     'id' => $restriction->id,
                     'name' => $restriction->name,
-                    'title' => $restriction->title,
+                    'description' => $restriction->description,
                     'is_active' => $restriction->is_active,
                     'created_at' => $restriction->created_at,
                     'updated_at' => $restriction->updated_at,
@@ -172,7 +189,7 @@ use Tests\TestCase;
                 'restriction' => [
                     'id',
                     'name',
-                    'title',
+                    'description',
                     'is_active',
                     'created_at',
                     'updated_at',
@@ -184,7 +201,7 @@ use Tests\TestCase;
                 'restriction' => [
                     'id' => $restriction->id,
                     'name' => $restriction->name,
-                    'title' => $restriction->title,
+                    'description' => $restriction->description,
                     'is_active' => $restriction->is_active,
                     'created_at' => $restriction->created_at,
                     'updated_at' => $restriction->updated_at,
@@ -213,7 +230,7 @@ use Tests\TestCase;
                 "restriction" => [
                     'id',
                     'name',
-                    'title',
+                    'description',
                     'is_active',
                     'created_at',
                     'updated_at',
@@ -244,7 +261,7 @@ use Tests\TestCase;
                 "restriction" => [
                     'id',
                     'name',
-                    'title',
+                    'description',
                     'is_active',
                     'created_at',
                     'updated_at',

@@ -37,7 +37,7 @@ class AnimalsController extends Controller
         $breeds = Breed::orderBy('name')->get();
         $boluses = Bolus::orderBy('number')->get();
 
-        return view('animals.create',[
+        return view('animals.create', [
             'organisations' => $organisations,
             'statuses' => $statuses,
             'breeds' => $breeds,
@@ -53,7 +53,7 @@ class AnimalsController extends Controller
     {
         $validatedData = $request->validated();
 
-        $animal = Animal::firstOrCreate(['number' => $validatedData['number']],$validatedData);
+        $animal = Animal::firstOrCreate(['number' => $validatedData['number']], $validatedData);
         return redirect()->route('animals.index')->with('message', 'Animal created successfully.')->with('created_animal', $animal);
     }
 
@@ -78,7 +78,7 @@ class AnimalsController extends Controller
         $breeds = Breed::orderBy('name')->get();
         $boluses = Bolus::orderBy('number')->get();
 
-        return view('animals.edit',[
+        return view('animals.edit', [
             'animal' => $animal,
             'organisations' => $organisations,
             'statuses' => $statuses,
@@ -94,17 +94,23 @@ class AnimalsController extends Controller
     public function update(UpdateAnimalRequest $request, Animal $animal, AnimalService $animalService)
     {
         $animal = $animalService->updateAnimal($request->validated(), $animal);
-        if($animal){
+        if ($animal) {
             return redirect()->route('animals.index')->with('message', 'Animal updated successfully.');
         }
-        return redirect()->back()->withErrors(['message'=> 'Something went wrong.']);
+        return redirect()->back()->withErrors(['message' => 'Something went wrong.']);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Animal $animal, AnimalService $animalService)
     {
-        //
+        $deleted = $animalService->deleteAnimal($animal);
+
+        if ($deleted) {
+            return redirect()->route('animals.index')->with('message', 'Animal deleted successfully.');
+        }
+
+        return redirect()->back()->withErrors(['message' => 'Something went wrong.']);
     }
 }

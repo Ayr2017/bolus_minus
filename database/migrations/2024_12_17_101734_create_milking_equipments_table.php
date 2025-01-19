@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Enums\EquipmentType;
 
 return new class extends Migration
 {
@@ -16,7 +17,7 @@ return new class extends Migration
             $table->boolean('is_active')->default(true);
             $table->unsignedBigInteger('organization_id');
             $table->unsignedBigInteger('department_id');
-            $table->string('equipment_type');
+            $table->enum('equipment_type', array_column(EquipmentType::cases(), 'value'));
             $table->integer('milking_places_amount');
             $table->integer('milking_per_day_amount')->default(3);
             $table->timestamps();

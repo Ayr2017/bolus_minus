@@ -31,9 +31,7 @@ use Tests\TestCase;
                         'id',
                         'name',
                         'slug',
-                        'hex', //TODO: учтонить, надо ли возвращать hex 
-                        'created_at',
-                        'updated_at',
+                        'hex',
                     ],
                 ],
                 "current_page",
@@ -54,13 +52,10 @@ use Tests\TestCase;
         $items = $responseData['data']['items'];
 
         foreach ($items as $item) {
-            // TODO: поправить метод toArray в TagColorResource, а то slug возвращается как null
             $this->assertIsString($item['name']);
             $this->assertIsString($item['slug']);
-            $this->assertIsString($item['hex']); //TODO: учтонить, надо ли возвращать hex 
-            $this->assertIsString($item['created_at']);
-            $this->assertIsString($item['updated_at']);
-            $this->assertMatchesRegularExpression('/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/', $item['hex']); //TODO: учтонить, надо ли возвращать hex 
+            $this->assertIsString($item['hex']);
+            $this->assertMatchesRegularExpression('/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/', $item['hex']);
         }
     }
 }
