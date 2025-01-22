@@ -48,6 +48,7 @@ class UsersController extends Controller
     public function show(User $user):View
     {
         $user->load(['roles']);
+
         return view('users.show', [
             'user' =>  $user,
             'title' => User::class,
@@ -61,7 +62,6 @@ class UsersController extends Controller
     {
         $roles = Role::orderBy('name')->get()->chunk(3);
         $user->load(['roles']);
-
         return view('users.edit', [
             'user' => $user,
             'title' => User::class,
@@ -74,7 +74,19 @@ class UsersController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        $data = $request->validated();
+        $roles_name = $data['roles_names'];
+        unset($data['roles_names']);
+
+        if(empty($data['password'])) {
+            unset($data['password']);
+        }
+
+        $d = $user->assignRole($roles_name);
+
+        $user->update($data);
+
+        return redirect()->route('users.index');
     }
 
     /**

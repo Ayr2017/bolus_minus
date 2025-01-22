@@ -21,6 +21,7 @@
     </div>
 
     <div class="my-4">
+        @include('users.partials.user-edit-form')
         <p>Name:{{$user->name}}</p>
         <p>Surname: {{$user->surname}}</p>
         <p>Email: {{$user->email}}</p>
@@ -35,6 +36,7 @@
                     ? 'bg-info-subtle'
                     : 'bg-warning-subtle'
                 }}"
+
             >
                 {{$role->name}}
             </span>

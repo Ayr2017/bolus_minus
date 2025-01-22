@@ -69,6 +69,7 @@ class OrganisationsController extends Controller
      */
     public function edit(EditOrganisationRequest $request, Organisation  $organisation):View
     {
+
         $parents = Organisation::all()->except([$organisation->id]);
         $structuralUnits = StructuralUnit::all();
         return view('organisations.edit', [

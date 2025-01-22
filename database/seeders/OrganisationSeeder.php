@@ -2,9 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Organisation;
+use Database\Factories\OrgaisationFactory;
+use Database\Factories\OrganisationFactory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Organisation;
 
 class OrganisationSeeder extends Seeder
 {
@@ -13,6 +15,7 @@ class OrganisationSeeder extends Seeder
      */
     public function run(): void
     {
-        Organisation::factory()->count(10)->create();
+
+        Organisation::factory(3)->create();
     }
 }
