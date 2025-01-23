@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\StoreRequest;
 use App\Http\Requests\User\UpdateRolesRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Models\User;
 use App\Services\User\TagColorService;
+use App\Services\User\UserService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -31,15 +33,20 @@ class UsersController extends Controller
      */
     public function create()
     {
-        //
+
+        return view('users.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        $user = User::create($data);
+        dd(111);
+        return redirect(route('users.index'));
     }
 
     /**
@@ -75,17 +82,7 @@ class UsersController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         $data = $request->validated();
-        $roles_name = $data['roles_names'];
-        unset($data['roles_names']);
-
-        if(empty($data['password'])) {
-            unset($data['password']);
-        }
-
-        $d = $user->assignRole($roles_name);
-
-        $user->update($data);
-
+        UserService::update($data, $user);
         return redirect()->route('users.index');
     }
 

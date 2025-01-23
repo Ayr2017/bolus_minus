@@ -1,6 +1,5 @@
-<form action="{{route('users.update',['user'=>$user])}}" method="POST">
+<form action="{{route('users.store')}}" method="POST">
     @csrf
-    @method('PATCH')
 
     <div class="mb-3 d-flex justify-content-between align-items-center">
         <label for="name" class="form-label">Фамилия*</label>
@@ -9,7 +8,7 @@
             class="form-control form-control-sm"
             id="surname"
             name="surname"
-            value="{{ old('surname') ?? $user->surname }}"
+            value="{{ old('surname')}}"
             style="max-width: 400px;"
         >
     </div>
@@ -21,7 +20,7 @@
             class="form-control form-control-sm"
             id="name"
             name="name"
-            value="{{ old('name') ?? $user->name }}"
+            value="{{ old('name') }}"
             style="max-width: 400px;"
         >
     </div>
@@ -34,7 +33,7 @@
             class="form-control form-control-sm"
             id="lastname"
             name="lastname"
-            value="{{ old('lastname') ?? $user->lastname }}"
+            value="{{ old('lastname')  }}"
             style="max-width: 400px;"
         >
     </div>
@@ -42,20 +41,8 @@
     <div class="mb-3 d-flex justify-content-between align-items-center">
         <label for="role" class="form-label">Должность*</label>
 
-        @if($user->roles->isNotEmpty())
-            @foreach($user->roles as $role)
-                <div class="mb-3">
-                    <input
-                        type="text"
-                        class="form-control form-control-sm"
-                        id="roles_names{{$role->id}}"
-                        name="roles_names[]"
-                        value="{{ old('role') ?? $role->name }}"
-                        style="max-width: 400px;"
-                    >
-                </div>
-            @endforeach
-        @else
+
+
             <div class="mb-3">
                 <input
                     type="text"
@@ -65,7 +52,6 @@
                     style="max-width: 400px;"
                 >
             </div>
-        @endif
     </div>
 
 
@@ -76,7 +62,7 @@
             class="form-control form-control-sm"
             id="phone"
             name="phone"
-            value="{{ old('phone') ?? $user->phone }}"
+            value="{{ old('phone') }}"
             style="max-width: 400px;"
         >
     </div>
@@ -88,13 +74,13 @@
             class="form-control form-control-sm"
             id="email"
             name="email"
-            value="{{ old('email') ?? $user->email }}"
+            value="{{ old('email') }}"
             style="max-width: 400px;"
         >
     </div>
 
     <div class="mb-3 d-flex justify-content-between align-items-center">
-        <label for="email" class="form-label">Пароль</label>
+        <label for="email" class="form-label">Пароль*</label>
         <input
             type="text"
             class="form-control form-control-sm"
@@ -106,7 +92,7 @@
     </div>
 
     <div class="mb-3 d-flex justify-content-between align-items-center">
-        <label for="uuid" class="form-label">Идентификатор пользователя</label>
+        <label for="email" class="form-label">Идентификатор пользователя</label>
         <input
             type="number"
             class="form-control form-control-sm"
