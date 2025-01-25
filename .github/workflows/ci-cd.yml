@@ -66,9 +66,10 @@ jobs:
               git pull origin main
 
               # Устанавливаем зависимости
-              docker run --rm -v $(pwd):/app composer install --no-dev --optimize-autoloader
+              composer install --no-dev --optimize-autoloader
 
               # Применяем миграции
+              cd ../
               docker-compose exec bolus_backend php artisan migrate --force
 
               # Очищаем кэши
