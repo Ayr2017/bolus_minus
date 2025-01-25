@@ -12,6 +12,7 @@
     </div>
 
     <div class="my-4">
+
         @include('organisations.partials.organisations-table')
     </div>
 @endsection

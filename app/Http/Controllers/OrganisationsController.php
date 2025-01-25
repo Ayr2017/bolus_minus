@@ -7,6 +7,7 @@ use App\Http\Requests\Organisation\IndexOrganisationRequest;
 use App\Http\Requests\Organisation\ShowOrganisationRequest;
 use App\Http\Requests\Organisation\StoreOrganisationRequest;
 use App\Http\Requests\Organisation\UpdateOrganisationRequest;
+use App\Models\CategoryActive;
 use App\Models\Organisation;
 use App\Models\StructuralUnit;
 use App\Services\Organisation\OrganisationService;
@@ -58,10 +59,15 @@ class OrganisationsController extends Controller
      */
     public function show(ShowOrganisationRequest $organisationRequest,Organisation $organisation): View
     {
+        $parents = Organisation::all()->except([$organisation->id]);
+        $structuralUnits = StructuralUnit::all();
+        $category_activ = CategoryActive::all();
         return view('organisations.show', [
             'organisation' => $organisation,
-            'title' => "Organisation",
-            ]);
+            'title' => "Edit Organisation",
+            'parents' => $parents,
+            'structural_units' => $structuralUnits,
+        ]);
     }
 
     /**
