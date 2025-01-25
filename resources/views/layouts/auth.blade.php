@@ -11,27 +11,28 @@
 
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @if (!env('VITE_DISABLED'))
+        @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @endif
 </head>
 <body>
-    <div id="app" class="d-flex flex-column vh-100">
-        @include('layouts.partials.header')
+<div id="app" class="d-flex flex-column vh-100">
+    @include('layouts.partials.header')
 
-        <main class="flex-grow-1 d-flex flex-column">
-            <div class="container flex-grow-1">
-                @include('layouts.partials.error-toast')
-                @include('layouts.partials.success-toast')
+    <main class="flex-grow-1 d-flex flex-column">
+        <div class="container flex-grow-1">
+            @include('layouts.partials.error-toast')
+            @include('layouts.partials.success-toast')
 
-                <div class="d-flex align-items-center py-4">
-                    <div class="w-50 m-auto">
-                        @yield('content')
-                    </div>
+            <div class="d-flex align-items-center py-4">
+                <div class="w-50 m-auto">
+                    @yield('content')
                 </div>
             </div>
-        </main>
+        </div>
+    </main>
 
-        @include('layouts.partials.footer')
-    </div>
+    @include('layouts.partials.footer')
+</div>
 </body>
 </html>

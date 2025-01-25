@@ -11,8 +11,9 @@
 
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @if (!env('VITE_DISABLED'))
+        @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @endif
 </head>
 <body>
 <div id="app" class="d-flex flex-column vh-100">
