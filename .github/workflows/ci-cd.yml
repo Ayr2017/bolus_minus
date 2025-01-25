@@ -69,14 +69,13 @@ jobs:
               composer install --no-dev --optimize-autoloader
 
               # Применяем миграции
-              cd ../
-              docker-compose exec bolus_backend php artisan migrate --force
+              docker exec bolus_backend php artisan migrate --force
 
               # Очищаем кэши
-              docker-compose exec bolus_backend php artisan config:clear
-              docker-compose exec bolus_backend php artisan cache:clear
-              docker-compose exec bolus_backend php artisan view:clear
+              docker exec bolus_backend php artisan config:clear
+              docker exec bolus_backend php artisan cache:clear
+              docker exec bolus_backend php artisan view:clear
 
               # Перезапускаем контейнер
-              docker-compose restart bolus_backend
+              docker container restart bolus_backend
           EOF
