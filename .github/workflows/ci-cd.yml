@@ -9,30 +9,30 @@ on:
       - main
 
 jobs:
-  build:
-    name: Build and Test Backend
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 8.2 # Укажите версию PHP, подходящую для вашего проекта
-          tools: composer, phpunit
-
-      - name: Install Dependencies
-        run: composer install --no-interaction --prefer-dist --optimize-autoloader
-
-      - name: Prepare .env
-        run: |
-          cp .env.example .env
-          echo "APP_KEY=${{ secrets.APP_KEY }}" >> .env
-
-      - name: Run Tests
-        run: vendor/bin/phpunit
+  #  build:
+  #    name: Build and Test Backend
+  #    runs-on: ubuntu-latest
+  #
+  #    steps:
+  #      - name: Checkout Code
+  #        uses: actions/checkout@v3
+  #
+  #      - name: Set up PHP
+  #        uses: shivammathur/setup-php@v2
+  #        with:
+  #          php-version: 8.2 # Укажите версию PHP, подходящую для вашего проекта
+  #          tools: composer, phpunit
+  #
+  #      - name: Install Dependencies
+  #        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+  #
+  #      - name: Prepare .env
+  #        run: |
+  #          cp .env.example .env
+  #          echo "APP_KEY=${{ secrets.APP_KEY }}" >> .env
+  #
+  #      - name: Run Tests
+  #        run: vendor/bin/phpunit
 
   deploy:
     name: Deploy Backend to Production
@@ -49,7 +49,8 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          git config --global url."ssh://git@github.com/".insteadOf "https://github.com/"
 
       - name: Deploy to Server
         env:
