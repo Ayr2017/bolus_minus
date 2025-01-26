@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('category_actives', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('organisation_id')->index()->constrained('organisations');
             $table->timestamps();
         });
     }

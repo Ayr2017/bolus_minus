@@ -11,7 +11,9 @@ class ShowOrganisationRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->user()->hasRole('admin');
+        auth()->user()->hasRole('admin');
+
+
     }
 
     /**

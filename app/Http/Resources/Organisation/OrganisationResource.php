@@ -25,6 +25,14 @@ class OrganisationResource extends PaginatedJsonResponse
             'is_active' => $this->is_active,
             'created_at' => $this->created_at?->toDateTimeString(),
             'updated_at' => $this->updated_at?->toDateTimeString(),
+            'organisations' => $this->organisations,
+            'inn' => $this->inn,
+            'region' => $this->region,
+            'adress' => $this->adress,
+            'abbreviated' => $this->abbreviated,
+            'district' => $this->district,
+            'category_name' => $this->name_category ?? null,
+            'department' => $this->department
         ];
     }
 }

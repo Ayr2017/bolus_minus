@@ -45,7 +45,6 @@ class UsersController extends Controller
         $data = $request->validated();
 
         $user = User::create($data);
-        dd(111);
         return redirect(route('users.index'));
     }
 
