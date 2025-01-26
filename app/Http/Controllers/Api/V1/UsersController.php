@@ -49,7 +49,6 @@ class UsersController extends Controller
     public function store(StoreRequest $request)
     {
         try{
-            dd(111);
             $data = $request->validated();
             $user = User::create($data);
             return ApiResponse::success(new UserResource($user));
