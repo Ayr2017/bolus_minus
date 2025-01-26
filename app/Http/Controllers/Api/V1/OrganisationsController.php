@@ -80,7 +80,8 @@ class OrganisationsController extends Controller
     public function update(UpdateOrganisationRequest $request, OrganisationService $organisationService, Organisation $organisation): JsonResponse
     {
         try {
-            $organisation = $organisationService->update($request->validated(), $organisation);
+
+            $organisation = $organisationService->updateOrganisation($request->validated(), $organisation);
             return ApiResponse::success(['organisation' => new OrganisationResource($organisation)]);
         } catch (\Throwable $throwable) {
             ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());

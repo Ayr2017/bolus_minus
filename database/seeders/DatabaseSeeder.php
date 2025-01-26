@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Bolus;
+use App\Models\CategoryActive;
 use App\Models\User;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -27,6 +28,9 @@ class DatabaseSeeder extends Seeder
             ZootechnicalExitReasonSeeder::class,
             CoatColorSeeder::class,
             TagColorSeeder::class,
+            CategoryActiveSeeder::class,
+            OrganisationSeeder::class,
+
         ]);
     }
 }

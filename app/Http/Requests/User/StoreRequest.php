@@ -4,15 +4,15 @@ namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateRolesRequest extends FormRequest
+class StoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-
-        return auth()->user()->hasRole('admin');
+//        auth()->user()->hasRole('admin')
+        return true;
     }
 
     /**
@@ -23,7 +23,14 @@ class UpdateRolesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'roles_names' => 'required|array'
+            'name' => 'required|string',
+            'lastname' => 'nullable|string',
+            'phone' => 'nullable|string',
+            'surname' => 'nullable|string',
+            'roles_names' => 'nullable|array',
+            'password' => 'required|string',
+            'uuid' => 'nullable|string',
+            'email' => 'nullable|email',
         ];
     }
 }

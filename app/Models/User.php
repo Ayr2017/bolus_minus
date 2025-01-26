@@ -30,7 +30,8 @@ class User extends Authenticatable
         'phone',
         'email_verified_at',
         'current_employee_id',
-        'is_active'
+        'is_active',
+        'lastname'
     ];
 
     /**

@@ -24,12 +24,12 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware' => 'auth:web'], function () {
     Route::patch('bolus-readings/pull', [BolusReadingsController::class, 'pull'])->name('bolus-readings.pull');
 
-    Route::resource('users', UsersController::class);
+//    Route::resource('users', UsersController::class);
     Route::resource('animals', AnimalsController::class);
     Route::resource('boluses', BolusesController::class);
     Route::resource('bolus-readings', BolusReadingsController::class);

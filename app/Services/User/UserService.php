@@ -34,4 +34,24 @@ class UserService extends Service
         $userData = $this->userRepository->search($data);
         return UserResource::paginatedCollection($userData);
     }
+
+    public static function update(array $data, User $user): User
+    {
+        $roles_name = $data['roles_names'];
+        unset($data['roles_names']);
+
+        if(empty($data['password'])) {
+            unset($data['password']);
+        }
+
+        if(!empty($data['uuid'])) {
+
+            $user->update(['current_employee_id' => (int) $data['uuid'] ]);
+
+        }
+        unset($data['uuid']);
+        $user->assignRole($roles_name);
+        $user->update($data);
+        return $user;
+    }
 }
