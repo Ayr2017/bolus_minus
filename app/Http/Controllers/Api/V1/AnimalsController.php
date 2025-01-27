@@ -22,6 +22,7 @@ use App\Models\Status;
 use App\Services\Animal\AnimalService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class AnimalsController extends Controller
 {

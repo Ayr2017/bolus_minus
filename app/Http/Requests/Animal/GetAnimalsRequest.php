@@ -25,6 +25,10 @@ class GetAnimalsRequest extends FormRequest
             'per_page' => 'nullable|integer|min:1|max:100',
             'page' => 'nullable|integer|min:1',
             'select' => 'nullable|array',
+            'number' => 'nullable|string',
+            'number_rf' => 'nullable|string',
+            'number_rshn' => 'nullable|string',
+            'number_tavro' => 'nullable|string',
         ];
     }
 }
