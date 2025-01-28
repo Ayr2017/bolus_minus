@@ -29,7 +29,7 @@ class GetAnimalsRequest extends FormRequest
             'number' => 'nullable|string',
             'number_rshn' => 'nullable|string',
             'number_tavro' => 'nullable|string',
-            'bolus_active'=>'nullable|boolean',
+            'bolus_active'=>'nullable|boolean|default:true',
         ];
     }
 }
