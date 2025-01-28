@@ -2,10 +2,13 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Animal;
 use App\Models\CategoryActive;
 use App\Models\Organisation;
 use App\Models\User;
 use Illuminate\Console\Command;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class dev extends Command
 {
@@ -28,8 +31,7 @@ class dev extends Command
      */
     public function handle()
     {
-       $user =  User::find(1)->assignRole('admin');
-        dd($user->getRoleNames);
-        $d = Organisation::find(8);
+        $animal = Animal::find(1);
+        dd($animal->breed);
     }
 }

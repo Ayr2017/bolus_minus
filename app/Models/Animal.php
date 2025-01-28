@@ -63,7 +63,7 @@ class Animal extends Model
     }
     public function breed(): BelongsTo
     {
-        return $this->belongsTo(Breed::class);
+        return $this->belongsTo(Breed::class,);
     }
 
     public function status(): BelongsTo

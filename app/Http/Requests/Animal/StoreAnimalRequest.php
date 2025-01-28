@@ -11,7 +11,7 @@ class StoreAnimalRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return auth()->user()->hasRole('admin');
     }
 
     /**
@@ -34,9 +34,10 @@ class StoreAnimalRequest extends FormRequest
             'number_tag'=>'required|string|unique:animals,number_tag',
             'tag_color' => 'required|string',
             'number_collar'=>'required|string',
-            'status_id' => 'required|exists:statuses,id',
+            'status_id' => 'required|integer|exists:statuses,id',
             'sex'=>'required|in:male,female',
             'withdrawn_at'=>'nullable|date',
         ];
     }
 }
+

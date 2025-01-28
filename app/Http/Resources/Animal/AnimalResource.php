@@ -28,6 +28,7 @@ class AnimalResource extends PaginatedJsonResponse
             'organisation_id' => $this->organisation_id,
             'birthday' => $this->birthday ? $this->birthdayYmd : null,
             'breed_id' => $this->breed_id,
+
             'number_rshn' => $this->number_rshn,
             'bolus_id' => $this->bolus_id,
             'number_rf' => $this->number_rf,

@@ -12,7 +12,7 @@ class UpdateAnimalRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->user()->hasRole('admin');
+        return true;
     }
 
     /**
@@ -35,7 +35,7 @@ class UpdateAnimalRequest extends FormRequest
             'number_tag'=>'nullable|string|unique:animals,number_tag,'.$this->animal->id,
             'tag_color' => 'nullable|string',
             'number_collar'=>'nullable|string',
-            'status_id' => 'nullable|exists:statuses,id',
+            'status_id' => 'nullable|integer|exists:statuses,id',
             'sex'=>'nullable|in:male,female',
             'withdrawn_at'=>'nullable|date',
             'is_active'=>'nullable|boolean',
