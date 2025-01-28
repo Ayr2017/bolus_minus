@@ -30,6 +30,8 @@ class DatabaseSeeder extends Seeder
             TagColorSeeder::class,
             CategoryActiveSeeder::class,
             OrganisationSeeder::class,
+            BolusesSeeder::class,
+            AnimalsSeeder::class,
 
         ]);
     }

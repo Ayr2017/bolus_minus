@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Helpers\ErrorLog;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Animal\DeleteAnimalRequest;
 use App\Http\Requests\Animal\GetAnimalsRequest;
 use App\Http\Requests\Animal\ShowAnimalRequest;
 use App\Http\Requests\Animal\StoreAnimalRequest;
@@ -138,7 +139,7 @@ class AnimalsController extends Controller
      * @param Animal $animal
      * @return JsonResponse
      */
-    public function destroy(Animal $animal): JsonResponse
+    public function destroy(Animal $animal, DeleteAnimalRequest $request): JsonResponse
     {
         $animal->delete();
         return ApiResponse::success(AnimalResource::make($animal));

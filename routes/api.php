@@ -23,12 +23,12 @@ use App\Http\Controllers\Api\V1\UsersController;
 use App\Http\Controllers\Api\V1\ZootechnicalExitReasonsController;
 use Illuminate\Support\Facades\Route;
 
-Route::resource('animals', AnimalsController::class);
+
 Route::post('/sanctum/token', [SanctumController::class, 'createToken']);
 Route::prefix('v1')
     ->middleware(['auth:sanctum'])
     ->group(function () {
-
+        Route::resource('animals', AnimalsController::class);
         Route::apiResource('animal-groups', AnimalGroupsController::class);
         Route::apiResource('breeds', BreedsController::class);
         Route::apiResource('breeding-bulls', BreedingBullsController::class);

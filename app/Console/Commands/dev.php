@@ -32,6 +32,6 @@ class dev extends Command
     public function handle()
     {
         $animal = Animal::find(1);
-        dd($animal->bolus);
+        dd($animal->breed);
     }
 }
