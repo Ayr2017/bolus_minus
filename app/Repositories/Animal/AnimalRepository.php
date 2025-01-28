@@ -19,10 +19,11 @@ class AnimalRepository
         $query = QueryBuilder::for(Animal::class)
             ->allowedFilters([
                 AllowedFilter::partial('number'),
-                AllowedFilter::partial('number_rf'),
                 AllowedFilter::partial('number_rshn'),
                 AllowedFilter::partial('number_tavro'),
-            ]);
+                AllowedFilter::partial('bolus.number')
+            ])
+            ->with('bolus');
 
         foreach (['number', 'number_rf', 'number_rshn', 'number_tavro'] as $field) {
             if (!empty($validated[$field])) {
@@ -30,6 +31,12 @@ class AnimalRepository
             }
         }
 
+
+        if (!empty($validated['bolus_number'])) {
+            $query->whereHas('bolus', function ($q) use ($validated) {
+                $q->where('number', 'like', '%' . $validated['bolus_number'] . '%');
+            });
+        }
         return $query->paginate($perPage);
     }
 }

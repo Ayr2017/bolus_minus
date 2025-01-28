@@ -47,7 +47,8 @@ class AnimalsController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     *
+     * @return JsonResponse
      */
     public function create()
     {
@@ -65,7 +66,8 @@ class AnimalsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @param StoreAnimalRequest $request
+     * @return JsonResponse
      */
     public function store(StoreAnimalRequest $request)
     {
@@ -81,7 +83,8 @@ class AnimalsController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @param ShowAnimalRequest $request
+     * @return JsonResponse
      */
     public function show(ShowAnimalRequest $request, int $animal): JsonResponse
     {
@@ -95,7 +98,8 @@ class AnimalsController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified resource
+     * @param Animal $animal
      */
     public function edit(Animal $animal)
     {
@@ -114,6 +118,9 @@ class AnimalsController extends Controller
 
     /**
      * Update the specified resource in storage.
+     * @param UpdateAnimalRequest $request
+     * @param Animal $animal
+     * @return JsonResponse
      */
     public function update(UpdateAnimalRequest $request, Animal $animal): JsonResponse
     {
@@ -128,7 +135,8 @@ class AnimalsController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @param Animal $animal
+     * @return JsonResponse
      */
     public function destroy(Animal $animal): JsonResponse
     {
