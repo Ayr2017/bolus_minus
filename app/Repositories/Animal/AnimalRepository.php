@@ -21,7 +21,8 @@ class AnimalRepository
                 AllowedFilter::partial('number'),
                 AllowedFilter::partial('number_rshn'),
                 AllowedFilter::partial('number_tavro'),
-                AllowedFilter::partial('bolus.number')
+                AllowedFilter::partial('bolus.number'),
+                AllowedFilter::exact('bolus.active')
             ])
             ->with('bolus');
 
@@ -35,6 +36,11 @@ class AnimalRepository
         if (!empty($validated['bolus_number'])) {
             $query->whereHas('bolus', function ($q) use ($validated) {
                 $q->where('number', 'like', '%' . $validated['bolus_number'] . '%');
+            });
+        }
+        if (isset($validated['bolus_active'])) {
+            $query->whereHas('bolus', function ($q) use ($validated) {
+                $q->where('active', $validated['bolus_active']);
             });
         }
         return $query->paginate($perPage);
