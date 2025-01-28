@@ -22,7 +22,7 @@ class GetAnimalsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'per_page' => 'nullable|integer|min:1|max:100',
+            'per_page' => 'nullable|integer|min:1',
             'page' => 'nullable|integer|min:1',
             'select' => 'nullable|array',
             'bolus_number'=>'nullable|string|exists:boluses,number',
