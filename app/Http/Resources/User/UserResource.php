@@ -22,10 +22,10 @@ class UserResource extends PaginatedJsonResponse
             'email' => $this->email ?? null,
             'phone' => $this->phone ?? null,
             'is_active' => $this->is_active,
-            'created_at' => $this->created_at->toDateTimeString() ?? null,
-            'updated_at' => $this->updated_at->toDateTimeString() ?? null,
+            'created_at' => $this->created_at ? $this->created_at->toDateTimeString() : null,
+            'updated_at' => $this->updated_at ? $this->updated_at->toDateTimeString() : null,
             'lastname' => $this->lastname ?? null,
-            'roles' => $this->getRoles() ?? null,
+            'roles' => $this->getRoleNames() ?? null,
         ];
     }
 }

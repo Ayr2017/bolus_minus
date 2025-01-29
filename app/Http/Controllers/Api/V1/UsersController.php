@@ -21,7 +21,8 @@ class UsersController extends Controller
     public function __construct(readonly UserService $userService) {}
 
     /**
-     * Display a listing of the resource.
+     * @param SearchUsersRequest
+     * @return JsonResponse
      */
     public function index(SearchUsersRequest $request): JsonResponse
     {
@@ -44,14 +45,15 @@ class UsersController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @param StoreRequest
+     * @return JsonResponse
      */
     public function store(StoreRequest $request)
     {
         try{
             $data = $request->validated();
             $user = User::create($data);
-            return ApiResponse::success(new UserResource($user));
+            return ApiResponse::success(UserResource::make($user));
         }catch (\Throwable $throwable){
             ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
         }
@@ -60,12 +62,12 @@ class UsersController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @return JsonResponse
      */
     public function show(User $user)
     {
-
-        return UserResource::make($user)->resolve();
+        $data = UserResource::make($user);
+        return ApiResponse::success($data);
     }
 
     /**
@@ -77,14 +79,15 @@ class UsersController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @param UpdateUserRequest
+     * @return JsonResponse
      */
     public function update(UpdateUserRequest $request, User $user)
     {
         try {
             $data = $request->validated();
             UserService::update($data, $user);
-            return ApiResponse::success(new UserResource($user));
+            return ApiResponse::success(UserResource::make($user));
         }catch (\Throwable $throwable){
             ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
         }
@@ -93,14 +96,18 @@ class UsersController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @return JsonResponse
      */
     public function destroy(User $user)
     {
          $user->delete();
-        return ApiResponse::success($user);
+         return ApiResponse::success($user);
     }
 
+    /**
+     * @param GetCurrentUserRequest
+     * @return JsonResponse
+     */
     public function getCurrentUser(GetCurrentUserRequest $request): JsonResponse
     {
         try {

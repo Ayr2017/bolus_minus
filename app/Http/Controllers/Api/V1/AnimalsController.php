@@ -53,7 +53,6 @@ class AnimalsController extends Controller
      */
     public function create()
     {
-
         $organisations = OrganisationResource::collection(Organisation::all());
         $breeds = BreedResource::collection(Breed::all());
         $bolus = BolusResource::collection(Bolus::all());

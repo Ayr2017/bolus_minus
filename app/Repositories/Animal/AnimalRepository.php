@@ -22,7 +22,8 @@ class AnimalRepository
                 AllowedFilter::partial('number_rshn'),
                 AllowedFilter::partial('number_tavro'),
                 AllowedFilter::partial('bolus.number'),
-                AllowedFilter::exact('bolus.active')
+                AllowedFilter::partial('uuid'),
+                AllowedFilter::exact('bolus_active'),
             ])
             ->with('bolus');
 
@@ -39,9 +40,9 @@ class AnimalRepository
             });
         }
         if (isset($validated['bolus_active'])) {
-            $query->whereHas('bolus', function ($q) use ($validated) {
-                $q->where('active', $validated['bolus_active']);
-            });
+            if ($validated['bolus_active'] === true) {
+                $query->whereNotNull('bolus_id');
+            }else $query->whereNull('bolus_id');
         }
         return $query->paginate($perPage);
     }

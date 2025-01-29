@@ -29,6 +29,7 @@ Route::prefix('v1')
     ->middleware(['auth:sanctum'])
     ->group(function () {
         Route::resource('animals', AnimalsController::class);
+        Route::apiResource('users', UsersController::class);
         Route::apiResource('animal-groups', AnimalGroupsController::class);
         Route::apiResource('breeds', BreedsController::class);
         Route::apiResource('breeding-bulls', BreedingBullsController::class);
@@ -37,7 +38,6 @@ Route::prefix('v1')
         Route::apiResource('herd-entry-reasons', HerdEntryReasonsController::class);
         Route::apiResource('insemination-methods', InseminationMethodsController::class);
         Route::apiResource('organisations', OrganisationsController::class);
-        Route::apiResource('users', UsersController::class);
         Route::apiResource('restrictions', RestrictionsController::class);
         Route::apiResource('restriction-reasons', RestrictionReasonsController::class);
         Route::apiResource('semen-portions', SemenPortionsController::class);
