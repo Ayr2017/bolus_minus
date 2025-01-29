@@ -24,12 +24,13 @@ class GetAnimalsRequest extends FormRequest
         return [
             'per_page' => 'nullable|integer|min:1',
             'page' => 'nullable|integer|min:1',
+            'uuid'=>'nullable|string',
             'select' => 'nullable|array',
             'bolus_number'=>'nullable|string|exists:boluses,number',
             'number' => 'nullable|string',
             'number_rshn' => 'nullable|string',
             'number_tavro' => 'nullable|string',
-            'bolus_active'=>'nullable|boolean|default:true',
+            'bolus_active'=>'nullable|boolean',
         ];
     }
 }

@@ -29,10 +29,11 @@ class UserService extends Service
         return null;
     }
 
-    public function search(array $data): array
+    public function search(array $data)
     {
+
         $userData = $this->userRepository->search($data);
-        return UserResource::paginatedCollection($userData);
+        return $userData;
     }
 
     public static function update(array $data, User $user): User
@@ -46,7 +47,7 @@ class UserService extends Service
 
         if(!empty($data['uuid'])) {
 
-            $user->update(['current_employee_id' => (int) $data['uuid'] ]);
+            $user->update(['uuid' =>  $data['uuid'] ]);
 
         }
         unset($data['uuid']);

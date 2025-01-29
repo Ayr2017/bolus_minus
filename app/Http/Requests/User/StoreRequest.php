@@ -11,7 +11,6 @@ class StoreRequest extends FormRequest
      */
     public function authorize(): bool
     {
-
         return auth()->user()->hasRole('admin');
     }
 
@@ -27,10 +26,11 @@ class StoreRequest extends FormRequest
             'lastname' => 'nullable|string',
             'phone' => 'nullable|string',
             'surname' => 'nullable|string',
-            'roles_names' => 'nullable|array',
+            'roles_names' => 'nullable|string',
             'password' => 'required|string',
             'uuid' => 'nullable|string',
             'email' => 'nullable|email',
+            'is_active'=>'required|boolean',
         ];
     }
 }

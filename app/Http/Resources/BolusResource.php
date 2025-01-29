@@ -15,6 +15,7 @@ class BolusResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id'=>$this->id,
             'active' => $this->active,
             'number' => $this->number,
             'device_number' => $this->device_number,

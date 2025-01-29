@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Bolus;
 use App\Models\CategoryActive;
+use App\Models\Employee;
 use App\Models\User;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -32,6 +33,8 @@ class DatabaseSeeder extends Seeder
             OrganisationSeeder::class,
             BolusesSeeder::class,
             AnimalsSeeder::class,
+            UserSeeder::class,
+            EmployeeSeeder::class
 
         ]);
     }
