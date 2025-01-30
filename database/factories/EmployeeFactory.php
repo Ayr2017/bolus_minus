@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Employee;
 use App\Models\Organisation;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -22,7 +22,7 @@ class EmployeeFactory extends Factory
             'uuid' => fake()->name(),
             'position' => fake()->name(),
             'organisation_id' => Organisation::inRandomOrder()->first()->id,
-            'user_id' => Employee::inRandomOrder()->first()->id,
+            'user_id' => User::inRandomOrder()->first()->id ?? User::factory()->create()->id,
             'is_active' => fake()->boolean(),
         ];
     }

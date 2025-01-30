@@ -33,9 +33,8 @@ class DatabaseSeeder extends Seeder
             OrganisationSeeder::class,
             BolusesSeeder::class,
             AnimalsSeeder::class,
-            UserSeeder::class,
-            EmployeeSeeder::class
-
+            EmployeeSeeder::class,
+            UserSeeder::class
         ]);
     }
 }
