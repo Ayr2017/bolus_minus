@@ -10,7 +10,9 @@
             All organisations
         </a>
     </div>
-
+    <div>
+        @include('organisations.partials.organisation-edit-form')
+    </div>
     <div class="my-4 row">
         <div class="col-6">
             <div class="table-responsive">

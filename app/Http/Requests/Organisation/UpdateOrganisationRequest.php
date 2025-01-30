@@ -22,10 +22,19 @@ class UpdateOrganisationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['nullable', 'string', 'max:255'],
             'structural_unit_id' => ['nullable', 'exists:structural_units,id'],
             'parent_id' => ['nullable', 'exists:organisations,id'],
-            'is_active'=>['nullable','boolean'],
+            'is_active' => ['nullable', 'boolean'],
+            'users'=> 'nullable|string',
+            'abbreviated'=> 'nullable|string',
+            'inn'=> 'nullable|integer',
+            'region'=> 'nullable|string',
+            'district'=> 'nullable|string',
+            'adress'=> 'nullable|string',
+            'uuid'=>'nullable|string',
+            'category_actives_id' => 'nullable|integer|exists:category_actives,id',
+            'department'=>'nullable|string',
         ];
     }
 }

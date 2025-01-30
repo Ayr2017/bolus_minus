@@ -23,11 +23,13 @@ use App\Http\Controllers\Api\V1\UsersController;
 use App\Http\Controllers\Api\V1\ZootechnicalExitReasonsController;
 use Illuminate\Support\Facades\Route;
 
+
 Route::post('/sanctum/token', [SanctumController::class, 'createToken']);
 Route::prefix('v1')
     ->middleware(['auth:sanctum'])
     ->group(function () {
-        Route::apiResource('animals', AnimalsController::class);
+        Route::resource('animals', AnimalsController::class);
+        Route::apiResource('users', UsersController::class);
         Route::apiResource('animal-groups', AnimalGroupsController::class);
         Route::apiResource('breeds', BreedsController::class);
         Route::apiResource('breeding-bulls', BreedingBullsController::class);
@@ -42,8 +44,9 @@ Route::prefix('v1')
         Route::apiResource('structural-units', StructuralUnitsController::class);
         Route::apiResource('tag-colors', TagColorsController::class);
         Route::get('users/get-current-user', [UsersController::class, 'getCurrentUser']);
-        Route::apiResource('users', UsersController::class);
+
         Route::apiResource('zootechnical-exit-reasons', ZootechnicalExitReasonsController::class);
+
 
 //        Route::get('selected-breeding-bulls', [BreedingBullsController::class, 'selectedBreedingBulls']);
 //        Route::get('owned-breeding-bulls', [BreedingBullsController::class, 'selectedBreedingBulls']);

@@ -2,35 +2,27 @@
 
 namespace Database\Factories;
 
-use AllowDynamicProperties;
-use App\Models\Organisation;
-use App\Models\StructuralUnit;
+use App\Models\CategoryActive;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Collection;
 
 /**
- * @extends Factory<Organisation>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
-#[AllowDynamicProperties] class OrganisationFactory extends Factory
+class OrganisationFactory extends Factory
 {
-    // public function __construct($count = null, ?Collection $states = null, ?Collection $has = null, ?Collection $for = null, ?Collection $afterMaking = null, ?Collection $afterCreating = null, $connection = null, ?Collection $recycle = null)
-    // {
-    //     parent::__construct($count, $states, $has, $for, $afterMaking, $afterCreating, $connection, $recycle);
-    //     $this->structuralUnit = StructuralUnit::factory()->make();
-    // }
-
     /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
      */
+
     public function definition(): array
     {
 
         return [
-            'name' => fake()->company(),
-            'structural_unit_id' => StructuralUnit::factory()->create()->id,
-            'parent_id' => null,
+            'uuid' => fake()->uuid(),
+            'name' => fake()->name(),
+            'category_actives_id'=> CategoryActive::inRandomOrder()->first()->id,
         ];
     }
 }

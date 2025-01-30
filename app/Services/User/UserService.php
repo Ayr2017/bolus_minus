@@ -29,9 +29,30 @@ class UserService extends Service
         return null;
     }
 
-    public function search(array $data): array
+    public function search(array $data)
     {
+
         $userData = $this->userRepository->search($data);
-        return UserResource::paginatedCollection($userData);
+        return $userData;
+    }
+
+    public static function update(array $data, User $user): User
+    {
+        $roles_name = $data['roles_names'];
+        unset($data['roles_names']);
+
+        if(empty($data['password'])) {
+            unset($data['password']);
+        }
+
+        if(!empty($data['uuid'])) {
+
+            $user->update(['uuid' =>  $data['uuid'] ]);
+
+        }
+        unset($data['uuid']);
+        $user->assignRole($roles_name);
+        $user->update($data);
+        return $user;
     }
 }

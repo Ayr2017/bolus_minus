@@ -6,6 +6,8 @@ use App\Helpers\ErrorLog;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\GetCurrentUserRequest;
 use App\Http\Requests\User\SearchUsersRequest;
+use App\Http\Requests\User\StoreRequest;
+use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Resources\User\UserResource;
 use App\Http\Responses\ApiResponse;
 use App\Models\User;
@@ -19,7 +21,8 @@ class UsersController extends Controller
     public function __construct(readonly UserService $userService) {}
 
     /**
-     * Display a listing of the resource.
+     * @param SearchUsersRequest
+     * @return JsonResponse
      */
     public function index(SearchUsersRequest $request): JsonResponse
     {
@@ -42,19 +45,29 @@ class UsersController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @param StoreRequest
+     * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        try{
+            $data = $request->validated();
+            $user = User::create($data);
+            return ApiResponse::success(UserResource::make($user));
+        }catch (\Throwable $throwable){
+            ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
+        }
+        return ApiResponse::error('Something went wrong');
+
     }
 
     /**
-     * Display the specified resource.
+     * @return JsonResponse
      */
-    public function show(string $id)
+    public function show(User $user)
     {
-        //
+        $data = UserResource::make($user);
+        return ApiResponse::success($data);
     }
 
     /**
@@ -66,21 +79,35 @@ class UsersController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @param UpdateUserRequest
+     * @return JsonResponse
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        try {
+            $data = $request->validated();
+            UserService::update($data, $user);
+            return ApiResponse::success(UserResource::make($user));
+        }catch (\Throwable $throwable){
+            ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
+        }
+        return ApiResponse::error('Something went wrong');
+
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @return JsonResponse
      */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        //
+         $user->delete();
+         return ApiResponse::success($user);
     }
 
+    /**
+     * @param GetCurrentUserRequest
+     * @return JsonResponse
+     */
     public function getCurrentUser(GetCurrentUserRequest $request): JsonResponse
     {
         try {

@@ -12,6 +12,7 @@ class StoreOrganisationRequest extends FormRequest
     public function authorize(): bool
     {
         return auth()->user()->hasRole('admin');
+
     }
 
     /**
@@ -26,6 +27,16 @@ class StoreOrganisationRequest extends FormRequest
             'structural_unit_id' => ['nullable', 'exists:structural_units,id'],
             'parent_id' => ['nullable', 'exists:organisations,id'],
             'is_active' => ['nullable', 'boolean'],
+            'users'=> 'required|string',
+            'abbreviated'=> 'required|string',
+            'inn'=> 'required|integer',
+            'region'=> 'required|string',
+            'district'=> 'required|string',
+            'adress'=> 'required|string',
+            'uuid'=>'nullable|string',
+            'department'=> 'required|string',
+            'category_actives_id' => 'required|integer|exists:category_actives,id',
         ];
     }
 }
+

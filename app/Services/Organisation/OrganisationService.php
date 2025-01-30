@@ -70,5 +70,17 @@ class OrganisationService extends Service
         return null;
     }
 
+    public function delete(Organisation $organisation): ?Organisation
+    {
+        try {
+            $result = $organisation->delete();
+            if($result){
+                return $organisation;
+            }
+        }catch (\Throwable $throwable){
+            Log::error(__METHOD__." ".$throwable->getMessage());
+        }
+        return null;
+    }
 
 }

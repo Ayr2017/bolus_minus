@@ -11,33 +11,10 @@
             >
                 Users
             </a>
-            <a
-                href="{{route('users.edit',['user'=>$user])}}"
-                class="btn btn-outline-primary"
-            >
-                Edit
-            </a>
+
         </div>
     </div>
+    @include('users.partials.user-edit-form')
 
-    <div class="my-4">
-        <p>Name:{{$user->name}}</p>
-        <p>Surname: {{$user->surname}}</p>
-        <p>Email: {{$user->email}}</p>
-        <p>Phone: {{$user->phone}}</p>
-        <p>Created at: {{$user->created_at}}</p>
 
-        <h5>Roles</h5>
-        @foreach($user->roles as $role)
-            <span
-                class="mx-1 p-1 {{
-                    $loop->iteration%2 == 0
-                    ? 'bg-info-subtle'
-                    : 'bg-warning-subtle'
-                }}"
-            >
-                {{$role->name}}
-            </span>
-        @endforeach
-    </div>
 @endsection

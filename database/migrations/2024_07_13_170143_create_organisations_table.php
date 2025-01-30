@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->unsignedBigInteger('structural_unit_id')->nullable();
             $table->unsignedBigInteger('parent_id')->nullable()->index();
+            $table->foreignId('category_actives_id')->constrained('category_actives');
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

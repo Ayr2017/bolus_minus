@@ -18,15 +18,15 @@ return new class extends Migration
             $table->string('number')->unique();
             $table->unsignedBigInteger('organisation_id');
             $table->dateTime('birthday')->nullable();
-            $table->unsignedBigInteger('breed_id')->nullable();
+            $table->foreignId('breed_id')->nullable()->constrained('breeds');
             $table->string('number_rshn')->nullable();
-            $table->bigInteger('bolus_id')->nullable();
+            $table->foreignId('bolus_id')->nullable()->constrained('boluses');
             $table->string('number_rf')->nullable();
             $table->string('number_tavro')->nullable();
             $table->string('number_tag')->nullable();
             $table->string('tag_color')->nullable();
             $table->string('number_collar')->nullable();
-            $table->string('status_id')->nullable();
+            $table->foreignId('status_id')->nullable()->constrained('statuses');
             $table->enum('sex',['female', 'male'])->nullable();
             $table->dateTime('withdrawn_at')->nullable();
             $table->boolean('is_active')->default(true);

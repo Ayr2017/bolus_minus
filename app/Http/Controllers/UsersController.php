@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\StoreRequest;
 use App\Http\Requests\User\UpdateRolesRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Models\User;
 use App\Services\User\TagColorService;
+use App\Services\User\UserService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -31,15 +33,19 @@ class UsersController extends Controller
      */
     public function create()
     {
-        //
+
+        return view('users.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        $user = User::create($data);
+        return redirect(route('users.index'));
     }
 
     /**
@@ -48,6 +54,7 @@ class UsersController extends Controller
     public function show(User $user):View
     {
         $user->load(['roles']);
+
         return view('users.show', [
             'user' =>  $user,
             'title' => User::class,
@@ -61,7 +68,6 @@ class UsersController extends Controller
     {
         $roles = Role::orderBy('name')->get()->chunk(3);
         $user->load(['roles']);
-
         return view('users.edit', [
             'user' => $user,
             'title' => User::class,
@@ -74,7 +80,9 @@ class UsersController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        $data = $request->validated();
+        UserService::update($data, $user);
+        return redirect()->route('users.index');
     }
 
     /**
