@@ -8,11 +8,11 @@ use App\Models\Bolus;
 class BolusesSeeder extends Seeder
 {
     const BOLUS_IDS = [
-        'bd63627b-9a71-497b-b147-e3e1fb3d8b8e',
-        '42c39338-7299-4344-847b-1f6a86f78f27',
-        '1abd036b-9b03-4dec-afa2-b1119f467cce',
-        'c1d3427a-0a05-4123-a1c8-af310bec4e02',
-        '9173dcd0-c172-43e1-8bde-159e8014ac6c',
+        'da066633-77d3-43a5-898e-36fb14175a3d',
+        'd9b3c96c-c820-4ba2-bdf8-58e1e51303a9',
+        '9e7a2458-9981-4aff-812f-3271cf43a52b',
+        '1ec4c6fe-6745-43bf-8e88-19e33c56ca4d',
+        '4a0b4a2f-9e96-4f21-96dc-1efb54b28ae0',
     ];
 
     public function run(): void
