@@ -87,7 +87,7 @@ class UsersController extends Controller
         try {
             $result = $this->userService->update($user, $request->validated());
             if($result){
-                return ApiResponse::success(UserResource::make($user));
+                return ApiResponse::success(UserResource::make($user->fresh()));
             }
         }catch (\Throwable $throwable){
             ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
