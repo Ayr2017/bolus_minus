@@ -38,8 +38,6 @@ class UserService extends Service
 
     public static function update(User $user, array $validatedData): bool
     {
-        $roles_name = $validatedData['roles_names'];
-
         return $user->update($validatedData);
     }
 }
