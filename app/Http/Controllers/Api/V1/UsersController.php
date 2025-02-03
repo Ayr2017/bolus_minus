@@ -91,6 +91,8 @@ class UsersController extends Controller
             }
         }catch (\Throwable $throwable){
             ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
+            return ApiResponse::error($throwable->getMessage());
+
         }
         return ApiResponse::error('Something went wrong');
 
