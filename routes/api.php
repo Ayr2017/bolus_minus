@@ -29,7 +29,6 @@ Route::prefix('v1')
     ->middleware(['auth:sanctum'])
     ->group(function () {
         Route::resource('animals', AnimalsController::class);
-        Route::apiResource('users', UsersController::class);
         Route::apiResource('animal-groups', AnimalGroupsController::class);
         Route::apiResource('breeds', BreedsController::class);
         Route::apiResource('breeding-bulls', BreedingBullsController::class);
@@ -44,7 +43,7 @@ Route::prefix('v1')
         Route::apiResource('structural-units', StructuralUnitsController::class);
         Route::apiResource('tag-colors', TagColorsController::class);
         Route::get('users/get-current-user', [UsersController::class, 'getCurrentUser']);
-
+        Route::apiResource('users', UsersController::class);
         Route::apiResource('zootechnical-exit-reasons', ZootechnicalExitReasonsController::class);
 
 
