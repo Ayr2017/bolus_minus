@@ -36,23 +36,10 @@ class UserService extends Service
         return $userData;
     }
 
-    public static function update(array $data, User $user): User
+    public static function update(User $user, array $validatedData): User
     {
-        $roles_name = $data['roles_names'];
-        unset($data['roles_names']);
+        $roles_name = $validatedData['roles_names'];
 
-        if(empty($data['password'])) {
-            unset($data['password']);
-        }
-
-        if(!empty($data['uuid'])) {
-
-            $user->update(['uuid' =>  $data['uuid'] ]);
-
-        }
-        unset($data['uuid']);
-        $user->assignRole($roles_name);
-        $user->update($data);
-        return $user;
+        return $user->update($validatedData);
     }
 }

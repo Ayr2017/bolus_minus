@@ -85,9 +85,10 @@ class UsersController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         try {
-            $data = $request->validated();
-            UserService::update($data, $user);
-            return ApiResponse::success(UserResource::make($user));
+            $result = $this->userService->update($user, $request->validated());
+            if($result){
+                return ApiResponse::success(UserResource::make($user));
+            }
         }catch (\Throwable $throwable){
             ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
         }
