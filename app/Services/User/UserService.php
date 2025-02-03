@@ -31,9 +31,7 @@ class UserService extends Service
 
     public function search(array $data)
     {
-
-        $userData = $this->userRepository->search($data);
-        return $userData;
+        return $this->userRepository->search($data);
     }
 
     public static function update(User $user, array $validatedData): bool
