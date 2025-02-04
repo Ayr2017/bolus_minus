@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\V1\SanctumController;
 use App\Http\Controllers\Api\V1\SelectedBreedingBullsController;
 use App\Http\Controllers\Api\V1\SemenPortionsController;
 use App\Http\Controllers\Api\V1\ShiftsController;
+use App\Http\Controllers\Api\V1\StatusesController;
 use App\Http\Controllers\Api\V1\StructuralUnitsController;
 use App\Http\Controllers\Api\V1\TagColorsController;
 use App\Http\Controllers\Api\V1\UsersController;
@@ -40,6 +41,7 @@ Route::prefix('v1')
         Route::apiResource('restrictions', RestrictionsController::class);
         Route::apiResource('restriction-reasons', RestrictionReasonsController::class);
         Route::apiResource('semen-portions', SemenPortionsController::class);
+        Route::apiResource('statuses', StatusesController::class);
         Route::apiResource('structural-units', StructuralUnitsController::class);
         Route::apiResource('tag-colors', TagColorsController::class);
         Route::get('users/get-current-user', [UsersController::class, 'getCurrentUser']);
