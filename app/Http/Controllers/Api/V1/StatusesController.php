@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Helpers\ErrorLog;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\StructuralUnit\StatusResource;
+use App\Http\Resources\Status\StatusResource;
 use App\Http\Responses\ApiResponse;
 use App\Models\Status;
 use App\Services\Status\StatusService;
