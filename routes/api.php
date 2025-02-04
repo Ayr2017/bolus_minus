@@ -48,11 +48,6 @@ Route::prefix('v1')
         Route::apiResource('users', UsersController::class);
         Route::apiResource('zootechnical-exit-reasons', ZootechnicalExitReasonsController::class);
 
-
-//        Route::get('selected-breeding-bulls', [BreedingBullsController::class, 'selectedBreedingBulls']);
-//        Route::get('owned-breeding-bulls', [BreedingBullsController::class, 'selectedBreedingBulls']);
-
-
         Route::group(['prefix' => 'settings'], function () {
             Route::apiResource('milking-equipments', MilkingEquipmentsController::class);
             Route::apiResource('shifts', ShiftsController::class);
