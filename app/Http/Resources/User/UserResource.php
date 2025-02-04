@@ -26,6 +26,7 @@ class UserResource extends PaginatedJsonResponse
             'updated_at' => $this->updated_at ? $this->updated_at->toDateTimeString() : null,
             'lastname' => $this->lastname ?? null,
             'roles' => $this->getRoleNames() ?? null,
+            'organisations' => $this->employees->pluck('organisation')
         ];
     }
 }

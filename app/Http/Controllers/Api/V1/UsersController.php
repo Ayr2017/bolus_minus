@@ -114,7 +114,7 @@ class UsersController extends Controller
     public function getCurrentUser(GetCurrentUserRequest $request): JsonResponse
     {
         try {
-            $currentUser = auth()->user();
+            $currentUser = auth()->user()->load(['employees.organisation']);
             return ApiResponse::success(UserResource::make($currentUser));
         } catch (\Throwable $throwable) {
             ErrorLog::write(method: __METHOD__, line: __LINE__, errorMessage: $throwable->getMessage());
