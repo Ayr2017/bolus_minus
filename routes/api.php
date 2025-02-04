@@ -60,6 +60,7 @@ Route::prefix('v1')
 Route::prefix('v1')
     ->middleware(['api'])
     ->group(function () {
+        dd(1);
         Route::post('/auth', [SanctumController::class,'auth'])->name('auth');
     });
 
