@@ -72,9 +72,10 @@ class AnimalsController extends Controller
     public function store(StoreAnimalRequest $request)
     {
         try {
-            $data = $request->validated();
-            $animal = Animal::query()->create($data);
-            return ApiResponse::success(AnimalResource::make($animal));
+            $animal = $this->animalService->storeAnimal($request->validated());
+            if($animal){
+                return ApiResponse::success(AnimalResource::make($animal));
+            }
         } catch (\Throwable $throwable) {
             ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
             return ApiResponse::error( $throwable->getMessage());
