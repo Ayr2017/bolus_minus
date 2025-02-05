@@ -77,6 +77,8 @@ class AnimalsController extends Controller
             return ApiResponse::success(AnimalResource::make($animal));
         } catch (\Throwable $throwable) {
             ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
+            return ApiResponse::error( $throwable->getMessage());
+
         }
         return ApiResponse::error('Something went wrong!');
 
