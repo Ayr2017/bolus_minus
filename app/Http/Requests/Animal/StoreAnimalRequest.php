@@ -22,7 +22,7 @@ class StoreAnimalRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
+            'name' => 'required|string|unique:animals,name',
             'number' => 'required|string|unique:animals,number',
             'organisation_id' => 'required|exists:organisations,id',
             'birthday' => 'required|date',
