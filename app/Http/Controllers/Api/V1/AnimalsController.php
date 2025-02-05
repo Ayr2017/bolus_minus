@@ -69,7 +69,7 @@ class AnimalsController extends Controller
      * @param StoreAnimalRequest $request
      * @return JsonResponse
      */
-    public function store(StoreAnimalRequest $request)
+    public function store(StoreAnimalRequest $request): JsonResponse
     {
         try {
             $animal = $this->animalService->storeAnimal($request->validated());
