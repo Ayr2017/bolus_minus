@@ -45,6 +45,7 @@ class AnimalGroupsController extends Controller
      */
     public function store(StoreAnimalGroupRequest $request, AnimalGroupService $animalGroupService): JsonResponse
     {
+
         try {
             $animalGroup = $animalGroupService->storeAnimalGroup($request->validated());
 
