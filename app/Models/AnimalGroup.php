@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class AnimalGroup extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'name',
         'description',

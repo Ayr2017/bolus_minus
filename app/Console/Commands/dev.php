@@ -31,7 +31,7 @@ class dev extends Command
      */
     public function handle()
     {
-        $animal = User::find(1);
+        $animal = User::find(13);
         dd($animal->getRoleNames());
     }
 }

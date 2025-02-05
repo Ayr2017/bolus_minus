@@ -21,9 +21,11 @@ class StoreAnimalGroupRequest extends FormRequest
      */
     public function rules(): array
     {
+
         return [
             'name' => ['required', 'string', 'unique:animal_groups,name'],
             'description' => ['nullable', 'string'],
+            'is_active'=>'required|boolean',
         ];
     }
 }
