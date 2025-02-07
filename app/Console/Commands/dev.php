@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Models\Animal;
-use App\Models\CategoryActive;
 use App\Models\Organisation;
 use App\Models\User;
 use Illuminate\Console\Command;

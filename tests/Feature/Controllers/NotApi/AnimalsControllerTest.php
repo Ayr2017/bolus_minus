@@ -72,13 +72,13 @@ use Carbon\Carbon;
         $this->assertDatabaseHas('animals', $data);
     }
 
-    public function test_store_for_non_admin()
+    public function test_store_forbidden_for_non_admin()
     {
         $data = Animal::factory()->make()->toArray();
         $data['birthday'] = Carbon::parse($data['birthday'])->format('Y-m-d 00:00:00');
         $response = $this->actingAs($this->user)->post(route('animals.store'), $data);
-        $response->assertRedirect(route('animals.index'));
-        $this->assertDatabaseHas('animals', $data);
+        $response->assertForbidden();
+        $this->assertDatabaseMissing('animals', $data);
     }
 
     public function test_show_view_for_admin()
@@ -127,7 +127,6 @@ use Carbon\Carbon;
         $this->assertDatabaseHas('animals', $data);
     }
 
-
     // public function test_update_forbidden_for_non_admin()
     // {
     //     $animal = Animal::factory()->create();
@@ -140,14 +139,13 @@ use Carbon\Carbon;
     //     $this->assertDatabaseMissing('animals', $data);
     // }
 
-
     public function test_destroy_for_admin()
     {
         $animal = Animal::factory()->create();
-        $response = $this->actingAs($this->admin)->delete(route('animals.destroy', $animal));
+        $response = $this->actingAs($this->admin)->delete(route('animals.destroy', $animal->id));
         $response->assertStatus(302);
         $response->assertRedirect(route('animals.index'));
-        $this->assertDatabaseMissing('animals', ['id' => $animal->id]);
+        $this->assertSoftDeleted('animals', ['id' => $animal->id]);
     }
 
     // public function test_destroy_forbidden_for_non_admin()

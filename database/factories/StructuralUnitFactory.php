@@ -18,7 +18,6 @@ class StructuralUnitFactory extends Factory
     public function definition(): array
     {
         return [
-            // 'uuid' => $this->faker->uuid(),
             'name' => $this->faker->unique()->company(),
             'is_active' => true,
         ];

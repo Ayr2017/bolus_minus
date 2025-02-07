@@ -52,8 +52,8 @@ class AnimalsController extends Controller
     public function store(StoreAnimalRequest $request)
     {
         $validatedData = $request->validated();
+        $animal = Animal::firstOrCreate($validatedData);
 
-        $animal = Animal::firstOrCreate(['number' => $validatedData['number']], $validatedData);
         return redirect()->route('animals.index')->with('message', 'Animal created successfully.')->with('created_animal', $animal);
     }
 
@@ -103,9 +103,9 @@ class AnimalsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Animal $animal, AnimalService $animalService)
+    public function destroy(int $animalId, AnimalService $animalService)
     {
-        $deleted = $animalService->deleteAnimal($animal);
+        $deleted = $animalService->deleteAnimal($animalId);
 
         if ($deleted) {
             return redirect()->route('animals.index')->with('message', 'Animal deleted successfully.');

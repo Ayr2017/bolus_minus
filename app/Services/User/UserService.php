@@ -19,11 +19,11 @@ class UserService extends Service
     {
         try {
             $result = $user->syncRoles($data['roles_names']);
-            if($result){
+            if ($result) {
                 return $user->load('roles');
             }
-        }catch (\Throwable $throwable){
-            Log::error(__METHOD__.' '.$throwable->getMessage());
+        } catch (\Throwable $throwable) {
+            Log::error(__METHOD__ . ' ' . $throwable->getMessage());
         }
 
         return null;
@@ -32,6 +32,23 @@ class UserService extends Service
     public function search(array $data)
     {
         return $this->userRepository->search($data);
+    }
+
+    /**
+     * @param mixed $data
+     * @return User|null
+     */
+    public function store(mixed $data): ?User
+    {
+        try {
+            $user = User::query()->create($data);
+            if ($user) {
+                return $user;
+            }
+        } catch (\Exception $e) {
+            Log::error(__METHOD__ . " " . $e->getMessage());
+        }
+        return null;
     }
 
     public static function update(User $user, array $validatedData): bool

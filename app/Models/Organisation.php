@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
+use App\Enums\ActivityCategory;
 
 class Organisation extends Model
 {
@@ -18,18 +19,19 @@ class Organisation extends Model
         'structural_unit_id',
         'parent_id',
         'is_active',
-        'category_actives_id',
+        'activity_category',
         'organisations',
         'inn',
         'region',
-        'adress',
+        'address',
         'abbreviated',
         'district',
         'department'
     ];
 
     protected $casts = [
-        'is_active' => 'boolean'
+        'is_active' => 'boolean',
+        'activity_category' => ActivityCategory::class,
     ];
 
     public function employees(): HasMany
@@ -60,10 +62,11 @@ class Organisation extends Model
         return $this->hasMany(Animal::class, 'organisation_id');
     }
 
-    public function categoryActives(): BelongsTo{
-        return $this->belongsTo(CategoryActive::class);
-    }
-    public function getNameCategoryAttribute(){
-        return $this->categoryActives->name ?? '';
-    }
+    // public function categoryActives(): BelongsTo{
+    //     return $this->belongsTo(CategoryActive::class);
+    // }
+
+    // public function getNameCategoryAttribute(){
+    //     return $this->categoryActives->name ?? '';
+    // }
 }

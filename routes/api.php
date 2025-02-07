@@ -15,7 +15,6 @@ use App\Http\Controllers\Api\V1\OrganisationsController;
 use App\Http\Controllers\Api\V1\RestrictionReasonsController;
 use App\Http\Controllers\Api\V1\RestrictionsController;
 use App\Http\Controllers\Api\V1\SanctumController;
-use App\Http\Controllers\Api\V1\SelectedBreedingBullsController;
 use App\Http\Controllers\Api\V1\SemenPortionsController;
 use App\Http\Controllers\Api\V1\ShiftsController;
 use App\Http\Controllers\Api\V1\StatusesController;
@@ -55,15 +54,10 @@ Route::prefix('v1')
             Route::apiResource('shifts', ShiftsController::class);
             Route::apiResource('milkings', MilkingsController::class);
         });
-
-
     });
 
 Route::prefix('v1')
     ->middleware(['api'])
     ->group(function () {
-        Route::post('/auth', [SanctumController::class,'auth'])->name('auth');
+        Route::post('/auth', [SanctumController::class, 'auth'])->name('auth');
     });
-
-
-

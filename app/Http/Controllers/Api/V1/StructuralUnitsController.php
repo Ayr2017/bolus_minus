@@ -9,7 +9,7 @@ use App\Http\Requests\StructuralUnit\ShowStructuralUnitRequest;
 use App\Http\Requests\StructuralUnit\StoreStructuralUnitRequest;
 use App\Http\Requests\StructuralUnit\UpdateStructuralUnitRequest;
 use App\Http\Requests\StructuralUnit\DeleteStructuralUnitRequest;
-use App\Http\Resources\StructuralUnit\StatusResource;
+use App\Http\Resources\StructuralUnit\StructuralUnitResource;
 use App\Http\Responses\ApiResponse;
 use App\Models\StructuralUnit;
 use App\Services\StructuralUnit\StructuralUnitService;
@@ -26,7 +26,7 @@ class StructuralUnitsController extends Controller
     {
         try {
             $structuralUnits = $structuralUnitService->index($request->validated());
-            return ApiResponse::success(StatusResource::paginatedCollection($structuralUnits));
+            return ApiResponse::success(StructuralUnitResource::paginatedCollection($structuralUnits));
         } catch (\Throwable $throwable) {
             ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
         }
@@ -44,7 +44,7 @@ class StructuralUnitsController extends Controller
     {
         try {
             $structuralUnit = $structuralUnitService->store($request->validated());
-            return ApiResponse::success(new StatusResource($structuralUnit));
+            return ApiResponse::success(new StructuralUnitResource($structuralUnit));
         } catch (\Throwable $throwable) {
             ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
         }
@@ -62,7 +62,7 @@ class StructuralUnitsController extends Controller
     {
         try {
             $structuralUnit = $service->show($structuralUnit);
-            return ApiResponse::success(StatusResource::make($structuralUnit));
+            return ApiResponse::success(StructuralUnitResource::make($structuralUnit));
         } catch (\Throwable $throwable) {
             ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
         }
@@ -81,7 +81,7 @@ class StructuralUnitsController extends Controller
     {
         try {
             $structuralUnit = $structuralUnitService->update($request->validated(), $structuralUnit);
-            return ApiResponse::success(['structuralUnit' => new StatusResource($structuralUnit)]);
+            return ApiResponse::success(['structuralUnit' => new StructuralUnitResource($structuralUnit)]);
         } catch (\Throwable $throwable) {
             ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
         }

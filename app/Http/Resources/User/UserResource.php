@@ -4,7 +4,6 @@ namespace App\Http\Resources\User;
 
 use App\Http\Resources\PaginatedJsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class UserResource extends PaginatedJsonResponse
 {

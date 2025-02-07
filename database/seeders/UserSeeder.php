@@ -14,11 +14,13 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::factory(2)->create();
-        User::create([
-            'name' => 'Admin',
-            'email' => env('ADMIN_EMAIL'),
-            'password' => env('ADMIN_PASSWORD'),
-            'phone' => env('ADMIN_PHONE'),
-        ]);
+
+        // Админ создается ранее в DefaultUsersSeeder
+        // User::create([
+        //     'name' => 'Admin',
+        //     'email' => env('ADMIN_EMAIL'),
+        //     'password' => env('ADMIN_PASSWORD'),
+        //     'phone' => env('ADMIN_PHONE'),
+        // ]);
     }
 }

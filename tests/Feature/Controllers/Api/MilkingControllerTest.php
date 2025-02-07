@@ -14,9 +14,7 @@ use Tests\TestCase;
     protected function setUp(): void
     {
         parent::setUp();
-        $this->artisan('db:seed');
         $this->artisan('db:seed --class=ShiftSeeder');
-        $this->artisan('db:seed --class=OrganisationSeeder');
         Milking::factory()->count(1)->create();
     }
 

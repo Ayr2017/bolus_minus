@@ -11,12 +11,6 @@ use Tests\TestCase;
 {
     use RefreshDatabase;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->artisan('db:seed');
-    }
-
     public function test_index_for_admin()
     {
         $response = $this->actingAs($this->admin)->getJson(route('api.breeds.index'));
@@ -107,7 +101,7 @@ use Tests\TestCase;
     public function test_show_for_admin()
     {
         $breed = Breed::query()->first();
-        $response = $this->actingAs($this->admin)->json('GET', route('api.breeds.show', $breed), ['breed' => 1]);
+        $response = $this->actingAs($this->admin)->json('GET', route('api.breeds.show', $breed), ['breed' => $breed->id]);
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -142,7 +136,7 @@ use Tests\TestCase;
     public function test_show_for_non_admin()
     {
         $breed = Breed::query()->first();
-        $response = $this->actingAs($this->user)->json('GET', route('api.breeds.show', $breed), ['breed' => 1]);
+        $response = $this->actingAs($this->user)->json('GET', route('api.breeds.show', $breed), ['breed' => $breed->id]);
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -240,9 +234,9 @@ use Tests\TestCase;
 
     public function test_destroy_for_admin()
     {
-        $breed = Breed::query()->first();
+        $item = Breed::query()->first();
 
-        $response = $this->actingAs($this->admin)->deleteJson(route('api.breeds.destroy', $breed->id));
+        $response = $this->actingAs($this->admin)->deleteJson(route('api.breeds.destroy', $item->id));
 
         $response->assertOk();
         $response->assertJson([
@@ -250,7 +244,7 @@ use Tests\TestCase;
             'error' => null,
         ]);
 
-        $this->assertDatabaseMissing('breeds', ['id' => $breed->id]);
+        $this->assertDatabaseMissing('breeds', ['id' => $item->id]);
     }
 
     public function test_destroy_forbidden_for_non_admin()
