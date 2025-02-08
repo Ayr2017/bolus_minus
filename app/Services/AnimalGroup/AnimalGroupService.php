@@ -6,6 +6,7 @@ use App\Models\AnimalGroup;
 use \App\Services\Service;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class AnimalGroupService extends Service
@@ -58,6 +59,7 @@ class AnimalGroupService extends Service
      */
     public function storeAnimalGroup(mixed $data)
     {
+
         try {
             $animalGroup = AnimalGroup::query()->create($data);
             if($animalGroup){

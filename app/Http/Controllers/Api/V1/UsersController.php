@@ -6,7 +6,7 @@ use App\Helpers\ErrorLog;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\GetCurrentUserRequest;
 use App\Http\Requests\User\SearchUsersRequest;
-use App\Http\Requests\User\StoreRequest;
+use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Resources\User\UserResource;
 use App\Http\Responses\ApiResponse;
@@ -28,7 +28,7 @@ class UsersController extends Controller
     {
         try {
             $data = $this->userService->search($request->validated());
-            return ApiResponse::success($data);
+            return ApiResponse::success(UserResource::paginatedCollection($data));
         } catch (\Throwable $throwable) {
             ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
         }
@@ -37,28 +37,20 @@ class UsersController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * @param StoreRequest
+     * @param StoreUserRequest
+     * @param UserService $userService
      * @return JsonResponse
      */
-    public function store(StoreRequest $request)
+    public function store(StoreUserRequest $request, UserService $userService)
     {
-        try{
-            $data = $request->validated();
-            $user = User::create($data);
-            return ApiResponse::success(UserResource::make($user));
-        }catch (\Throwable $throwable){
+        try {
+            $user = $userService->store($request->validated());
+            return ApiResponse::success(new UserResource($user));
+        } catch (\Throwable $throwable) {
             ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
+            Log::error(__METHOD__ . ' - Exception: ' . $throwable->getMessage(), ['trace' => $throwable->getTraceAsString()]);
         }
         return ApiResponse::error('Something went wrong');
-
     }
 
     /**
@@ -71,14 +63,6 @@ class UsersController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
      * @param UpdateUserRequest
      * @return JsonResponse
      */
@@ -86,16 +70,14 @@ class UsersController extends Controller
     {
         try {
             $result = $this->userService->update($user, $request->validated());
-            if($result){
+            if ($result) {
                 return ApiResponse::success(UserResource::make($user->fresh()));
             }
-        }catch (\Throwable $throwable){
+        } catch (\Throwable $throwable) {
             ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
             return ApiResponse::error($throwable->getMessage());
-
         }
         return ApiResponse::error('Something went wrong');
-
     }
 
     /**
@@ -103,8 +85,8 @@ class UsersController extends Controller
      */
     public function destroy(User $user)
     {
-         $user->delete();
-         return ApiResponse::success($user);
+        $user->delete();
+        return ApiResponse::success($user);
     }
 
     /**
@@ -114,7 +96,7 @@ class UsersController extends Controller
     public function getCurrentUser(GetCurrentUserRequest $request): JsonResponse
     {
         try {
-            $currentUser = auth()->user();
+            $currentUser = auth()->user()->load(['employees.organisation']);
             return ApiResponse::success(UserResource::make($currentUser));
         } catch (\Throwable $throwable) {
             ErrorLog::write(method: __METHOD__, line: __LINE__, errorMessage: $throwable->getMessage());

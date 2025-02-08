@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Bolus;
-use App\Models\CategoryActive;
+// use App\Models\CategoryActive;
 use App\Models\Employee;
 use App\Models\User;
 
@@ -29,12 +29,11 @@ class DatabaseSeeder extends Seeder
             ZootechnicalExitReasonSeeder::class,
             CoatColorSeeder::class,
             TagColorSeeder::class,
-            CategoryActiveSeeder::class,
             OrganisationSeeder::class,
             BolusesSeeder::class,
             AnimalsSeeder::class,
             EmployeeSeeder::class,
-            UserSeeder::class
+            UserSeeder::class,
         ]);
     }
 }

@@ -14,10 +14,10 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        Role::create(['name' => 'admin', 'guard_name' => 'web']);
-        $this->user = User::factory()->create();
-        $this->admin = User::factory()->create()->assignRole('admin');
-
         Artisan::call('db:seed', ['--class' => 'DatabaseSeeder']);
+
+        // Пользватели уже созданые в DatabaseSeeder
+        $this->admin = tap(User::find(1))?->assignRole('admin');
+        $this->user = tap(User::find(2))?->syncRoles([]);
     }
 }

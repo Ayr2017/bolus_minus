@@ -2,8 +2,8 @@
 
 namespace App\Enums;
 
-enum EquipmentType :string {
-
+enum EquipmentType: string
+{
     case PARALLEL = 'парралель';
     case HERRINGBONE = 'елочка';
     case CAROUSEL = 'карусель';

@@ -28,7 +28,7 @@ class OrganisationResource extends PaginatedJsonResponse
             'organisations' => $this->organisations,
             'inn' => $this->inn,
             'region' => $this->region,
-            'adress' => $this->adress,
+            'address' => $this->address,
             'abbreviated' => $this->abbreviated,
             'district' => $this->district,
             'category_name' => $this->name_category ?? null,

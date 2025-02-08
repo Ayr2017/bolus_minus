@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\StructuralUnit;
 
 class StructuralUnitSeeder extends Seeder
 {
@@ -12,6 +13,6 @@ class StructuralUnitSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        StructuralUnit::factory(3)->create();
     }
 }

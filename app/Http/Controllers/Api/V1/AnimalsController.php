@@ -27,9 +27,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class AnimalsController extends Controller
 {
-    public function __construct(readonly AnimalService $animalService)
-    {
-    }
+    public function __construct(readonly AnimalService $animalService) {}
 
     /**
      * @param GetAnimalsRequest $request
@@ -69,17 +67,18 @@ class AnimalsController extends Controller
      * @param StoreAnimalRequest $request
      * @return JsonResponse
      */
-    public function store(StoreAnimalRequest $request)
+    public function store(StoreAnimalRequest $request): JsonResponse
     {
         try {
-            $data = $request->validated();
-            $animal = Animal::query()->create($data);
-            return ApiResponse::success(AnimalResource::make($animal));
+            $animal = $this->animalService->storeAnimal($request->validated());
+            if ($animal) {
+                return ApiResponse::success(AnimalResource::make($animal));
+            }
         } catch (\Throwable $throwable) {
             ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
+            return ApiResponse::error($throwable->getMessage());
         }
         return ApiResponse::error('Something went wrong!');
-
     }
 
     /**
@@ -135,12 +134,17 @@ class AnimalsController extends Controller
     }
 
     /**
-     * @param Animal $animal
+     * @param int $animal
      * @return JsonResponse
      */
-    public function destroy(Animal $animal, DeleteAnimalRequest $request): JsonResponse
+    public function destroy(DeleteAnimalRequest $request, AnimalService $animalService, int $animal): JsonResponse
     {
-        $animal->delete();
-        return ApiResponse::success(AnimalResource::make($animal));
+        try {
+            return ApiResponse::success($animalService->deleteAnimal($animal));
+        } catch (\Throwable $throwable) {
+            ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
+        }
+
+        return ApiResponse::error('Something went wrong!');
     }
 }

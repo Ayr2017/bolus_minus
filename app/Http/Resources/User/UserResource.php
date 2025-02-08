@@ -4,7 +4,6 @@ namespace App\Http\Resources\User;
 
 use App\Http\Resources\PaginatedJsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class UserResource extends PaginatedJsonResponse
 {
@@ -26,6 +25,7 @@ class UserResource extends PaginatedJsonResponse
             'updated_at' => $this->updated_at ? $this->updated_at->toDateTimeString() : null,
             'lastname' => $this->lastname ?? null,
             'roles' => $this->getRoleNames() ?? null,
+            'organisations' => $this->employees->pluck('organisation')
         ];
     }
 }

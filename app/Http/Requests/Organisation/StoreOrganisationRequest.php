@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Organisation;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use App\Enums\ActivityCategory;
 
 class StoreOrganisationRequest extends FormRequest
 {
@@ -12,7 +14,6 @@ class StoreOrganisationRequest extends FormRequest
     public function authorize(): bool
     {
         return auth()->user()->hasRole('admin');
-
     }
 
     /**
@@ -27,10 +28,9 @@ class StoreOrganisationRequest extends FormRequest
             'structural_unit_id' => ['nullable', 'exists:structural_units,id'],
             'parent_id' => ['nullable', 'exists:organisations,id'],
             'is_active' => ['nullable', 'boolean'],
-            'address'=> 'required|string',
-            'uuid'=>'nullable|string',
-            'category_actives_id' => 'required|integer|exists:category_actives,id', //activity_category_id
+            'address' => 'required|string',
+            // 'uuid' => 'nullable|string',
+            'activity_category' => ['required', Rule::enum(ActivityCategory::class)],
         ];
     }
 }
-

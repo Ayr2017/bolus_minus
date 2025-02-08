@@ -11,7 +11,6 @@ class StructuralUnit extends Model
     use HasFactory;
 
     protected $fillable = [
-        // 'uuid',
         'name',
         'description',
         'is_active'

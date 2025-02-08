@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Enums\ActivityCategory;
 
 return new class extends Migration
 {
@@ -17,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->unsignedBigInteger('structural_unit_id')->nullable();
             $table->unsignedBigInteger('parent_id')->nullable()->index();
-            $table->foreignId('category_actives_id')->constrained('category_actives');
+            $table->enum('activity_category', array_column(ActivityCategory::cases(), 'value'));
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

@@ -7,6 +7,9 @@ use App\Models\AnimalGroup;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Illuminate\Database\QueryException;
+use App\Models\Organisation;
+use App\Models\Employee;
+use Spatie\Permission\Models\Role;
 
 
 #[AllowDynamicProperties] class AnimalGroupTest extends TestCase

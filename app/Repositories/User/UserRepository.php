@@ -18,11 +18,15 @@ class UserRepository extends BaseRepository
 
     public function search(array $data): LengthAwarePaginator
     {
-        $perPage = Arr::pull($data,'per_page', 50);
+        $perPage = Arr::get($data, 'per_page', 50);
+        $page = Arr::get($data, 'page', 1);
+
+        return User::query()->orderBy('id')->paginate(perPage: $perPage, page: $page);
+
         //TODO: select
-        return $this
-            ->model
-            ->query()
-            ->paginate($perPage);
+        // return $this
+        //     ->model
+        //     ->query()
+        //     ->paginate($perPage);
     }
 }

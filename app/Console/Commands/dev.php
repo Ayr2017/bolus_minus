@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Models\Animal;
-use App\Models\CategoryActive;
 use App\Models\Organisation;
 use App\Models\User;
 use Illuminate\Console\Command;
@@ -31,7 +30,7 @@ class dev extends Command
      */
     public function handle()
     {
-        $animal = User::find(1);
+        $animal = User::find(13);
         dd($animal->getRoleNames());
     }
 }

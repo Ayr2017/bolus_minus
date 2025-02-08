@@ -16,7 +16,7 @@ class BolusService extends Service
     public function storeBolus(array $data): ?Bolus
     {
         try {
-            $bolus = Bolus::create($data);
+            $bolus = Bolus::query()->create($data);
             if ($bolus) {
                 return $bolus;
             }
@@ -52,5 +52,17 @@ class BolusService extends Service
             Log::error(__METHOD__ . " " . $exception->getMessage());
         }
         return false;
+    }
+
+    public function index(mixed $validated)
+    {
+    }
+
+    public function store(mixed $validated)
+    {
+    }
+
+    public function show(Bolus $bolus)
+    {
     }
 }

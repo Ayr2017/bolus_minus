@@ -5,6 +5,7 @@ namespace App\Services\Animal;
 use App\Models\Animal;
 use App\Repositories\Animal\AnimalRepository;
 use \App\Services\Service;
+use Illuminate\Support\Facades\Log;
 
 class AnimalService extends Service
 {
@@ -38,12 +39,17 @@ class AnimalService extends Service
         return $this->animalRepository->getAnimals($validated);
     }
 
-    public function deleteAnimal(Animal $animal)
+    public function deleteAnimal(int $animalId): bool
     {
         try {
-            return $animal->delete();
+            $animal = Animal::query()->findOrFail($animalId);
+            $result = $animal->delete();
+            if ($result) {
+                return true;
+            }
         } catch (\Exception $e) {
-            return false;
+            Log::error(__METHOD__ . " " . $e->getMessage());
         }
+        return false;
     }
 }

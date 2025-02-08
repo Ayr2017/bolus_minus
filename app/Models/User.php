@@ -54,6 +54,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
         ];
     }
 
@@ -62,12 +63,12 @@ class User extends Authenticatable
         return $this->hasMany(Employee::class, 'user_id', 'id');
     }
 
-    public function currentEmployee():BelongsTo
+    public function currentEmployee(): BelongsTo
     {
         return $this->belongsTo(Employee::class, 'current_employee_id', 'id');
     }
 
-    public function setCurrentEmployee(Employee $employee):bool
+    public function setCurrentEmployee(Employee $employee): bool
     {
         return $this->update([
             'current_employee_id' => $employee->id,
@@ -77,7 +78,7 @@ class User extends Authenticatable
     public function fullName(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->name." ".$this->surname,
+            get: fn() => $this->name . " " . $this->surname,
         );
     }
 }

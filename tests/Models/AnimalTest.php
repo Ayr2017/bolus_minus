@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 
 class AnimalTest extends TestCase
 {
-    /** @test */
     public function it_should_behave_as_expected()
     {
         $this->assertTrue(true);

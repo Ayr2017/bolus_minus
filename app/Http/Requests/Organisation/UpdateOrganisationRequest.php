@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Organisation;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use App\Enums\ActivityCategory;
 
 class UpdateOrganisationRequest extends FormRequest
 {
@@ -26,15 +28,16 @@ class UpdateOrganisationRequest extends FormRequest
             'structural_unit_id' => ['nullable', 'exists:structural_units,id'],
             'parent_id' => ['nullable', 'exists:organisations,id'],
             'is_active' => ['nullable', 'boolean'],
-            'users'=> 'nullable|string',
-            'abbreviated'=> 'nullable|string',
-            'inn'=> 'nullable|integer',
-            'region'=> 'nullable|string',
-            'district'=> 'nullable|string',
-            'adress'=> 'nullable|string',
-            'uuid'=>'nullable|string',
-            'category_actives_id' => 'nullable|integer|exists:category_actives,id',
-            'department'=>'nullable|string',
+            'users' => 'nullable|string',
+            'abbreviated' => 'nullable|string',
+            'inn' => 'nullable|integer',
+            'region' => 'nullable|string',
+            'district' => 'nullable|string',
+            'address' => 'nullable|string',
+            'uuid' => 'nullable|string',
+            // 'category_actives_id' => 'nullable|integer|exists:category_actives,id',
+            'activity_category' => ['required', Rule::enum(ActivityCategory::class)],
+            'department' => 'nullable|string',
         ];
     }
 }

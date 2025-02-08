@@ -14,7 +14,7 @@ use Tests\TestCase;
     protected function setUp(): void
     {
         parent::setUp();
-        $this->artisan('db:seed');
+        $this->artisan('db:seed --class=StructuralUnitSeeder');
     }
 
     public function test_index_for_admin()

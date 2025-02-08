@@ -7,7 +7,6 @@ use App\Http\Requests\Organisation\IndexOrganisationRequest;
 use App\Http\Requests\Organisation\ShowOrganisationRequest;
 use App\Http\Requests\Organisation\StoreOrganisationRequest;
 use App\Http\Requests\Organisation\UpdateOrganisationRequest;
-use App\Models\CategoryActive;
 use App\Models\Organisation;
 use App\Models\StructuralUnit;
 use App\Services\Organisation\OrganisationService;
@@ -44,10 +43,10 @@ class OrganisationsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreOrganisationRequest $request, OrganisationService $organisationService):View|RedirectResponse
+    public function store(StoreOrganisationRequest $request, OrganisationService $organisationService): View|RedirectResponse
     {
-        $organisation =$organisationService->storeOrganisation($request->validated());
-        if($organisation){
+        $organisation = $organisationService->storeOrganisation($request->validated());
+        if ($organisation) {
             return redirect()->route('organisations.index')->with('success', 'Organisation created successfully.');
         }
 
@@ -57,11 +56,11 @@ class OrganisationsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ShowOrganisationRequest $organisationRequest,Organisation $organisation): View
+    public function show(ShowOrganisationRequest $organisationRequest, Organisation $organisation): View
     {
         $parents = Organisation::all()->except([$organisation->id]);
         $structuralUnits = StructuralUnit::all();
-        $category_activ = CategoryActive::all();
+        // $category_activ = CategoryActive::all();
         return view('organisations.show', [
             'organisation' => $organisation,
             'title' => "Edit Organisation",
@@ -73,7 +72,7 @@ class OrganisationsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(EditOrganisationRequest $request, Organisation  $organisation):View
+    public function edit(EditOrganisationRequest $request, Organisation  $organisation): View
     {
 
         $parents = Organisation::all()->except([$organisation->id]);
@@ -89,14 +88,14 @@ class OrganisationsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateOrganisationRequest $request, Organisation $organisation, OrganisationService $organisationService):RedirectResponse
+    public function update(UpdateOrganisationRequest $request, Organisation $organisation, OrganisationService $organisationService): RedirectResponse
     {
         $organisation = $organisationService->updateOrganisation($request->validated(), $organisation);
-        if($organisation){
-            return redirect()->route('organisations.show',['organisation' => $organisation])->with('message', 'Organisation updated successfully.');
+        if ($organisation) {
+            return redirect()->route('organisations.show', ['organisation' => $organisation])->with('message', 'Organisation updated successfully.');
         }
 
-        return redirect()->back()->withErrors(['message' =>'An error occurred while updating the organisation.'])->withInput();
+        return redirect()->back()->withErrors(['message' => 'An error occurred while updating the organisation.'])->withInput();
     }
 
     /**
