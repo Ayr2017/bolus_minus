@@ -22,6 +22,7 @@ jobs:
         with:
           php-version: 8.2 # Укажите версию PHP, подходящую для вашего проекта
           tools: composer, phpunit
+          coverage: none
 
       - name: Remove Cache and Vendor
         run: rm -rf vendor composer.lock
@@ -29,13 +30,23 @@ jobs:
       - name: Install Dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
+      - name: Prepare Environment
+        run: |
+          cp .env.example .env
+          echo "APP_KEY=${{ secrets.APP_KEY }}" >> .env
+          echo "DB_CONNECTION=sqlite" >> .env
+          touch database/database.sqlite
+
       - name: Prepare .env
         run: |
           cp .env.example .env
           echo "APP_KEY=${{ secrets.APP_KEY }}" >> .env
 
+      - name: Run Migrations
+        run: php artisan migrate --force
+
       - name: Run Tests
-        run: XDEBUG_MODE=off php artisan test
+        run: php -d memory_limit=-1 artisan test
 
   deploy:
     name: Deploy Backend to Production
