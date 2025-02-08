@@ -55,11 +55,17 @@ jobs:
           echo "DB_USERNAME=test_user" >> .env
           echo "DB_PASSWORD=test_password" >> .env
 
+      - name: Check PostgreSQL Connection
+        run: pg_isready -h localhost -p 5432 -U test_user
+
       - name: Run Migrations
         run: php artisan migrate --force
 
-      - name: Run Specific Test (UserTest)
-        run: XDEBUG_MODE=off php artisan test --filter=Tests\\Unit\\UserTest --debug
+      - name: List PHPUnit Tests
+        run: XDEBUG_MODE=off vendor/bin/phpunit --list-tests
+
+      - name: Run Tests
+        run: XDEBUG_MODE=off php artisan test --stop-on-error --debug
 
   deploy:
     name: Deploy Backend to Production
