@@ -61,8 +61,9 @@ jobs:
       - name: Run Migrations
         run: php artisan migrate --force
 
-      - name: List PHPUnit Tests
-        run: XDEBUG_MODE=off vendor/bin/phpunit --list-tests
+      - name: List PostgreSQL Tables
+        run: |
+          PGPASSWORD=test_password psql -h localhost -U test_user -d test_db -c "\dt"
 
       - name: Run Tests
         run: XDEBUG_MODE=off php artisan test --stop-on-error --debug
