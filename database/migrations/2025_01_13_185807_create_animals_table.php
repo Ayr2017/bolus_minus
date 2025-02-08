@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('number')->unique();
             $table->unsignedBigInteger('organisation_id');
-            $table->dateTime('birthday')->nullable();
+            $table->dateTime('birthday');
             $table->foreignId('breed_id')->nullable()->constrained('breeds');
             $table->string('number_rshn')->nullable();
             $table->foreignId('bolus_id')->nullable()->constrained('boluses');
@@ -27,10 +27,11 @@ return new class extends Migration
             $table->string('tag_color')->nullable();
             $table->string('number_collar')->nullable();
             $table->foreignId('status_id')->nullable()->constrained('statuses');
-            $table->enum('sex',['female', 'male'])->nullable();
+            $table->enum('sex', ['female', 'male'])->nullable();
             $table->dateTime('withdrawn_at')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -39,6 +40,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('animals');
+        Schema::table('animals', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 };

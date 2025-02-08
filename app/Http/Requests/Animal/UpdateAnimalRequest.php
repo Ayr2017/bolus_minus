@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Animal;
 
-use App\Models\Animal;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateAnimalRequest extends FormRequest
 {
@@ -22,23 +22,24 @@ class UpdateAnimalRequest extends FormRequest
      */
     public function rules(): array
     {
+
         return [
-            'name' => 'nullable|string',
-            'number' => 'nullable|string|unique:animals,number,'.$this->animal->id,
-            'organisation_id' => 'nullable|exists:organisations,id',
-            'birthday' => 'nullable|date',
-            'breed_id' => 'nullable|exists:breeds,id',
-            'number_rshn' => 'nullable|string|unique:animals,number_rshn,'.$this->animal->id,
+            'name' => 'required|string',
+            'number' => ['required', 'string', Rule::unique('animals', 'number')->ignore($this->route('animal'))],
+            'organisation_id' => 'sometimes|exists:organisations,id',
+            'birthday' => 'required|date',
+            'breed_id' => 'sometimes|exists:breeds,id',
+            'number_rshn' => ['nullable', 'string', Rule::unique('animals', 'number_rshn')->ignore($this->route('animal'))],
             'bolus_id' => 'nullable|exists:boluses,id',
-            'number_rf'=>'nullable|string|unique:animals,number_rf,'.$this->animal->id,
-            'number_tavro' => 'nullable|string|unique:animals,number_tavro,'.$this->animal->id,
-            'number_tag'=>'nullable|string|unique:animals,number_tag,'.$this->animal->id,
+            'number_rf' => ['nullable', 'string', Rule::unique('animals', 'number_rf')->ignore($this->route('animal'))],
+            'number_tavro' => ['nullable', 'string', Rule::unique('animals', 'number_tavro')->ignore($this->route('animal'))],
+            'number_tag' => ['nullable', 'string', Rule::unique('animals', 'number_tag')->ignore($this->route('animal'))],
             'tag_color' => 'nullable|string',
-            'number_collar'=>'nullable|string',
-            'status_id' => 'nullable|integer|exists:statuses,id',
-            'sex'=>'nullable|in:male,female',
-            'withdrawn_at'=>'nullable|date',
-            'is_active'=>'nullable|boolean',
+            'number_collar' => 'nullable|string',
+            'status_id' => 'sometimes|integer|exists:statuses,id',
+            'sex' => 'nullable|in:male,female',
+            'withdrawn_at' => 'nullable|date|after_or_equal:birthday',
+            'is_active' => 'nullable|boolean',
         ];
     }
 }

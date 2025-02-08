@@ -29,7 +29,7 @@ class UpdateCoatColorRequest extends FormRequest
                 Rule::unique('coat_colors', 'name')->ignore($this->route('coat_color'))
             ],
             'description' => 'nullable|string',
-            'is_active'=>'nullable|boolean',
+            'is_active' => 'nullable|boolean',
         ];
     }
 }
