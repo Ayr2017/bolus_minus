@@ -23,6 +23,9 @@ jobs:
           php-version: 8.2 # Укажите версию PHP, подходящую для вашего проекта
           tools: composer, phpunit
           coverage: none
+          
+      - name: Disable OpCache
+        run: echo "opcache.enable_cli=0" > /etc/php/8.2/cli/conf.d/10-opcache.ini
 
       - name: Remove Cache and Vendor
         run: rm -rf vendor composer.lock
