@@ -43,7 +43,7 @@ jobs:
 
       - name: Run Tests
         run: |
-          ./vendor/bin/phpunit --configuration phpunit.xml --testdox --stop-on-error --stop-on-failure
+          ./vendor/bin/phpunit --configuration phpunit.xml --testdox --stop-on-error --stop-on-failure --debug
 
   deploy:
     name: Deploy Backend to Production
