@@ -120,6 +120,8 @@ use Carbon\Carbon;
         $animal = Animal::factory()->create();
         $data = [
             'name' => 'Updated Test Animal',
+            'birthday' => '2000-01-01 00:00:00',
+            'number' => 'Updated Test Number',
         ];
 
         $response = $this->actingAs($this->admin)->put(route('animals.update', $animal->id), $data);
@@ -142,7 +144,7 @@ use Carbon\Carbon;
     public function test_destroy_for_admin()
     {
         $animal = Animal::factory()->create();
-        $response = $this->actingAs($this->admin)->delete(route('animals.destroy', $animal->id));
+        $response = $this->actingAs($this->admin)->delete(route('animals.destroy', $animal));
         $response->assertStatus(302);
         $response->assertRedirect(route('animals.index'));
         $this->assertSoftDeleted('animals', ['id' => $animal->id]);

@@ -148,7 +148,7 @@ use Laravel\Sanctum\Sanctum;
     {
         $item = Animal::query()->first();
 
-        $response = $this->actingAs($this->admin)->json('GET', route('api.animals.show', $item), ['animal_group' => $item->id]);
+        $response = $this->actingAs($this->admin)->json('GET', route('api.animals.show', $item), ['animal' => $item->id]);
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -208,7 +208,7 @@ use Laravel\Sanctum\Sanctum;
     {
         $item = Animal::query()->first();
 
-        $response = $this->actingAs($this->user)->json('GET', route('api.animals.show', $item), ['animal_group' => $item->id]);
+        $response = $this->actingAs($this->user)->json('GET', route('api.animals.show', $item), ['animal' => $item->id]);
 
         $response->assertOk();
 

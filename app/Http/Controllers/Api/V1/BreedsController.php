@@ -28,13 +28,12 @@ class BreedsController extends Controller
         try {
             $breeds = $breedService->getBreeds($request->validated());
             return ApiResponse::success(BreedResource::paginatedCollection($breeds));
-        }catch (\Throwable $throwable){
-            ErrorLog::write(__METHOD__,__LINE__,$throwable->getMessage());
+        } catch (\Throwable $throwable) {
+            ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
         }
 
         return ApiResponse::error('Something went wrong!');
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -48,8 +47,8 @@ class BreedsController extends Controller
             $breed = $breedService->storeBreed($request->validated());
 
             return ApiResponse::success(new BreedResource($breed));
-        } catch (\Throwable $throwable){
-            ErrorLog::write(__METHOD__,__LINE__,$throwable->getMessage());
+        } catch (\Throwable $throwable) {
+            ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
         }
 
         return ApiResponse::error('Something went wrong!');
@@ -73,7 +72,6 @@ class BreedsController extends Controller
 
         return ApiResponse::error('Something went wrong!');
     }
-
 
     /**
      * Update the specified resource in storage.

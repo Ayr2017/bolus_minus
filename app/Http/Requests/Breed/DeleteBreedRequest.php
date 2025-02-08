@@ -22,7 +22,7 @@ class DeleteBreedRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'breed' => ['required', 'integer' ,'exists:breeds,id'],
+            // 'breed' => ['required', 'integer' ,'exists:breeds,id'],
         ];
     }
 

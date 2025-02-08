@@ -15,16 +15,16 @@ class BreedService extends Service
         parent::__construct();
     }
 
-    public function deleteBreed(int $breedId):bool
+    public function deleteBreed(int $breedId): bool
     {
         try {
             $breed = Breed::query()->findOrFail($breedId);
             $result  = $breed->delete();
-            if($result){
+            if ($result) {
                 return true;
             }
         } catch (\Exception $e) {
-            Log::error(__METHOD__." ".$e->getMessage());
+            Log::error(__METHOD__ . " " . $e->getMessage());
         }
         return false;
     }
@@ -34,11 +34,11 @@ class BreedService extends Service
         try {
             $breed = Breed::query()->findOrFail($breedID);
             $result = $breed->update($validated);
-            if($result){
+            if ($result) {
                 return $breed;
             }
         } catch (\Exception $e) {
-            Log::error(__METHOD__." ".$e->getMessage());
+            Log::error(__METHOD__ . " " . $e->getMessage());
         }
         return null;
     }
@@ -47,25 +47,24 @@ class BreedService extends Service
     {
         try {
             $breed = Breed::query()->create($data);
-            if($breed){
+            if ($breed) {
                 return $breed;
             }
         } catch (\Exception $e) {
-            Log::error(__METHOD__." ".$e->getMessage());
+            Log::error(__METHOD__ . " " . $e->getMessage());
         }
         return null;
-
     }
 
     public function show(int $id)
     {
         try {
             $breed = Breed::query()->findOrFail($id);
-            if($breed){
+            if ($breed) {
                 return $breed;
             }
-        }catch (\Exception $e){
-            Log::error(__METHOD__." ".$e->getMessage());
+        } catch (\Exception $e) {
+            Log::error(__METHOD__ . " " . $e->getMessage());
         }
     }
 

@@ -55,12 +55,14 @@ class AnimalsController extends Controller
 
     /**
      * @param ShowAnimalRequest $request
+     * @param Animal $animal
      * @return JsonResponse
      */
-    public function show(ShowAnimalRequest $request, int $animal): JsonResponse
+    public function show(ShowAnimalRequest $request, Animal $animal): JsonResponse
     {
         try {
-            return ApiResponse::success(['animal' => AnimalResource::make(Animal::query()->find($animal))]);
+            $animal = $this->animalService->show($animal);
+            return ApiResponse::success(['animal' => new AnimalResource($animal)]);
         } catch (\Throwable $throwable) {
             ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
         }
@@ -86,13 +88,15 @@ class AnimalsController extends Controller
     }
 
     /**
-     * @param int $animal
+     * @param DeleteCoatColorRequest $request
+     * @param Animal $animal
      * @return JsonResponse
      */
-    public function destroy(DeleteAnimalRequest $request,  int $animal): JsonResponse
+    public function destroy(DeleteAnimalRequest $request,  Animal $animal): JsonResponse
     {
         try {
-            return ApiResponse::success($this->animalService->deleteAnimal($animal));
+            $animal = $this->animalService->delete($animal);
+            return ApiResponse::success($animal);
         } catch (\Throwable $throwable) {
             ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
         }

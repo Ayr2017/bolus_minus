@@ -15,12 +15,6 @@ use Illuminate\Database\QueryException;
 {
     use RefreshDatabase;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->organisations = Organisation::factory()->count(5)->create();
-    }
-
     public function test_mass_assignment()
     {
         $data = [
@@ -149,14 +143,16 @@ use Illuminate\Database\QueryException;
         $animal1 = $result->animals()->create([
             'name' => 'Имя1',
             'number' => '111111',
-            'organisation_id' => $this->organisations->first()->id,
+            'organisation_id' => 1,
+            'birthday' => '2000-01-01',
         ]);
 
 
         $animal2 = $result->animals()->create([
             'name' => 'Имя2',
             'number' => '222222',
-            'organisation_id' => $this->organisations->first()->id,
+            'organisation_id' => 1,
+            'birthday' => '2000-01-01',
         ]);
 
         $this->assertCount(2, $result->animals);
