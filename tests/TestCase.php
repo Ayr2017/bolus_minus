@@ -12,6 +12,10 @@ abstract class TestCase extends BaseTestCase
 {
     protected function setUp(): void
     {
+        // TODO: для теста тестов, потом убрать
+        $dbConnection = env('DB_CONNECTION');
+        echo "DB_CONNECTION: " . $dbConnection . "\n";
+
         parent::setUp();
 
         Artisan::call('db:seed', ['--class' => 'DatabaseSeeder']);
