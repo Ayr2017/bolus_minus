@@ -41,10 +41,6 @@ jobs:
           echo "DB_CONNECTION=sqlite" >> .env.testing
           echo "DB_DATABASE=:memory:" >> .env.testing
 
-      - name: Display Env
-        run: |
-          printenv
-
       - name: Run Tests
         run: |
           ./vendor/bin/phpunit --configuration phpunit.xml --testdox --stop-on-error --stop-on-failure --debug
