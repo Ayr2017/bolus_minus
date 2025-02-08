@@ -15,6 +15,7 @@ jobs:
     env:
       ADMIN_EMAIL: "admin@admin.ad"
       ADMIN_PASSWORD: "123123"
+      APP_KEY: "base64:ZOCacDmAEVdDN70IeumxNtAYX6ToE8mK+JmznnapW64="
 
     steps:
       - name: Checkout Code
@@ -43,7 +44,7 @@ jobs:
 
       - name: Run Tests
         #run: ./vendor/bin/phpunit --configuration phpunit.xml --testdox --stop-on-error --stop-on-failure --debug
-        run: XDEBUG_MODE=off php artisan test --stop-on-error --debug
+        run: XDEBUG_MODE=off php artisan test --stop-on-error
 
   deploy:
     name: Deploy Backend to Production
