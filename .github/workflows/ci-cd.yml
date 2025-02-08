@@ -12,20 +12,6 @@ jobs:
   build:
     name: Build and Test Backend
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:15
-        env:
-          POSTGRES_DB: test_db
-          POSTGRES_USER: test_user
-          POSTGRES_PASSWORD: test_password
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
 
     steps:
       - name: Checkout Code
@@ -38,35 +24,26 @@ jobs:
           tools: composer, phpunit
           coverage: none
 
+      - name: Clear Laravel Cache
+        run: php artisan config:clear && php artisan cache:clear && php artisan view:clear
+
       - name: Remove Cache and Vendor
         run: rm -rf vendor composer.lock
 
       - name: Install Dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
-      - name: Setup Environment for PostgreSQL
+      - name: Set Up Testing Environment
         run: |
-          cp .env.example .env
-          echo "APP_KEY=${{ secrets.APP_KEY }}" >> .env
-          echo "DB_CONNECTION=pgsql" >> .env
-          echo "DB_HOST=localhost" >> .env
-          echo "DB_PORT=5432" >> .env
-          echo "DB_DATABASE=test_db" >> .env
-          echo "DB_USERNAME=test_user" >> .env
-          echo "DB_PASSWORD=test_password" >> .env
+          cp .env.example .env.testing
+          echo "DB_CONNECTION=sqlite" >> .env.testing
+          echo "DB_DATABASE=/home/runner/work/bolus-backend/bolus-backend/database/database.sqlite" >> .env.testing
 
-      - name: Check PostgreSQL Connection
-        run: pg_isready -h localhost -p 5432 -U test_user
-
-      - name: Check Laravel Database Connection
-        run: php artisan tinker --execute="dump(DB::connection()->getDatabaseName())"
+      - name: Create SQLite Database
+        run: touch database/database.sqlite
 
       - name: Run Migrations
         run: php artisan migrate --force
-
-      - name: List PostgreSQL Tables
-        run: |
-          PGPASSWORD=test_password psql -h localhost -U test_user -d test_db -c "\dt"
 
       - name: Run Tests
         run: XDEBUG_MODE=off php artisan test --stop-on-error --debug
