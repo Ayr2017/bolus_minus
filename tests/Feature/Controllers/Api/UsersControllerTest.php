@@ -202,7 +202,6 @@ use Illuminate\Support\Facades\Hash;
         ]);
     }
 
-
     public function test_update_for_admin()
     {
         $item = User::query()->first();
@@ -242,8 +241,8 @@ use Illuminate\Support\Facades\Hash;
                 'email' => $updatedData['email'],
                 'phone' => $item->phone,
                 'is_active' => $updatedData['is_active'],
-                'created_at' => $item->created_at,
-                'updated_at' => $item->updated_at,
+                'created_at' => $item->created_at->toDateTimeString(),
+                'updated_at' => $item->updated_at->toDateTimeString(),
                 'lastname' => $item->lastname,
                 'roles' => $item->getRoleNames()->toArray(),
                 'organisations' => $item->employees->pluck('organisation')->toArray(),

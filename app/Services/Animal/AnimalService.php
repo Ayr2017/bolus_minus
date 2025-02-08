@@ -43,10 +43,19 @@ class AnimalService extends Service
         return $this->animalRepository->getAnimals($validated);
     }
 
-    public function deleteAnimal(int $animalId): bool
+    public function show(Animal $animal): ?Animal
     {
         try {
-            $animal = Animal::query()->findOrFail($animalId);
+            return $animal;
+        } catch (\Exception $e) {
+            Log::error(__METHOD__ . " " . $e->getMessage());
+        }
+        return null;
+    }
+
+    public function delete(Animal $animal): bool
+    {
+        try {
             $result = $animal->delete();
             if ($result) {
                 return true;

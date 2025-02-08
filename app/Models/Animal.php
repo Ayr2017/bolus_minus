@@ -38,10 +38,9 @@ class Animal extends Model
 
     protected $casts = [
         'birthday' => 'datetime',
+        'withdrawn_at' => 'datetime',
         'is_active' => 'boolean',
     ];
-
-    // public mixed $birthday;
 
     public static function boot(): void
     {

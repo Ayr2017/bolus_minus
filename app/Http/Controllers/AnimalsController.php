@@ -93,7 +93,7 @@ class AnimalsController extends Controller
      */
     public function update(UpdateAnimalRequest $request, Animal $animal, AnimalService $animalService)
     {
-        $animal = $animalService->updateAnimal($request->validated(), $animal);
+        $animal = $animalService->update($request->validated(), $animal);
         if ($animal) {
             return redirect()->route('animals.index')->with('message', 'Animal updated successfully.');
         }
@@ -103,9 +103,9 @@ class AnimalsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $animalId, AnimalService $animalService)
+    public function destroy(Animal $animal, AnimalService $animalService)
     {
-        $deleted = $animalService->deleteAnimal($animalId);
+        $deleted = $animalService->delete($animal);
 
         if ($deleted) {
             return redirect()->route('animals.index')->with('message', 'Animal deleted successfully.');

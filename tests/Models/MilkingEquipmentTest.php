@@ -14,8 +14,6 @@ use App\Enums\EquipmentType;
 use Illuminate\Validation\ValidationException;
 
 
-
-
 #[AllowDynamicProperties] class MilkingEquipmentTest extends TestCase
 {
     use RefreshDatabase;
@@ -277,6 +275,7 @@ use Illuminate\Validation\ValidationException;
         ]);
     }
 
+    // TODO: привести organiZation и organiSation к одному виду по всему проекту
     public function test_milking_equipment_organization_is_organization()
     {
         $organization = Organisation::factory()->create();
