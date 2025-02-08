@@ -43,7 +43,7 @@ jobs:
 
       - name: Run Tests
         run: |
-          ./vendor/bin/phpunit --configuration phpunit.xml --verbose
+          ./vendor/bin/phpunit --configuration phpunit.xml ----testdox
 
   deploy:
     name: Deploy Backend to Production
