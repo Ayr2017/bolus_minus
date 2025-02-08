@@ -35,7 +35,7 @@ jobs:
           echo "APP_KEY=${{ secrets.APP_KEY }}" >> .env
 
       - name: Run Tests
-        run: XDEBUG_MODE=off php -d memory_limit=-1 artisan test
+        run: XDEBUG_MODE=off php artisan test
 
   deploy:
     name: Deploy Backend to Production
