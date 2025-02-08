@@ -58,6 +58,9 @@ jobs:
       - name: Check PostgreSQL Connection
         run: pg_isready -h localhost -p 5432 -U test_user
 
+      - name: Check Laravel Database Connection
+        run: php artisan tinker --execute="dump(DB::connection()->getDatabaseName())"
+
       - name: Run Migrations
         run: php artisan migrate --force
 
