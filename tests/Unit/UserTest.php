@@ -2,7 +2,6 @@
 
 namespace Tests\Unit;
 
-use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -18,10 +17,8 @@ class UserTest extends TestCase
      */
     public function test_user_creation()
     {
-        $employee = Employee::factory()->create();
         // Создание пользователя с помощью фабрики
         $user = User::factory()->create([
-            'current_employee_id' => $employee->id,
             'name' => 'John Doe',
             'email' => 'john@example.com',
         ]);
