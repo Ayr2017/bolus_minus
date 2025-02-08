@@ -23,6 +23,9 @@ jobs:
           php-version: 8.2 # Укажите версию PHP, подходящую для вашего проекта
           tools: composer, phpunit
 
+      - name: Remove Cache and Vendor
+        run: rm -rf vendor composer.lock
+
       - name: Install Dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
@@ -32,7 +35,7 @@ jobs:
           echo "APP_KEY=${{ secrets.APP_KEY }}" >> .env
 
       - name: Run Tests
-        run: php artisan test
+        run: XDEBUG_MODE=off php -d memory_limit=-1 artisan test
 
   deploy:
     name: Deploy Backend to Production
