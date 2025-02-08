@@ -25,16 +25,20 @@ class AnimalService extends Service
         return null;
     }
 
-    public function updateAnimal(array $data, Animal $animal): ?Animal
+    public function update(array $validated, Animal $animal): ?Animal
     {
-        $result = $animal->update($data);
-        if ($result) {
-            return $animal;
+        try {
+            $result = $animal->update($validated);
+            if ($result) {
+                return $animal;
+            }
+        } catch (\Exception $e) {
+            Log::error(__METHOD__ . " " . $e->getMessage());
         }
         return null;
     }
 
-    public function getAnimals(mixed $validated)
+    public function index(mixed $validated)
     {
         return $this->animalRepository->getAnimals($validated);
     }

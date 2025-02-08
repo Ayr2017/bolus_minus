@@ -4,63 +4,35 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Helpers\ErrorLog;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Animal\DeleteAnimalRequest;
-use App\Http\Requests\Animal\GetAnimalsRequest;
-use App\Http\Requests\Animal\ShowAnimalRequest;
+use App\Http\Requests\Animal\IndexAnimalsRequest;
 use App\Http\Requests\Animal\StoreAnimalRequest;
+use App\Http\Requests\Animal\ShowAnimalRequest;
 use App\Http\Requests\Animal\UpdateAnimalRequest;
+use App\Http\Requests\Animal\DeleteAnimalRequest;
 use App\Http\Resources\Animal\AnimalResource;
-use App\Http\Resources\BolusResource;
-use App\Http\Resources\Breed\BreedResource;
-use App\Http\Resources\Organisation\OrganisationResource;
-use App\Http\Resources\StatusResource;
 use App\Http\Responses\ApiResponse;
 use App\Models\Animal;
-use App\Models\Bolus;
-use App\Models\Breed;
-use App\Models\Organisation;
-use App\Models\Status;
 use App\Services\Animal\AnimalService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Spatie\QueryBuilder\QueryBuilder;
 
 class AnimalsController extends Controller
 {
     public function __construct(readonly AnimalService $animalService) {}
 
     /**
-     * @param GetAnimalsRequest $request
+     * @param IndexAnimalsRequest $request
      * @return JsonResponse
      */
-    public function index(GetAnimalsRequest $request): JsonResponse
+    public function index(IndexAnimalsRequest $request): JsonResponse
     {
         try {
-            $animals = $this->animalService->getAnimals($request->validated());
+            $animals = $this->animalService->index($request->validated());
             return ApiResponse::success(AnimalResource::paginatedCollection($animals));
         } catch (\Throwable $throwable) {
             ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
         }
 
         return ApiResponse::error('Something went wrong!');
-    }
-
-    /**
-     *
-     * @return JsonResponse
-     */
-    public function create()
-    {
-        $organisations = OrganisationResource::collection(Organisation::all());
-        $breeds = BreedResource::collection(Breed::all());
-        $bolus = BolusResource::collection(Bolus::all());
-        $status = StatusResource::collection(Status::all());
-        return response()->json([
-            'organisations' => $organisations,
-            'breeds' => $breeds,
-            'bolus' => $bolus,
-            'status' => $status
-        ]);
     }
 
     /**
@@ -97,39 +69,19 @@ class AnimalsController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource
-     * @param Animal $animal
-     */
-    public function edit(Animal $animal)
-    {
-        $organisations = OrganisationResource::collection(Organisation::all());
-        $breeds = BreedResource::collection(Breed::all());
-        $bolus = BolusResource::collection(Bolus::all());
-        $status = StatusResource::collection(Status::all());
-        return response()->json([
-            'animal' => $animal,
-            'organisations' => $organisations,
-            'breeds' => $breeds,
-            'bolus' => $bolus,
-            'status' => $status
-        ]);
-    }
-
-    /**
-     * Update the specified resource in storage.
      * @param UpdateAnimalRequest $request
      * @param Animal $animal
      * @return JsonResponse
      */
-    public function update(UpdateAnimalRequest $request, Animal $animal): JsonResponse
+    public function update(UpdateAnimalRequest $request,  Animal $animal): JsonResponse
     {
         try {
-            $data = $request->validated();
-            $animal->update($data);
-            return ApiResponse::success(AnimalResource::make($animal));
+            $animal = $this->animalService->update($request->validated(), $animal);
+            return ApiResponse::success(new AnimalResource($animal));
         } catch (\Throwable $throwable) {
             ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
         }
+
         return ApiResponse::error('Something went wrong!');
     }
 
@@ -137,10 +89,10 @@ class AnimalsController extends Controller
      * @param int $animal
      * @return JsonResponse
      */
-    public function destroy(DeleteAnimalRequest $request, AnimalService $animalService, int $animal): JsonResponse
+    public function destroy(DeleteAnimalRequest $request,  int $animal): JsonResponse
     {
         try {
-            return ApiResponse::success($animalService->deleteAnimal($animal));
+            return ApiResponse::success($this->animalService->deleteAnimal($animal));
         } catch (\Throwable $throwable) {
             ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
         }

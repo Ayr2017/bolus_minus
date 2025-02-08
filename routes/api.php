@@ -29,7 +29,7 @@ Route::post('/sanctum/token', [SanctumController::class, 'createToken']);
 Route::prefix('v1')
     ->middleware(['auth:sanctum'])
     ->group(function () {
-        Route::resource('animals', AnimalsController::class);
+        Route::apiResource('animals', AnimalsController::class);
         Route::apiResource('animal-groups', AnimalGroupsController::class);
         Route::apiResource('boluses', BolusesController::class);
         Route::apiResource('breeds', BreedsController::class);

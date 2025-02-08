@@ -2,7 +2,6 @@
 
 namespace App\Repositories\Animal;
 
-use App\Http\Resources\Animal\AnimalResource;
 use App\Models\Animal;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -33,7 +32,6 @@ class AnimalRepository
             }
         }
 
-
         if (!empty($validated['bolus_number'])) {
             $query->whereHas('bolus', function ($q) use ($validated) {
                 $q->where('number', 'like', '%' . $validated['bolus_number'] . '%');
@@ -42,7 +40,7 @@ class AnimalRepository
         if (isset($validated['bolus_active'])) {
             if ($validated['bolus_active'] === true) {
                 $query->whereNotNull('bolus_id');
-            }else $query->whereNull('bolus_id');
+            } else $query->whereNull('bolus_id');
         }
         return $query->paginate($perPage);
     }

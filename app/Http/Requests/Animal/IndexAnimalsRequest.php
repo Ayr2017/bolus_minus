@@ -4,7 +4,7 @@ namespace App\Http\Requests\Animal;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class GetAnimalsRequest extends FormRequest
+class IndexAnimalsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,15 +22,15 @@ class GetAnimalsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'per_page' => 'nullable|integer|min:1',
-            'page' => 'nullable|integer|min:1',
-            'uuid'=>'nullable|string',
+            'per_page' => ['nullable', 'integer', 'min:1', 'max:100'],
+            'page' => ['nullable', 'integer', 'min:1', 'max:100'],
+            'uuid' => 'nullable|string',
             'select' => 'nullable|array',
-            'bolus_number'=>'nullable|string|exists:boluses,number',
+            'bolus_number' => 'nullable|string|exists:boluses,number',
             'number' => 'nullable|string',
             'number_rshn' => 'nullable|string',
             'number_tavro' => 'nullable|string',
-            'bolus_active'=>'nullable|boolean',
+            'bolus_active' => 'nullable|boolean',
         ];
     }
 }
