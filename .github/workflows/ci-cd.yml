@@ -12,6 +12,9 @@ jobs:
   build:
     name: Build and Test Backend
     runs-on: ubuntu-latest
+    env:
+      ADMIN_EMAIL: "admin@admin.ad"
+      ADMIN_PASSWORD: "123123"
 
     steps:
       - name: Checkout Code
@@ -20,29 +23,26 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.2 # Укажите версию PHP, подходящую для вашего проекта
+          php-version: 8.2
           tools: composer, phpunit
           coverage: none
 
-      - name: Remove Cache and Vendor
-        run: rm -rf vendor composer.lock
+      - name: Cache Composer Dependencies
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
 
       - name: Install Dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
       - name: Set Up Testing Environment
-        run: |
-          cp .env.example .env.testing
-          echo "DB_CONNECTION=sqlite" >> .env.testing
-          echo "DB_DATABASE=/home/runner/work/bolus-backend/bolus-backend/database/database.sqlite" >> .env.testing
-
-      - name: Create SQLite Database
-        run: touch database/database.sqlite
-
-      - name: Run Migrations
-        run: php artisan migrate --force
+        run: cp .env.example .env.testing
 
       - name: Run Tests
+        #run: ./vendor/bin/phpunit --configuration phpunit.xml --testdox --stop-on-error --stop-on-failure --debug
         run: XDEBUG_MODE=off php artisan test --stop-on-error --debug
 
   deploy:
