@@ -24,9 +24,6 @@ jobs:
           tools: composer, phpunit
           coverage: none
 
-      - name: Clear Laravel Cache
-        run: php artisan config:clear && php artisan cache:clear && php artisan view:clear
-
       - name: Remove Cache and Vendor
         run: rm -rf vendor composer.lock
 
