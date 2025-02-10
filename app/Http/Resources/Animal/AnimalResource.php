@@ -27,6 +27,7 @@ class AnimalResource extends PaginatedJsonResponse
             'number_rf' => $this->number_rf,
             'number_tavro' => $this->number_tavro,
             'number_tag' => $this->number_tag,
+            'department'=>$this->organisation->department,
             'tag_color' => $this->tag_color,
             'number_collar' => $this->number_collar,
             'status_id' => $this->status_id,
