@@ -29,6 +29,7 @@ return new class extends Migration
             $table->foreignId('status_id')->nullable()->constrained('statuses');
             $table->enum('sex', ['female', 'male'])->nullable();
             $table->dateTime('withdrawn_at')->nullable();
+            $table->bigInteger('weight')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
             $table->softDeletes();
