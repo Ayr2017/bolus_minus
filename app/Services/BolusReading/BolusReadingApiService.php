@@ -51,7 +51,7 @@ class BolusReadingApiService extends Service
     {
         $query =[
             'deviceId' => $deviceNumber,
-            'startDate' => $this->getStartDate(),
+            'startDate' => $this->getStartDate($deviceNumber),
             'endDate' => $this->getEndDate(),
         ];
         $response = Http::withHeaders([
@@ -100,9 +100,9 @@ class BolusReadingApiService extends Service
 
     }
 
-    private function getStartDate()
+    private function getStartDate($deviceNumber): string
     {
-        $latestData = BolusReading::query()->latest('date')->first()?->date;
+        $latestData = BolusReading::query()->where('device_number',$deviceNumber)->latest('date')->first()?->date;
         if ($latestData) {
             return Carbon::make($latestData)->format('d.m.Y');
         }
