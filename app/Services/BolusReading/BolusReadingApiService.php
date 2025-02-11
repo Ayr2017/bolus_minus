@@ -78,7 +78,10 @@ class BolusReadingApiService extends Service
         if ($readingsArray['state'] != 'OK') {
             \Laravel\Prompts\info('failed');
         }
-        $results = $readingsArray['result'];
+        $results = $readingsArray['result'] ?? null;
+        if(!$results){
+            return;
+        }
         foreach ($results as $key => $result) {
             $code = strtolower($result['code']);
             foreach ($result['records'] as $record) {
