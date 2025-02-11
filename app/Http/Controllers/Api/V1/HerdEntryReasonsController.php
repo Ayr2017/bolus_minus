@@ -99,8 +99,7 @@ class HerdEntryReasonsController extends Controller
     public function destroy(DeleteHerdEntryReasonRequest $request, HerdEntryReasonService $herdEntryReasonService, HerdEntryReason $herdEntryReason): JsonResponse
     {
         try {
-            $herdEntryReason = $herdEntryReasonService->delete($herdEntryReason);
-            return ApiResponse::success($herdEntryReason);
+            return ApiResponse::success($herdEntryReasonService->delete($herdEntryReason));
         } catch (\Throwable $throwable) {
             ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
         }

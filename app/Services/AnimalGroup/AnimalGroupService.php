@@ -9,6 +9,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
+
 class AnimalGroupService extends Service
 {
     public function __construct()
@@ -17,19 +18,22 @@ class AnimalGroupService extends Service
     }
 
     /**
-     * @param int $animalGroupId
+     * @param AnimalGroup $animalGroup
      * @return bool
      */
-    public function deleteAnimalGroup(int $animalGroupId):bool
+    public function delete(AnimalGroup $animalGroup): bool
     {
+        if ($animalGroup->animals()->exists()) {
+            throw new \Exception('Animal group has animals');
+        }
+
         try {
-            $animalGroup = AnimalGroup::query()->findOrFail($animalGroupId);
-            $result  = $animalGroup->delete();
-            if($result){
+            $result = $animalGroup->delete();
+            if ($result) {
                 return true;
             }
         } catch (\Exception $e) {
-            Log::error(__METHOD__." ".$e->getMessage());
+            Log::error(__METHOD__ . " " . $e->getMessage());
         }
         return false;
     }
@@ -44,11 +48,11 @@ class AnimalGroupService extends Service
         try {
             $animalGroup = AnimalGroup::query()->findOrFail($animalGroupID);
             $result = $animalGroup->update($validated);
-            if($result){
+            if ($result) {
                 return $animalGroup;
             }
         } catch (\Exception $e) {
-            Log::error(__METHOD__." ".$e->getMessage());
+            Log::error(__METHOD__ . " " . $e->getMessage());
         }
         return null;
     }
@@ -62,26 +66,25 @@ class AnimalGroupService extends Service
 
         try {
             $animalGroup = AnimalGroup::query()->create($data);
-            if($animalGroup){
+            if ($animalGroup) {
                 return $animalGroup;
             }
         } catch (\Exception $e) {
-            Log::error(__METHOD__." ".$e->getMessage());
+            Log::error(__METHOD__ . " " . $e->getMessage());
         }
         return null;
-
     }
 
     /**
      * @param int $id
      * @return AnimalGroup|null
      */
-    public function show(AnimalGroup $animalGroup):?AnimalGroup
+    public function show(AnimalGroup $animalGroup): ?AnimalGroup
     {
         try {
             return  $animalGroup;
-        }catch (\Exception $e){
-            Log::error(__METHOD__." ".$e->getMessage());
+        } catch (\Exception $e) {
+            Log::error(__METHOD__ . " " . $e->getMessage());
         }
 
         return null;

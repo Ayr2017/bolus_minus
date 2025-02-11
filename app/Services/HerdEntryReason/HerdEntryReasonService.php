@@ -63,8 +63,16 @@ class HerdEntryReasonService extends Service
         return null;
     }
 
+    /**
+     * @param HerdEntryReason $herdEntryReason
+     * @return bool
+     */
     public function delete(HerdEntryReason $herdEntryReason): bool
     {
+        if ($herdEntryReason->animals()->exists()) {
+            throw new \Exception('HerdEntryReason has animals');
+        }
+
         try {
             $result = $herdEntryReason->delete();
             if ($result) {

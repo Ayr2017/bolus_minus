@@ -145,6 +145,7 @@ use Illuminate\Database\QueryException;
             'number' => '111111',
             'organisation_id' => 1,
             'birthday' => '2000-01-01',
+            'animal_group_id' => 1,
         ]);
 
 
@@ -153,6 +154,7 @@ use Illuminate\Database\QueryException;
             'number' => '222222',
             'organisation_id' => 1,
             'birthday' => '2000-01-01',
+            'animal_group_id' => 1,
         ]);
 
         $this->assertCount(2, $result->animals);

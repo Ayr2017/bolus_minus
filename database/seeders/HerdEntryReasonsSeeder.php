@@ -13,6 +13,10 @@ class HerdEntryReasonsSeeder extends Seeder
      */
     public function run(): void
     {
-        HerdEntryReason::factory(3)->create();
+        HerdEntryReason::insert([
+            ['name' => 'Покупка'],
+            ['name' => 'Рождение на предприятии'],
+            ['name' => 'Перевод с другого предприятия/отделения']
+        ]);
     }
 }

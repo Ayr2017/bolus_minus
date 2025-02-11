@@ -35,7 +35,6 @@ class DatabaseSeeder extends Seeder
             AnimalsSeeder::class,
             EmployeeSeeder::class,
             UserSeeder::class,
-
         ]);
     }
 }
