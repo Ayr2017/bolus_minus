@@ -3,7 +3,9 @@
 namespace Database\Factories;
 
 use App\Models\Animal;
+use App\Models\AnimalGroup;
 use App\Models\Breed;
+use App\Models\HerdEntryReason;
 use App\Models\Organisation;
 use App\Models\Status;
 use App\Models\Bolus;
@@ -32,6 +34,8 @@ class AnimalFactory extends Factory
             'number_collar' => strval($this->faker->randomNumber(6)),
             'status_id' => Status::inRandomOrder()->first()->id,
             'sex' => $this->faker->randomElement(['male', 'female']),
+            'entry_id'=> HerdEntryReason::inRandomOrder()->first()->id,
+            'group_id'=> AnimalGroup::inRandomOrder()->first()->id,
             'withdrawn_at' => null,
         ];
     }

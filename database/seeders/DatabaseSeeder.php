@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             DefaultUsersSeeder::class,
             StatusesSeeder::class,
             BreedsSeeder::class,
+            HerdEntryReasonsSeeder::class,
             AnimalGroupsSeeder::class,
             RestrictionReasonsSeeder::class,
             InseminationMethodsSeeder::class,
@@ -34,6 +35,7 @@ class DatabaseSeeder extends Seeder
             AnimalsSeeder::class,
             EmployeeSeeder::class,
             UserSeeder::class,
+
         ]);
     }
 }
