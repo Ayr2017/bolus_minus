@@ -210,7 +210,7 @@ use Illuminate\Support\Facades\Hash;
             'name' => 'Updated Test Name',
             'email' => 'updated@test.com',
             'password' => 'UpdatedPassword',
-            'is_active' => 0,
+            'is_active' => false,
         ];
 
         $response = $this->actingAs($this->admin)->putJson(route('api.users.update', $item), $updatedData);
@@ -233,6 +233,8 @@ use Illuminate\Support\Facades\Hash;
                 'organisations',
             ],
         ]);
+
+        $item = $item->fresh();
         $response->assertJson([
             'data' => [
                 'id' => $item->id,
