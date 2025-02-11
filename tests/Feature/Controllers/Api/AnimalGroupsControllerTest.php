@@ -4,6 +4,7 @@ namespace Tests\Feature\Controllers\Api;
 
 use AllowDynamicProperties;
 use App\Models\AnimalGroup;
+use App\Models\Animal;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\User;
@@ -234,17 +235,31 @@ use Laravel\Sanctum\Sanctum;
 
     public function test_destroy_for_admin()
     {
-        $animalGroup = AnimalGroup::query()->first();
+        $item = AnimalGroup::factory()->create();
 
-        $response = $this->actingAs($this->admin)->deleteJson(route('api.animal-groups.destroy', $animalGroup->id));
-
+        $response = $this->actingAs($this->admin)->deleteJson(route('api.animal-groups.destroy', $item));
         $response->assertOk();
         $response->assertJson([
             'success' => true,
             'error' => null,
         ]);
 
-        $this->assertDatabaseMissing('animal_groups', ['id' => $animalGroup->id]);
+        $this->assertDatabaseMissing('animal_groups', ['id' => $item->id]);
+    }
+
+    public function test_destroy_with_relations_disabled_for_admin()
+    {
+        $animalGroup = AnimalGroup::query()->first();
+        Animal::factory()->create(['animal_group_id' => $animalGroup->id]);
+
+        $response = $this->actingAs($this->admin)->deleteJson(route('api.animal-groups.destroy', $animalGroup));
+        $response->assertStatus(400);
+        $response->assertJson([
+            'success' => false,
+            'data' => null,
+        ]);
+
+        $this->assertDatabaseHas('animal_groups', ['id' => $animalGroup->id]);
     }
 
     public function test_destroy_forbidden_for_non_admin()
@@ -253,7 +268,16 @@ use Laravel\Sanctum\Sanctum;
 
         $response = $this->actingAs($this->user)->deleteJson(route('api.animal-groups.destroy', $animalGroup->id));
         $response->assertForbidden();
+        $this->assertDatabaseHas('animal_groups', ['id' => $animalGroup->id]);
+    }
 
+    public function test_destroy_with_relations_forbidden_for_non_admin()
+    {
+        $animalGroup = AnimalGroup::query()->first();
+        Animal::factory()->create(['animal_group_id' => $animalGroup->id]);
+
+        $response = $this->actingAs($this->user)->deleteJson(route('api.animal-groups.destroy', $animalGroup));
+        $response->assertForbidden();
         $this->assertDatabaseHas('animal_groups', ['id' => $animalGroup->id]);
     }
 }

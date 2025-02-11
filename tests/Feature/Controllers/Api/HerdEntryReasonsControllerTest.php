@@ -6,17 +6,11 @@ use AllowDynamicProperties;
 use App\Models\HerdEntryReason;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use App\Models\Animal;
 
-#[AllowDynamicProperties] class HerdEntryReasonControllerTest extends TestCase
+#[AllowDynamicProperties] class HerdEntryReasonsControllerTest extends TestCase
 {
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->artisan('db:seed');
-        HerdEntryReason::factory()->count(10)->create();
-    }
 
     public function test_index_for_admin()
     {
@@ -238,10 +232,9 @@ use Tests\TestCase;
 
     public function test_destroy_for_admin()
     {
-        $item = HerdEntryReason::query()->first();
+        $item = HerdEntryReason::factory()->create();
 
-        $response = $this->actingAs($this->admin)->deleteJson(route('api.herd-entry-reasons.destroy', $item->id));
-
+        $response = $this->actingAs($this->admin)->deleteJson(route('api.herd-entry-reasons.destroy', $item));
         $response->assertOk();
         $response->assertJson([
             'success' => true,
@@ -251,12 +244,26 @@ use Tests\TestCase;
         $this->assertDatabaseMissing('herd_entry_reasons', ['id' => $item->id]);
     }
 
-    public function test_destroy_for_non_admin()
+    public function test_destroy_with_relations_disabled_for_admin()
     {
         $item = HerdEntryReason::query()->first();
+        Animal::factory()->create(['herd_entry_reason_id' => $item->id]);
 
-        $response = $this->actingAs($this->user)->deleteJson(route('api.herd-entry-reasons.destroy', $item->id));
+        $response = $this->actingAs($this->admin)->deleteJson(route('api.herd-entry-reasons.destroy', $item));
+        $response->assertStatus(400);
+        $response->assertJson([
+            'success' => false,
+            'data' => null,
+        ]);
 
+        $this->assertDatabaseHas('herd_entry_reasons', ['id' => $item->id]);
+    }
+
+    public function test_destroy_for_non_admin()
+    {
+        $item = HerdEntryReason::factory()->create();
+
+        $response = $this->actingAs($this->user)->deleteJson(route('api.herd-entry-reasons.destroy', $item));
         $response->assertOk();
         $response->assertJson([
             'success' => true,
@@ -264,5 +271,20 @@ use Tests\TestCase;
         ]);
 
         $this->assertDatabaseMissing('herd_entry_reasons', ['id' => $item->id]);
+    }
+
+    public function test_destroy_with_relations_disabled_for_non_admin()
+    {
+        $item = HerdEntryReason::query()->first();
+        Animal::factory()->create(['herd_entry_reason_id' => $item->id]);
+
+        $response = $this->actingAs($this->user)->deleteJson(route('api.herd-entry-reasons.destroy', $item));
+        $response->assertStatus(400);
+        $response->assertJson([
+            'success' => false,
+            'data' => null,
+        ]);
+
+        $this->assertDatabaseHas('herd_entry_reasons', ['id' => $item->id]);
     }
 }

@@ -16,11 +16,15 @@ class AnimalService extends Service
         parent::__construct();
     }
 
-    public function storeAnimal(array $data): ?Animal
+    public function store(array $data)
     {
-        $animal = Animal::query()->create($data);
-        if ($animal) {
-            return $animal;
+        try {
+            $animal = Animal::query()->create($data);
+            if ($animal) {
+                return $animal;
+            }
+        } catch (\Exception $e) {
+            Log::error(__METHOD__ . " " . $e->getMessage());
         }
         return null;
     }

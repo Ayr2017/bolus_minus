@@ -30,8 +30,8 @@ return new class extends Migration
             $table->enum('sex', ['female', 'male'])->nullable();
             $table->dateTime('withdrawn_at')->nullable();
             $table->bigInteger('weight')->nullable();
-            $table->foreignId('entry_id')->nullable()->constrained('herd_entry_reasons');
-            $table->foreignId('group_id')->nullable()->constrained('animal_groups');
+            $table->foreignId('herd_entry_reason_id')->nullable()->constrained('herd_entry_reasons');
+            $table->foreignId('animal_group_id')->constrained('animal_groups')->onDelete('restrict');
             $table->boolean('is_active')->default(true);
             $table->timestamps();
             $table->softDeletes();

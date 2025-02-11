@@ -34,8 +34,8 @@ class AnimalFactory extends Factory
             'number_collar' => strval($this->faker->randomNumber(6)),
             'status_id' => Status::inRandomOrder()->first()->id,
             'sex' => $this->faker->randomElement(['male', 'female']),
-            'entry_id'=> HerdEntryReason::inRandomOrder()->first()->id,
-            'group_id'=> AnimalGroup::inRandomOrder()->first()->id,
+            'herd_entry_reason_id' => HerdEntryReason::inRandomOrder()->first()->id,
+            'animal_group_id' => AnimalGroup::inRandomOrder()->first()->id,
             'withdrawn_at' => null,
         ];
     }

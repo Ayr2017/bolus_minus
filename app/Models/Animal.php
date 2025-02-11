@@ -33,7 +33,9 @@ class Animal extends Model
         'status_id',
         'sex',
         'withdrawn_at',
-        'is_active'
+        'is_active',
+        'animal_group_id',
+        'herd_entry_reason_id'
     ];
 
     protected $casts = [
@@ -66,9 +68,9 @@ class Animal extends Model
         return $this->belongsTo(Breed::class);
     }
 
-    public function animalGroups()
+    public function animalGroup(): BelongsTo
     {
-        return $this->belongsTo(AnimalGroup::class,'group_id','id');
+        return $this->belongsTo(AnimalGroup::class);
     }
 
     public function status(): BelongsTo
@@ -85,9 +87,9 @@ class Animal extends Model
             get: fn() => Carbon::make($this->birthday)?->format('Y-m-d'),
         );
     }
-    public function herdEntryReasons()
+    public function herdEntryReason(): BelongsTo
     {
-        return $this->belongsTo(HerdEntryReason::class,'entry_id','id');
+        return $this->belongsTo(HerdEntryReason::class);
     }
 
     public function getHerdEntryAttribute()

@@ -22,14 +22,14 @@ class DeleteAnimalGroupRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'animal_group' => ['required', 'exists:animal_groups,id'],
+            // 'animal_group' => ['required', 'exists:animal_groups,id'],
         ];
     }
 
-    protected function prepareForValidation(): void
-    {
-        $this->merge([
-            'animal_group' => $this->route('animal_group'),
-        ]);
-    }
+    // protected function prepareForValidation(): void
+    // {
+    //     $this->merge([
+    //         'animal_group' => $this->route('animal_group'),
+    //     ]);
+    // }
 }

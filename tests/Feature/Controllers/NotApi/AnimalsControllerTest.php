@@ -13,13 +13,6 @@ use Carbon\Carbon;
 #[AllowDynamicProperties] class AnimalsControllerTest extends TestCase
 {
     use RefreshDatabase;
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->artisan('db:seed');
-        $this->organisations = Organisation::factory()->count(5)->create();
-        $this->boluses = Bolus::factory()->count(5)->create();
-    }
 
     public function test_index_for_admin(): void
     {
@@ -122,6 +115,7 @@ use Carbon\Carbon;
             'name' => 'Updated Test Animal',
             'birthday' => '2000-01-01 00:00:00',
             'number' => 'Updated Test Number',
+            'animal_group_id' => 1,
         ];
 
         $response = $this->actingAs($this->admin)->put(route('animals.update', $animal->id), $data);

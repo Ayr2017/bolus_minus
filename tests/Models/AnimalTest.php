@@ -4,6 +4,7 @@ namespace Tests\Models;
 
 use AllowDynamicProperties;
 use App\Models\Animal;
+use App\Models\AnimalGroup;
 use App\Models\Bolus;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Schema;
@@ -54,6 +55,7 @@ use App\Models\Status;
             'sex' => 'male',
             'withdrawn_at' => '2000-01-01',
             'is_active' => 1,
+            'animal_group_id' => 1,
         ];
 
         $item = Animal::create($data);
@@ -74,6 +76,7 @@ use App\Models\Status;
             'number' => 'Test Number',
             'organisation_id' => 1,
             'birthday' => '2000-01-01 00:00:00',
+            'animal_group_id' => 1,
         ];
 
         Animal::create($data);
@@ -88,6 +91,7 @@ use App\Models\Status;
             'number' => 'Test Number',
             'organisation_id' => 1,
             'birthday' => '2000-01-01 00:00:00',
+            'animal_group_id' => 1,
         ];
 
         $item = Animal::create($data);
@@ -106,6 +110,7 @@ use App\Models\Status;
             'number' => 'Test Number',
             'organisation_id' => 1,
             'birthday' => '2000-01-01 00:00:00',
+            'animal_group_id' => 1,
         ];
 
         $item = Animal::create($data);
@@ -115,6 +120,7 @@ use App\Models\Status;
             'number' => 'Updated Test Number',
             'organisation_id' => 2,
             'birthday' => '2010-01-01 00:00:00',
+            'animal_group_id' => 2,
         ];
 
         $item->update($updatedData);
@@ -129,6 +135,7 @@ use App\Models\Status;
             'number' => 'Test Number',
             'organisation_id' => 1,
             'birthday' => '2000-01-01 00:00:00',
+            'animal_group_id' => 1,
         ];
 
         $item = Animal::create($data);
@@ -145,6 +152,7 @@ use App\Models\Status;
             'number' => 'Test Number',
             'organisation_id' => 1,
             'birthday' => '2000-01-01',
+            'animal_group_id' => 1,
         ];
 
         $item = Animal::create($data);
@@ -162,6 +170,7 @@ use App\Models\Status;
             'number' => 'Test Number',
             'organisation_id' => 1,
             'birthday' => '2000-01-01',
+            'animal_group_id' => 1,
         ];
 
         $item = Animal::create($data);
@@ -176,6 +185,7 @@ use App\Models\Status;
             'number' => 'Test Number',
             'organisation_id' => 1,
             'birthday' => '2000-01-01',
+            'animal_group_id' => 1,
         ];
 
         $item = Animal::create($data);
@@ -193,6 +203,7 @@ use App\Models\Status;
             'number' => 'Test Number',
             'organisation_id' => 1,
             'birthday' => '2000-01-01',
+            'animal_group_id' => 1,
         ];
 
         Animal::create($data);
@@ -206,12 +217,27 @@ use App\Models\Status;
             'name' => 'Test Name',
             'organisation_id' => 1,
             'birthday' => '2000-01-01',
+            'animal_group_id' => 1,
         ];
 
         Animal::create($data);
     }
 
     public function test_birthday_is_required()
+    {
+        $this->expectException(QueryException::class);
+
+        $data = [
+            'name' => 'Test Name',
+            'number' => 'Test Number',
+            'organisation_id' => 1,
+            'animal_group_id' => 1,
+        ];
+
+        Animal::create($data);
+    }
+
+    public function test_animal_group_id_is_required()
     {
         $this->expectException(QueryException::class);
 
@@ -231,6 +257,7 @@ use App\Models\Status;
             'number' => 'Test Number',
             'organisation_id' => 1,
             'birthday' => '2000-01-01',
+            'animal_group_id' => 1,
         ];
 
         $item = Animal::create($data);
@@ -245,6 +272,7 @@ use App\Models\Status;
             'number' => 'Test Number',
             'organisation_id' => 1,
             'birthday' => '2000-01-01',
+            'animal_group_id' => 1,
         ];
 
         $item = Animal::create($data);
@@ -259,6 +287,7 @@ use App\Models\Status;
             'number' => 'Test Number',
             'organisation_id' => 1,
             'birthday' => '2000-01-01',
+            'animal_group_id' => 1,
         ];
 
         $item = Animal::create($data);
@@ -273,6 +302,7 @@ use App\Models\Status;
             'number' => 'Test Number',
             'organisation_id' => 1,
             'birthday' => '2000-01-01',
+            'animal_group_id' => 1,
         ];
 
         $item = Animal::create($data);
@@ -287,6 +317,7 @@ use App\Models\Status;
             'number' => 'Test Number',
             'organisation_id' => 1,
             'birthday' => '2000-01-01',
+            'animal_group_id' => 1,
         ];
 
         $item = Animal::create($data);
@@ -301,6 +332,7 @@ use App\Models\Status;
             'number' => 'Test Number',
             'organisation_id' => 1,
             'birthday' => '2000-01-01',
+            'animal_group_id' => 1,
         ];
 
         $item = Animal::create($data);
@@ -315,6 +347,7 @@ use App\Models\Status;
             'number' => 'Test Number',
             'organisation_id' => 1,
             'birthday' => '2000-01-01',
+            'animal_group_id' => 1,
         ];
 
         $item = Animal::create($data);
@@ -329,6 +362,7 @@ use App\Models\Status;
             'number' => 'Test Number',
             'organisation_id' => 1,
             'birthday' => '2000-01-01',
+            'animal_group_id' => 1,
         ];
 
         $item = Animal::create($data);
@@ -346,11 +380,30 @@ use App\Models\Status;
                 'number' => 'Test Number',
                 'organisation_id' => $organisation->id,
                 'birthday' => '2000-01-01',
+                'animal_group_id' => 1,
             ]
         );
 
         $this->assertInstanceOf(Organisation::class, $item->organisation);
         $this->assertEquals($organisation->id, $item->organisation->id);
+    }
+
+    public function test_animal_group_is_animal_group()
+    {
+        $animalGroup = AnimalGroup::factory()->create();
+
+        $item = Animal::create(
+            [
+                'name' => 'Test Name',
+                'number' => 'Test Number',
+                'organisation_id' => 1,
+                'birthday' => '2000-01-01',
+                'animal_group_id' => $animalGroup->id,
+            ]
+        );
+
+        $this->assertInstanceOf(AnimalGroup::class, $item->animalGroup);
+        $this->assertEquals($animalGroup->id, $item->animalGroup->id);
     }
 
     public function test_breed_is_breed()
@@ -363,7 +416,8 @@ use App\Models\Status;
                 'number' => 'Test Number',
                 'organisation_id' => 1,
                 'birthday' => '2000-01-01',
-                'breed_id' => $breed->id
+                'breed_id' => $breed->id,
+                'animal_group_id' => 1,
             ]
         );
 
@@ -381,7 +435,8 @@ use App\Models\Status;
                 'number' => 'Test Number',
                 'organisation_id' => 1,
                 'birthday' => '2000-01-01',
-                'bolus_id' => $bolus->id
+                'bolus_id' => $bolus->id,
+                'animal_group_id' => 1,
             ]
         );
 
@@ -399,7 +454,8 @@ use App\Models\Status;
                 'number' => 'Test Number',
                 'organisation_id' => 1,
                 'birthday' => '2000-01-01',
-                'status_id' => $status->id
+                'status_id' => $status->id,
+                'animal_group_id' => 1,
             ]
         );
 
@@ -417,6 +473,7 @@ use App\Models\Status;
             'organisation_id' => 1,
             'birthday' => '2000-01-01',
             'sex' => 'male',
+            'animal_group_id' => 1,
         ];
 
         $item = Animal::create($data);
@@ -433,6 +490,7 @@ use App\Models\Status;
             'organisation_id' => 1,
             'birthday' => '2000-01-01',
             'sex' => 'Test',
+            'animal_group_id' => 1,
         ];
 
         Animal::create($data);

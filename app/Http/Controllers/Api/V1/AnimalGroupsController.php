@@ -18,7 +18,6 @@ use Illuminate\Http\Request;
 
 class AnimalGroupsController extends Controller
 {
-
     /**
      * @param IndexAnimalGroupRequest $request
      * @param AnimalGroupService $animalGroupService
@@ -35,7 +34,6 @@ class AnimalGroupsController extends Controller
 
         return ApiResponse::error('Something went wrong!');
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -76,7 +74,6 @@ class AnimalGroupsController extends Controller
         return ApiResponse::error('Something went wrong!');
     }
 
-
     /**
      * Update the specified resource in storage.
      * @param UpdateAnimalGroupRequest $request
@@ -100,14 +97,14 @@ class AnimalGroupsController extends Controller
     /**
      * Remove the specified resource from storage.
      * @param DeleteAnimalGroupRequest $request
-     * @param int $animalGroup
-     * @param AnimalGroupService $service
+     * @param AnimalGroup $animalGroup
+     * @param AnimalGroupService $animalGroupService
      * @return JsonResponse
      */
-    public function destroy(DeleteAnimalGroupRequest $request, AnimalGroupService $animalGroupService,  int $animalGroup): JsonResponse
+    public function destroy(DeleteAnimalGroupRequest $request, AnimalGroupService $animalGroupService, AnimalGroup $animalGroup): JsonResponse
     {
         try {
-            return ApiResponse::success($animalGroupService->deleteAnimalGroup($animalGroup));
+            return ApiResponse::success($animalGroupService->delete($animalGroup));
         } catch (\Throwable $throwable) {
             ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
         }

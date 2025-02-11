@@ -42,7 +42,7 @@ class AnimalsController extends Controller
     public function store(StoreAnimalRequest $request): JsonResponse
     {
         try {
-            $animal = $this->animalService->storeAnimal($request->validated());
+            $animal = $this->animalService->store($request->validated());
             if ($animal) {
                 return ApiResponse::success(AnimalResource::make($animal));
             }
