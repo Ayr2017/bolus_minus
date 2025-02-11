@@ -16,8 +16,10 @@ class HerdEntryReasonFactory extends Factory
      */
     public function definition(): array
     {
+        $data = ['Покупка', 'Рождение на предприятии', 'Перевод с другого предприятия/отделения',];
+
         return [
-            'name' => $this->faker->unique()->word(),
+            'name'=>fake()->randomElement($data),
             'description' => $this->faker->sentence(),
             'is_active' => $this->faker->boolean()
         ];

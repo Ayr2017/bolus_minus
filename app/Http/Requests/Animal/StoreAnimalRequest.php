@@ -28,11 +28,13 @@ class StoreAnimalRequest extends FormRequest
             'birthday' => 'required|date',
             'breed_id' => 'required|exists:breeds,id',
             'number_rshn' => 'nullable|string|unique:animals,number_rshn',
-            'bolus_id' => 'nullable|exists:boluses,id',
+            'bolus_id' => 'nullable|integer|exists:boluses,id',
             'number_rf' => 'nullable|string|unique:animals,number_rf',
             'number_tavro' => 'nullable|string|unique:animals,number_tavro',
             'number_tag' => 'nullable|string|unique:animals,number_tag',
             'tag_color' => 'nullable|string',
+            'group_id' => 'nullable|integer|exists:animal_groups,id',
+            'entry_id'=> 'nullable|integer|exists:animal_entries,id',
             'number_collar' => 'nullable|string',
             'status_id' => 'sometimes|integer|exists:statuses,id',
             'sex' => 'required|in:male,female',
@@ -46,11 +48,11 @@ class StoreAnimalRequest extends FormRequest
             // отделение (department_id)
             // хозяйство производитель инн
             // хозяйство продавец инн
-            // мать 
-            // отец 
-            // вес 
-            // дата поступления 
-            // дата ввода в стадо 
+            // мать
+            // отец
+            // вес
+            // дата поступления
+            // дата ввода в стадо
             // основание ввода в стадо (herd_entry_reason_id)
 
         ];

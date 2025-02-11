@@ -35,6 +35,8 @@ class UpdateAnimalRequest extends FormRequest
             'number_tavro' => ['nullable', 'string', Rule::unique('animals', 'number_tavro')->ignore($this->route('animal'))],
             'number_tag' => ['nullable', 'string', Rule::unique('animals', 'number_tag')->ignore($this->route('animal'))],
             'tag_color' => 'nullable|string',
+            'entry_id'=> 'nullable|integer|exists:animal_entries,id',
+            'group_id' => 'nullable|integer|exists:animal_groups,id',
             'number_collar' => 'nullable|string',
             'status_id' => 'sometimes|integer|exists:statuses,id',
             'sex' => 'nullable|in:male,female',

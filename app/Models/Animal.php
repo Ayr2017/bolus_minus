@@ -63,7 +63,12 @@ class Animal extends Model
 
     public function breed(): BelongsTo
     {
-        return $this->belongsTo(Breed::class,);
+        return $this->belongsTo(Breed::class);
+    }
+
+    public function animalGroups()
+    {
+        return $this->belongsTo(AnimalGroup::class,'group_id','id');
     }
 
     public function status(): BelongsTo
@@ -79,5 +84,17 @@ class Animal extends Model
         return Attribute::make(
             get: fn() => Carbon::make($this->birthday)?->format('Y-m-d'),
         );
+    }
+    public function herdEntryReasons()
+    {
+        return $this->belongsTo(HerdEntryReason::class,'entry_id','id');
+    }
+
+    public function getHerdEntryAttribute()
+    {
+
+        $entry = $this->herdEntryReasons;
+
+        return $entry->name;
     }
 }
