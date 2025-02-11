@@ -102,7 +102,7 @@ class BolusReadingApiService extends Service
 
     private function getStartDate($deviceNumber): string
     {
-        $latestData = BolusReading::query()->where('device_number',$deviceNumber)?->latest('date')?->first()?->date ?? Carbon::make('2024-01-01')->format('d.m.Y');
+        $latestData = BolusReading::query()->where('device_number',$deviceNumber)?->latest('date')?->first()?->date ?? Carbon::make('2024-01-01')->format('Y-m-d H:i:s T');
         if ($latestData) {
             return Carbon::make($latestData)->format('d.m.Y');
         }
