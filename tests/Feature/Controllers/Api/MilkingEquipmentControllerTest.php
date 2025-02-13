@@ -16,8 +16,6 @@ use App\Models\Organisation;
     protected function setUp(): void
     {
         parent::setUp();
-        $this->artisan('db:seed');
-        $this->artisan('db:seed --class=OrganisationSeeder');
         MilkingEquipment::factory()->count(1)->create();
     }
 

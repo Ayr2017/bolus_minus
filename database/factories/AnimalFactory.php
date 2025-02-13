@@ -20,8 +20,8 @@ class AnimalFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name(),
-            'number' => strval($this->faker->randomNumber(6)),
+            'name' => $this->faker->unique()->name(),
+            'number' => strval($this->faker->unique()->numberBetween(100000, 999999)),
             'organisation_id' => Organisation::inRandomOrder()->first()->id,
             'birthday' => $this->faker->dateTimeThisCentury()->format('Y-m-d H:i:s'),
             'breed_id' => Breed::inRandomOrder()->first()->id,

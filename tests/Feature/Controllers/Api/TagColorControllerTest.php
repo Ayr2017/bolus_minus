@@ -11,12 +11,6 @@ use Tests\TestCase;
 {
     use RefreshDatabase;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->artisan('db:seed');
-    }
-
     public function test_index_for_admin()
     {
         $response = $this->actingAs($this->admin)->getJson(route('api.tag-colors.index'));

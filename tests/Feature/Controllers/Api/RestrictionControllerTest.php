@@ -16,7 +16,6 @@ use Tests\TestCase;
     protected function setUp(): void
     {
         parent::setUp();
-        $this->artisan('db:seed');
         Restriction::factory()->count(10)->create();
     }
 
