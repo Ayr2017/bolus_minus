@@ -29,7 +29,6 @@ use Illuminate\Support\Str;
     public function __construct()
     {
         parent::__construct();
-
     }
 
     /**
@@ -68,7 +67,7 @@ use Illuminate\Support\Str;
             return true;
         }
 
-        $exitCode =Artisan::call('make:migration', [
+        $exitCode = Artisan::call('make:migration', [
             'name' => "create_{$tableName}_table", // Название миграции
         ]);
 
@@ -151,7 +150,7 @@ use Illuminate\Support\Str;
             $this->info("Request '{$requestName}' created successfully.");
         }
 
-    return true;
+        return true;
     }
 
     private function makeResource(): bool
@@ -182,11 +181,10 @@ use Illuminate\Support\Str;
         // Преобразуем имя сущности в единственное число для запросов и ресурсов
         $entityNameSingular = Str::studly($this->name); // Например, "MyCow"
         $entityNamePlural = Str::plural($entityNameSingular); // Например, "MyCows"
-        $entityNamePlural = Str::plural($entityNameSingular); // Например, "MyCows"
         $entityNameSnake = Str::snake($entityNameSingular); // Например, "my_cow"
         $entityNameCamel = Str::camel($entityNameSingular); // Например, "my_cow"
 
-        $controllerName = "{$entityNamePlural}Controller"; // Имя контроллера во множественном числе, например "MyCowsController"
+        $controllerName = "{$entityNameSingular}Controller"; // Имя контроллера во единственном числе, например "MyCowController"
         $namespace = "App\\Http\\Controllers\\Api\\V1"; // Пространство имен контроллера
         $controllerPath = app_path("Http/Controllers/Api/V1/{$controllerName}.php");
 
@@ -195,14 +193,15 @@ use Illuminate\Support\Str;
         // Проверяем, существует ли контроллер
         if (file_exists($controllerPath)) {
             $this->error("Controller '{$controllerName}' already exists.");
-            return false;        }
+            return false;
+        }
 
         // Загрузка шаблона из stub файла
         $stub = file_get_contents(base_path('stubs/api-controller.stub'));
 
         // Заменяем переменные в шаблоне
         $controllerContent = str_replace(
-            ['{{EntityName}}','{{EntityNamePlural}}', '{{entityName}}','{{entityNameSnake}}'],
+            ['{{EntityName}}', '{{EntityNamePlural}}', '{{entityName}}', '{{entityNameSnake}}'],
             [$entityNameSingular, $entityNamePlural, $entityNameCamel, $entityNameSnake], // Используем единственное число для запросов и ресурсов
             $stub
         );
@@ -224,7 +223,7 @@ use Illuminate\Support\Str;
         $entityNamePluralKebab = Str::kebab($entityNamePlural); // Например, "my-cows"
 
         // Контроллер теперь во множественном числе, с заглавной первой буквой
-        $controllerName = Str::studly($entityNamePlural) . 'Controller'; // Имя контроллера во множественном числе, например "MyCowsController"
+        $controllerName = Str::studly($entityNameSingular) . 'Controller'; // Имя контроллера во единственном числе, например "MyCowController"
 
         $routeFile = base_path('routes/api.php'); // Путь к файлу маршрутов
 
@@ -258,7 +257,7 @@ use Illuminate\Support\Str;
     protected function makeFactory(): bool
     {
         $factoryName = $this->name . 'Factory';
-        $factoryPath = base_path('database/factories/'.$factoryName.'/' . $factoryName . '.php');
+        $factoryPath = base_path('database/factories/' . $factoryName . '/' . $factoryName . '.php');
 
         // Проверяем, существует ли уже фабрика
         if (file_exists($factoryPath)) {
@@ -290,9 +289,7 @@ use Illuminate\Support\Str;
      */
     private function makeService(): bool
     {
-        Artisan::call('make:service', ['service_name' => $this->name."/".$this->name]);
+        Artisan::call('make:service', ['service_name' => $this->name . "/" . $this->name]);
         return true;
     }
-
-
 }

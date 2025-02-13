@@ -15,7 +15,7 @@ use App\Models\{{EntityName}};
 use App\Services\{{EntityName}}\{{EntityName}}Service;
 use Illuminate\Http\JsonResponse;
 
-class {{EntityNamePlural}}Controller extends Controller
+class {{EntityName}}Controller extends Controller
 {
     /**
      * @param Index{{EntityName}}Request $request
