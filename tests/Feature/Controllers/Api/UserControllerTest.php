@@ -269,7 +269,7 @@ use Illuminate\Support\Facades\Hash;
             'name' => 'Updated Test Name',
             'email' => 'updated@test.com',
             'password' => 'UpdatedPassword',
-            'is_active' => 0,
+            'is_active' => false,
         ];
 
         $response = $this->actingAs($this->user)->putJson(route('api.users.update', $item), $updatedData);
@@ -292,6 +292,8 @@ use Illuminate\Support\Facades\Hash;
                 'organisations',
             ],
         ]);
+
+        $item = $item->fresh();
         $response->assertJson([
             'data' => [
                 'id' => $item->id,
@@ -300,8 +302,8 @@ use Illuminate\Support\Facades\Hash;
                 'email' => $updatedData['email'],
                 'phone' => $item->phone,
                 'is_active' => $updatedData['is_active'],
-                'created_at' => $item->created_at,
-                'updated_at' => $item->updated_at,
+                'created_at' => $item->created_at->toDateTimeString(),
+                'updated_at' => $item->updated_at->toDateTimeString(),
                 'lastname' => $item->lastname,
                 'roles' => $item->getRoleNames()->toArray(),
                 'organisations' => $item->employees->pluck('organisation')->toArray(),
