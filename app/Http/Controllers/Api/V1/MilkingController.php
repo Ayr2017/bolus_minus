@@ -15,7 +15,7 @@ use App\Models\Milking;
 use App\Services\Milking\MilkingService;
 use Illuminate\Http\JsonResponse;
 
-class MilkingsController extends Controller
+class MilkingController extends Controller
 {
     /**
      * @param IndexMilkingRequest $request

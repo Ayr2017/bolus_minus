@@ -17,7 +17,7 @@ use App\Services\Restriction\RestrictionService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class RestrictionsController extends Controller
+class RestrictionController extends Controller
 {
     /**
      * @param IndexRestrictionRequest $request
@@ -29,8 +29,8 @@ class RestrictionsController extends Controller
         try {
             $restrictions = $restrictionService->getRestrictions($request->validated());
             return ApiResponse::success(RestrictionResource::paginatedCollection($restrictions));
-        }catch (\Throwable $throwable){
-            ErrorLog::write(__METHOD__,__LINE__,$throwable->getMessage());
+        } catch (\Throwable $throwable) {
+            ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
         }
 
         return ApiResponse::error('Something went wrong!');

@@ -15,7 +15,7 @@ use App\Models\Bolus;
 use App\Services\Bolus\BolusService;
 use Illuminate\Http\JsonResponse;
 
-class BolusesController extends Controller
+class BolusController extends Controller
 {
     /**
      * @param IndexBolusRequest $request

@@ -15,7 +15,7 @@ use App\Models\InseminationMethod;
 use App\Services\InseminationMethod\InseminationMethodService;
 use Illuminate\Http\JsonResponse;
 
-class InseminationMethodsController extends Controller
+class InseminationMethodController extends Controller
 {
     /**
      * @param IndexInseminationMethodRequest $request
@@ -27,8 +27,8 @@ class InseminationMethodsController extends Controller
         try {
             $inseminationMethods = $inseminationMethodService->getInseminationMethods($request->validated());
             return ApiResponse::success(InseminationMethodResource::paginatedCollection($inseminationMethods));
-        }catch (\Throwable $throwable){
-            ErrorLog::write(__METHOD__,__LINE__,$throwable->getMessage());
+        } catch (\Throwable $throwable) {
+            ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
         }
 
         return ApiResponse::error('Something went wrong!');
@@ -45,8 +45,8 @@ class InseminationMethodsController extends Controller
         try {
             $inseminationMethod = $inseminationMethodService->storeInseminationMethod($request->validated());
             return ApiResponse::success(new InseminationMethodResource($inseminationMethod));
-        } catch (\Throwable $throwable){
-            ErrorLog::write(__METHOD__,__LINE__,$throwable->getMessage());
+        } catch (\Throwable $throwable) {
+            ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
         }
 
         return ApiResponse::error('Something went wrong!');

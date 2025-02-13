@@ -15,7 +15,7 @@ use App\Models\BreedingBull;
 use App\Services\BreedingBull\BreedingBullService;
 use Illuminate\Http\JsonResponse;
 
-class BreedingBullsController extends Controller
+class BreedingBullController extends Controller
 {
     /**
      * @param IndexBreedingBullRequest $request
@@ -115,15 +115,15 @@ class BreedingBullsController extends Controller
      * @return JsonResponse
      */
     //TODO: на консервации
-//    public function selectedBreedingBulls(IndexBreedingBullRequest $request, BreedingBullService $breedingBullService) :JsonResponse
-//    {
-//        try {
-//            $breedingBulls = $breedingBullService->selectedBreedingBulls($request->validated());
-//            return ApiResponse::success(BreedingBullResource::paginatedCollection($breedingBulls));
-//        } catch (\Throwable $throwable) {
-//            ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
-//        }
-//
-//        return ApiResponse::error('Something went wrong!');
-//    }
+    //    public function selectedBreedingBulls(IndexBreedingBullRequest $request, BreedingBullService $breedingBullService) :JsonResponse
+    //    {
+    //        try {
+    //            $breedingBulls = $breedingBullService->selectedBreedingBulls($request->validated());
+    //            return ApiResponse::success(BreedingBullResource::paginatedCollection($breedingBulls));
+    //        } catch (\Throwable $throwable) {
+    //            ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
+    //        }
+    //
+    //        return ApiResponse::error('Something went wrong!');
+    //    }
 }

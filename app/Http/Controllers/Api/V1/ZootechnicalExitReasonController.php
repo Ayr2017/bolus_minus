@@ -15,7 +15,7 @@ use App\Models\ZootechnicalExitReason;
 use App\Services\ZootechnicalExitReason\ZootechnicalExitReasonService;
 use Illuminate\Http\JsonResponse;
 
-class ZootechnicalExitReasonsController extends Controller
+class ZootechnicalExitReasonController extends Controller
 {
     /**
      * @param IndexZootechnicalExitReasonRequest $request

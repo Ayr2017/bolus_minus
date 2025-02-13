@@ -15,7 +15,7 @@ use App\Models\RestrictionReason;
 use App\Services\RestrictionReason\RestrictionReasonService;
 use Illuminate\Http\JsonResponse;
 
-class RestrictionReasonsController extends Controller
+class RestrictionReasonController extends Controller
 {
     /**
      * @param IndexRestrictionReasonRequest $request
@@ -27,8 +27,8 @@ class RestrictionReasonsController extends Controller
         try {
             $restrictionReasons = $restrictionReasonService->getRestrictionReasons($request->validated());
             return ApiResponse::success(RestrictionReasonResource::paginatedCollection($restrictionReasons));
-        }catch (\Throwable $throwable){
-            ErrorLog::write(__METHOD__,__LINE__,$throwable->getMessage());
+        } catch (\Throwable $throwable) {
+            ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
         }
 
         return ApiResponse::error('Something went wrong!');
@@ -47,8 +47,8 @@ class RestrictionReasonsController extends Controller
             $restrictionReason = $restrictionReasonService->storeRestrictionReason($request->validated());
 
             return ApiResponse::success(new RestrictionReasonResource($restrictionReason));
-        } catch (\Throwable $throwable){
-            ErrorLog::write(__METHOD__,__LINE__,$throwable->getMessage());
+        } catch (\Throwable $throwable) {
+            ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
         }
 
         return ApiResponse::error('Something went wrong!');

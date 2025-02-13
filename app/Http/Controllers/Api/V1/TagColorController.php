@@ -11,11 +11,9 @@ use App\Services\TagColor\TagColorService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class TagColorsController extends Controller
+class TagColorController extends Controller
 {
-    public function __construct(readonly TagColorService $tagColorService)
-    {
-    }
+    public function __construct(readonly TagColorService $tagColorService) {}
 
     /**
      * Display a listing of the resource.

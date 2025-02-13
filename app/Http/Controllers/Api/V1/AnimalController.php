@@ -15,7 +15,7 @@ use App\Models\Animal;
 use App\Services\Animal\AnimalService;
 use Illuminate\Http\JsonResponse;
 
-class AnimalsController extends Controller
+class AnimalController extends Controller
 {
     public function __construct(readonly AnimalService $animalService) {}
 

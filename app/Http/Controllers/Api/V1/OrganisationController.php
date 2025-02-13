@@ -15,7 +15,7 @@ use App\Models\Organisation;
 use App\Services\Organisation\OrganisationService;
 use Illuminate\Http\JsonResponse;
 
-class OrganisationsController extends Controller
+class OrganisationController extends Controller
 {
     /**
      * @param IndexOrganisationRequest $request

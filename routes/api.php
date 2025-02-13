@@ -1,27 +1,27 @@
 <?php
 
-use App\Http\Controllers\Api\V1\AnimalGroupsController;
-use App\Http\Controllers\Api\V1\AnimalsController;
-use App\Http\Controllers\Api\V1\BolusesController;
-use App\Http\Controllers\Api\V1\BreedingBullsController;
-use App\Http\Controllers\Api\V1\BreedsController;
-use App\Http\Controllers\Api\V1\CoatColorsController;
-use App\Http\Controllers\Api\V1\HerdEntryReasonsController;
-use App\Http\Controllers\Api\V1\InseminationMethodsController;
-use App\Http\Controllers\Api\V1\EventsController;
-use App\Http\Controllers\Api\V1\MilkingEquipmentsController;
-use App\Http\Controllers\Api\V1\MilkingsController;
-use App\Http\Controllers\Api\V1\OrganisationsController;
-use App\Http\Controllers\Api\V1\RestrictionReasonsController;
-use App\Http\Controllers\Api\V1\RestrictionsController;
+use App\Http\Controllers\Api\V1\AnimalGroupController;
+use App\Http\Controllers\Api\V1\AnimalController;
+use App\Http\Controllers\Api\V1\BolusController;
+use App\Http\Controllers\Api\V1\BreedingBullController;
+use App\Http\Controllers\Api\V1\BreedController;
+use App\Http\Controllers\Api\V1\CoatColorController;
+use App\Http\Controllers\Api\V1\HerdEntryReasonController;
+use App\Http\Controllers\Api\V1\InseminationMethodController;
+use App\Http\Controllers\Api\V1\EventController;
+use App\Http\Controllers\Api\V1\MilkingEquipmentController;
+use App\Http\Controllers\Api\V1\MilkingController;
+use App\Http\Controllers\Api\V1\OrganisationController;
+use App\Http\Controllers\Api\V1\RestrictionReasonController;
+use App\Http\Controllers\Api\V1\RestrictionController;
 use App\Http\Controllers\Api\V1\SanctumController;
-use App\Http\Controllers\Api\V1\SemenPortionsController;
-use App\Http\Controllers\Api\V1\ShiftsController;
-use App\Http\Controllers\Api\V1\StatusesController;
-use App\Http\Controllers\Api\V1\StructuralUnitsController;
-use App\Http\Controllers\Api\V1\TagColorsController;
-use App\Http\Controllers\Api\V1\UsersController;
-use App\Http\Controllers\Api\V1\ZootechnicalExitReasonsController;
+use App\Http\Controllers\Api\V1\SemenPortionController;
+use App\Http\Controllers\Api\V1\ShiftController;
+use App\Http\Controllers\Api\V1\StatusController;
+use App\Http\Controllers\Api\V1\StructuralUnitController;
+use App\Http\Controllers\Api\V1\TagColorController;
+use App\Http\Controllers\Api\V1\UserController;
+use App\Http\Controllers\Api\V1\ZootechnicalExitReasonController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -29,30 +29,30 @@ Route::post('/sanctum/token', [SanctumController::class, 'createToken']);
 Route::prefix('v1')
     ->middleware(['auth:sanctum'])
     ->group(function () {
-        Route::apiResource('animals', AnimalsController::class);
-        Route::apiResource('animal-groups', AnimalGroupsController::class);
-        Route::apiResource('boluses', BolusesController::class);
-        Route::apiResource('breeds', BreedsController::class);
-        Route::apiResource('breeding-bulls', BreedingBullsController::class);
-        Route::apiResource('coat-colors', CoatColorsController::class);
-        Route::apiResource('events', EventsController::class);
-        Route::apiResource('herd-entry-reasons', HerdEntryReasonsController::class);
-        Route::apiResource('insemination-methods', InseminationMethodsController::class);
-        Route::apiResource('organisations', OrganisationsController::class);
-        Route::apiResource('restrictions', RestrictionsController::class);
-        Route::apiResource('restriction-reasons', RestrictionReasonsController::class);
-        Route::apiResource('semen-portions', SemenPortionsController::class);
-        Route::apiResource('statuses', StatusesController::class);
-        Route::apiResource('structural-units', StructuralUnitsController::class);
-        Route::apiResource('tag-colors', TagColorsController::class);
-        Route::get('users/get-current-user', [UsersController::class, 'getCurrentUser']);
-        Route::apiResource('users', UsersController::class);
-        Route::apiResource('zootechnical-exit-reasons', ZootechnicalExitReasonsController::class);
+        Route::apiResource('animals', AnimalController::class);
+        Route::apiResource('animal-groups', AnimalGroupController::class);
+        Route::apiResource('boluses', BolusController::class);
+        Route::apiResource('breeds', BreedController::class);
+        Route::apiResource('breeding-bulls', BreedingBullController::class);
+        Route::apiResource('coat-colors', CoatColorController::class);
+        Route::apiResource('events', EventController::class);
+        Route::apiResource('herd-entry-reasons', HerdEntryReasonController::class);
+        Route::apiResource('insemination-methods', InseminationMethodController::class);
+        Route::apiResource('organisations', OrganisationController::class);
+        Route::apiResource('restrictions', RestrictionController::class);
+        Route::apiResource('restriction-reasons', RestrictionReasonController::class);
+        Route::apiResource('semen-portions', SemenPortionController::class);
+        Route::apiResource('statuses', StatusController::class);
+        Route::apiResource('structural-units', StructuralUnitController::class);
+        Route::apiResource('tag-colors', TagColorController::class);
+        Route::get('users/get-current-user', [UserController::class, 'getCurrentUser']);
+        Route::apiResource('users', UserController::class);
+        Route::apiResource('zootechnical-exit-reasons', ZootechnicalExitReasonController::class);
 
         Route::group(['prefix' => 'settings'], function () {
-            Route::apiResource('milking-equipments', MilkingEquipmentsController::class);
-            Route::apiResource('shifts', ShiftsController::class);
-            Route::apiResource('milkings', MilkingsController::class);
+            Route::apiResource('milking-equipments', MilkingEquipmentController::class);
+            Route::apiResource('shifts', ShiftController::class);
+            Route::apiResource('milkings', MilkingController::class);
         });
     });
 

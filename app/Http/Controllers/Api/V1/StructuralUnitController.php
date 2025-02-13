@@ -15,7 +15,7 @@ use App\Models\StructuralUnit;
 use App\Services\StructuralUnit\StructuralUnitService;
 use Illuminate\Http\JsonResponse;
 
-class StructuralUnitsController extends Controller
+class StructuralUnitController extends Controller
 {
     /**
      * @param IndexStructuralUnitRequest $request

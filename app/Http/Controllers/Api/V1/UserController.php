@@ -16,7 +16,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class UsersController extends Controller
+class UserController extends Controller
 {
     public function __construct(readonly UserService $userService) {}
 

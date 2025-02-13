@@ -15,7 +15,7 @@ use App\Models\SelectedBreedingBull;
 use App\Services\SelectedBreedingBull\SelectedBreedingBullService;
 use Illuminate\Http\JsonResponse;
 
-class SelectedBreedingBullsController extends Controller
+class SelectedBreedingBullController extends Controller
 {
     /**
      * @param IndexSelectedBreedingBullRequest $request

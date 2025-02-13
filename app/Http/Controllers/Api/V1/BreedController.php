@@ -16,7 +16,7 @@ use App\Services\Breed\BreedService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class BreedsController extends Controller
+class BreedController extends Controller
 {
     /**
      * @param IndexBreedRequest $request

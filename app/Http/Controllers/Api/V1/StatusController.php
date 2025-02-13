@@ -11,7 +11,7 @@ use App\Services\Status\StatusService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class StatusesController extends Controller
+class StatusController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,7 +21,6 @@ class StatusesController extends Controller
         try {
             $statuses = $statusService->index($request->validate([]));
             return ApiResponse::success(StatusResource::paginatedCollection($statuses));
-
         } catch (\Throwable $throwable) {
             ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
         }

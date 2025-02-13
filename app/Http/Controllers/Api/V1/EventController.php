@@ -16,7 +16,7 @@ use App\Services\EventService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-#[AllowDynamicProperties] class EventsController extends Controller
+#[AllowDynamicProperties] class EventController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -25,11 +25,11 @@ use Illuminate\Http\Request;
     {
         try {
             $result = $eventService->index($request->validated());
-            if($result){
+            if ($result) {
                 return ApiResponse::success(IndexEventResource::paginatedCollection($result));
             }
-        }catch(\Throwable $throwable){
-            ErrorLog::write(__METHOD__,__LINE__,$throwable->getMessage());
+        } catch (\Throwable $throwable) {
+            ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
         }
 
         return ApiResponse::error('Something went wrong!');
@@ -42,7 +42,7 @@ use Illuminate\Http\Request;
     {
 
         $result = $eventService->store($request->validated());
-        if($result){
+        if ($result) {
             return ApiResponse::success(ShowEventResource::make($result), 'Created successfully.');
         }
 
@@ -56,12 +56,12 @@ use Illuminate\Http\Request;
     {
         try {
             $event = $eventService->show($id);
-            if($event){
+            if ($event) {
                 return ApiResponse::success(ShowEventResource::make($event));
             }
-        }catch(\Throwable $throwable){
+        } catch (\Throwable $throwable) {
             $this->error = $throwable->getMessage();
-            ErrorLog::write(__METHOD__,__LINE__,$throwable->getMessage());
+            ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
         }
 
         return ApiResponse::error($this->error);
@@ -82,12 +82,12 @@ use Illuminate\Http\Request;
     {
         try {
             $result =  Event::destroy($id);
-            if($result){
-                return ApiResponse::success(data:null, message: 'Deleted successfully.');
+            if ($result) {
+                return ApiResponse::success(data: null, message: 'Deleted successfully.');
             }
-        }catch(\Throwable $throwable){
+        } catch (\Throwable $throwable) {
             $this->error = $throwable->getMessage();
-            ErrorLog::write(__METHOD__,__LINE__,$throwable->getMessage());
+            ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
         }
 
         return ApiResponse::error($this->error);

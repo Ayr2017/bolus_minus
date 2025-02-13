@@ -15,7 +15,7 @@ use App\Models\HerdEntryReason;
 use App\Services\HerdEntryReason\HerdEntryReasonService;
 use Illuminate\Http\JsonResponse;
 
-class HerdEntryReasonsController extends Controller
+class HerdEntryReasonController extends Controller
 {
     /**
      * @param IndexHerdEntryReasonRequest $request

@@ -15,7 +15,7 @@ use App\Models\Shift;
 use App\Services\Shift\ShiftService;
 use Illuminate\Http\JsonResponse;
 
-class ShiftsController extends Controller
+class ShiftController extends Controller
 {
     /**
      * @param IndexShiftRequest $request

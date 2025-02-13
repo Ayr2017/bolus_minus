@@ -16,7 +16,7 @@ use App\Services\AnimalGroup\AnimalGroupService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class AnimalGroupsController extends Controller
+class AnimalGroupController extends Controller
 {
     /**
      * @param IndexAnimalGroupRequest $request

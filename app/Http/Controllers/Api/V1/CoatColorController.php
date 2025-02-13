@@ -15,7 +15,7 @@ use App\Models\CoatColor;
 use App\Services\CoatColor\CoatColorService;
 use Illuminate\Http\JsonResponse;
 
-class CoatColorsController extends Controller
+class CoatColorController extends Controller
 {
     /**
      * @param IndexCoatColorRequest $request

@@ -15,7 +15,7 @@ use App\Models\SemenPortion;
 use App\Services\SemenPortion\SemenPortionService;
 use Illuminate\Http\JsonResponse;
 
-class SemenPortionsController extends Controller
+class SemenPortionController extends Controller
 {
     /**
      * @param IndexSemenPortionRequest $request
