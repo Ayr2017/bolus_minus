@@ -96,14 +96,14 @@ class BreedController extends Controller
     /**
      * Remove the specified resource from storage.
      * @param DeleteBreedRequest $request
-     * @param int $breed
-     * @param BreedService $service
+     * @param Breed $breed
+     * @param BreedService $breedService
      * @return JsonResponse
      */
-    public function destroy(DeleteBreedRequest $request, BreedService $breedService,  int $breed): JsonResponse
+    public function destroy(DeleteBreedRequest $request, BreedService $breedService, Breed $breed): JsonResponse
     {
         try {
-            return ApiResponse::success($breedService->deleteBreed($breed));
+            return ApiResponse::success($breedService->delete($breed));
         } catch (\Throwable $throwable) {
             ErrorLog::write(__METHOD__, __LINE__, $throwable->getMessage());
         }
