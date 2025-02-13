@@ -26,10 +26,10 @@ class DeleteBreedRequest extends FormRequest
         ];
     }
 
-    protected function prepareForValidation(): void
-    {
-        $this->merge([
-            'breed' => $this->route('breed'),
-        ]);
-    }
+    // protected function prepareForValidation(): void
+    // {
+    //     $this->merge([
+    //         'breed' => $this->route('breed'),
+    //     ]);
+    // }
 }

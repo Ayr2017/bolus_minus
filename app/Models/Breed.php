@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 class Breed extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'name',
         'type',

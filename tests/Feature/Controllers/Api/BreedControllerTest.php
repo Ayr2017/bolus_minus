@@ -3,6 +3,7 @@
 namespace Tests\Feature\Controllers\Api;
 
 use AllowDynamicProperties;
+use App\Models\Animal;
 use App\Models\Breed;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -234,9 +235,9 @@ use Tests\TestCase;
 
     public function test_destroy_for_admin()
     {
-        $item = Breed::query()->first();
+        $item = Breed::factory()->create();
 
-        $response = $this->actingAs($this->admin)->deleteJson(route('api.breeds.destroy', $item->id));
+        $response = $this->actingAs($this->admin)->deleteJson(route('api.breeds.destroy', $item));
 
         $response->assertOk();
         $response->assertJson([
@@ -247,13 +248,37 @@ use Tests\TestCase;
         $this->assertDatabaseMissing('breeds', ['id' => $item->id]);
     }
 
+    public function test_destroy_with_relations_disabled_for_admin()
+    {
+        $item = Breed::query()->first();
+        Animal::factory()->create(['breed_id' => $item->id]);
+
+        $response = $this->actingAs($this->admin)->deleteJson(route('api.breeds.destroy', $item));
+        $response->assertStatus(400);
+        $response->assertJson([
+            'success' => false,
+            'data' => null,
+        ]);
+
+        $this->assertDatabaseHas('breeds', ['id' => $item->id]);
+    }
+
     public function test_destroy_forbidden_for_non_admin()
     {
-        $breed = Breed::query()->first();
+        $item = Breed::query()->first();
 
-        $response = $this->actingAs($this->user)->deleteJson(route('api.breeds.destroy', $breed->id));
+        $response = $this->actingAs($this->user)->deleteJson(route('api.breeds.destroy', $item->id));
         $response->assertForbidden();
+        $this->assertDatabaseHas('breeds', ['id' => $item->id]);
+    }
 
-        $this->assertDatabaseHas('breeds', ['id' => $breed->id]);
+    public function test_destroy_with_relations_forbidden_for_non_admin()
+    {
+        $item = Breed::query()->first();
+        Animal::factory()->create(['breed_id' => $item->id]);
+
+        $response = $this->actingAs($this->user)->deleteJson(route('api.breeds.destroy', $item));
+        $response->assertForbidden();
+        $this->assertDatabaseHas('breeds', ['id' => $item->id]);
     }
 }

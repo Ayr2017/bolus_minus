@@ -6,8 +6,6 @@ use AllowDynamicProperties;
 use App\Models\Animal;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\User;
-use Laravel\Sanctum\Sanctum;
 
 #[AllowDynamicProperties] class AnimalControllerTest extends TestCase
 {

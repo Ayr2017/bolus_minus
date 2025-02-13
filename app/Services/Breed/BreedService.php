@@ -15,10 +15,17 @@ class BreedService extends Service
         parent::__construct();
     }
 
-    public function deleteBreed(int $breedId): bool
+    /**
+     * @param Breed $breed
+     * @return bool
+     */
+    public function delete(Breed $breed): bool
     {
+        if ($breed->animals()->exists()) {
+            throw new \Exception('Breed has animals');
+        }
+
         try {
-            $breed = Breed::query()->findOrFail($breedId);
             $result  = $breed->delete();
             if ($result) {
                 return true;
