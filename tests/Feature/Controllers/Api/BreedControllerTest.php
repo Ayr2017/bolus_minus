@@ -3,20 +3,17 @@
 namespace Tests\Feature\Controllers\Api;
 
 use AllowDynamicProperties;
-use App\Models\AnimalGroup;
-use App\Models\Animal;
+use App\Models\Breed;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\User;
-use Laravel\Sanctum\Sanctum;
 
-#[AllowDynamicProperties] class AnimalGroupsControllerTest extends TestCase
+#[AllowDynamicProperties] class BreedControllerTest extends TestCase
 {
     use RefreshDatabase;
 
     public function test_index_for_admin()
     {
-        $response = $this->actingAs($this->admin)->getJson(route('api.animal-groups.index'));
+        $response = $this->actingAs($this->admin)->getJson(route('api.breeds.index'));
         $response->assertOk();
         $response->assertJsonStructure([
             'message',
@@ -41,7 +38,7 @@ use Laravel\Sanctum\Sanctum;
 
     public function test_index_for_non_admin()
     {
-        $response = $this->actingAs($this->user)->getJson(route('api.animal-groups.index'));
+        $response = $this->actingAs($this->user)->getJson(route('api.breeds.index'));
         $response->assertOk();
         $response->assertJsonStructure([
             'message',
@@ -68,11 +65,10 @@ use Laravel\Sanctum\Sanctum;
     {
         $data = [
             'name' => 'Test Name',
-            'description' => 'Test Description',
-            'is_active' => true,
         ];
 
-        $response = $this->actingAs($this->admin)->postJson(route('api.animal-groups.store'), $data);
+        $response = $this->actingAs($this->admin)->postJson(route('api.breeds.store'), $data);
+
         $response->assertSuccessful();
         $response->assertJsonStructure([
             'message',
@@ -81,32 +77,31 @@ use Laravel\Sanctum\Sanctum;
             'data' => [
                 'id',
                 'name',
-                'description',
+                'type',
                 'is_active',
+                'created_at',
+                'updated_at',
             ],
         ]);
 
-        $this->assertDatabaseHas('animal_groups', $data);
+        $this->assertDatabaseHas('breeds', $data);
     }
 
     public function test_store_for_non_admin()
     {
         $data = [
             'name' => 'Test Name',
-            'description' => 'Test Description',
-            'is_active' => true,
         ];
 
-        $response = $this->actingAs($this->user)->postJson(route('api.animal-groups.store'), $data);
+        $response = $this->actingAs($this->user)->postJson(route('api.breeds.store'), $data);
 
         $response->assertForbidden();
     }
 
     public function test_show_for_admin()
     {
-        $animalGroup = AnimalGroup::query()->first();
-
-        $response = $this->actingAs($this->admin)->json('GET', route('api.animal-groups.show', $animalGroup), ['animal_group' => $animalGroup->id]);
+        $breed = Breed::query()->first();
+        $response = $this->actingAs($this->admin)->json('GET', route('api.breeds.show', $breed), ['breed' => $breed->id]);
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -117,18 +112,22 @@ use Laravel\Sanctum\Sanctum;
                 'breed' => [
                     'id',
                     'name',
-                    'description',
+                    'type',
                     'is_active',
+                    'created_at',
+                    'updated_at',
                 ]
             ],
         ]);
         $response->assertJson([
             'data' => [
                 'breed' => [
-                    'id' => $animalGroup->id,
-                    'name' => $animalGroup->name,
-                    'description' => $animalGroup->description,
-                    'is_active' => $animalGroup->is_active
+                    'id' => $breed->id,
+                    'name' => $breed->name,
+                    'type' => $breed->type,
+                    'is_active' => $breed->is_active,
+                    'created_at' => $breed->created_at,
+                    'updated_at' => $breed->updated_at,
                 ]
             ]
         ]);
@@ -136,9 +135,8 @@ use Laravel\Sanctum\Sanctum;
 
     public function test_show_for_non_admin()
     {
-        $animalGroup = AnimalGroup::query()->first();
-
-        $response = $this->actingAs($this->user)->json('GET', route('api.animal-groups.show', $animalGroup), ['animal_group' => 1]);
+        $breed = Breed::query()->first();
+        $response = $this->actingAs($this->user)->json('GET', route('api.breeds.show', $breed), ['breed' => $breed->id]);
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -149,18 +147,22 @@ use Laravel\Sanctum\Sanctum;
                 'breed' => [
                     'id',
                     'name',
-                    'description',
+                    'type',
                     'is_active',
+                    'created_at',
+                    'updated_at',
                 ]
             ],
         ]);
         $response->assertJson([
             'data' => [
                 'breed' => [
-                    'id' => $animalGroup->id,
-                    'name' => $animalGroup->name,
-                    'description' => $animalGroup->description,
-                    'is_active' => $animalGroup->is_active
+                    'id' => $breed->id,
+                    'name' => $breed->name,
+                    'type' => $breed->type,
+                    'is_active' => $breed->is_active,
+                    'created_at' => $breed->created_at,
+                    'updated_at' => $breed->updated_at,
                 ]
             ]
         ]);
@@ -168,15 +170,15 @@ use Laravel\Sanctum\Sanctum;
 
     public function test_update_for_admin()
     {
-        $animalGroup = AnimalGroup::query()->first();
+        $breed = Breed::query()->first();
 
         $data = [
             'name' => 'Updated Name',
-            'description' => 'Updated Description',
+            'type' => 'Updated Description',
             'is_active' => false,
         ];
 
-        $response = $this->actingAs($this->admin)->putJson(route('api.animal-groups.update', $animalGroup->id), $data);
+        $response = $this->actingAs($this->admin)->putJson(route('api.breeds.update', $breed->id), $data);
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -187,26 +189,28 @@ use Laravel\Sanctum\Sanctum;
                 'breed' => [
                     'id',
                     'name',
-                    'description',
+                    'type',
                     'is_active',
+                    'created_at',
+                    'updated_at',
                 ]
             ],
         ]);
 
-        $this->assertDatabaseHas('animal_groups', $data);
+        $this->assertDatabaseHas('breeds', $data);
     }
 
     public function test_update_for_non_admin()
     {
-        $animalGroup = AnimalGroup::query()->first();
+        $breed = Breed::query()->first();
 
         $data = [
             'name' => 'Updated Name',
-            'description' => 'Updated Description',
+            'type' => 'Updated Description',
             'is_active' => false,
         ];
 
-        $response = $this->actingAs($this->user)->putJson(route('api.animal-groups.update', $animalGroup->id), $data);
+        $response = $this->actingAs($this->user)->putJson(route('api.breeds.update', $breed->id), $data);
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -217,60 +221,39 @@ use Laravel\Sanctum\Sanctum;
                 'breed' => [
                     'id',
                     'name',
-                    'description',
+                    'type',
                     'is_active',
+                    'created_at',
+                    'updated_at',
                 ]
             ],
         ]);
 
-        $this->assertDatabaseHas('animal_groups', $data);
+        $this->assertDatabaseHas('breeds', $data);
     }
 
     public function test_destroy_for_admin()
     {
-        $item = AnimalGroup::factory()->create();
+        $item = Breed::query()->first();
 
-        $response = $this->actingAs($this->admin)->deleteJson(route('api.animal-groups.destroy', $item));
+        $response = $this->actingAs($this->admin)->deleteJson(route('api.breeds.destroy', $item->id));
+
         $response->assertOk();
         $response->assertJson([
             'success' => true,
             'error' => null,
         ]);
 
-        $this->assertDatabaseMissing('animal_groups', ['id' => $item->id]);
-    }
-
-    public function test_destroy_with_relations_disabled_for_admin()
-    {
-        $animalGroup = AnimalGroup::query()->first();
-        Animal::factory()->create(['animal_group_id' => $animalGroup->id]);
-
-        $response = $this->actingAs($this->admin)->deleteJson(route('api.animal-groups.destroy', $animalGroup));
-        $response->assertStatus(400);
-        $response->assertJson([
-            'success' => false,
-            'data' => null,
-        ]);
-
-        $this->assertDatabaseHas('animal_groups', ['id' => $animalGroup->id]);
+        $this->assertDatabaseMissing('breeds', ['id' => $item->id]);
     }
 
     public function test_destroy_forbidden_for_non_admin()
     {
-        $animalGroup = AnimalGroup::query()->first();
+        $breed = Breed::query()->first();
 
-        $response = $this->actingAs($this->user)->deleteJson(route('api.animal-groups.destroy', $animalGroup->id));
+        $response = $this->actingAs($this->user)->deleteJson(route('api.breeds.destroy', $breed->id));
         $response->assertForbidden();
-        $this->assertDatabaseHas('animal_groups', ['id' => $animalGroup->id]);
-    }
 
-    public function test_destroy_with_relations_forbidden_for_non_admin()
-    {
-        $animalGroup = AnimalGroup::query()->first();
-        Animal::factory()->create(['animal_group_id' => $animalGroup->id]);
-
-        $response = $this->actingAs($this->user)->deleteJson(route('api.animal-groups.destroy', $animalGroup));
-        $response->assertForbidden();
-        $this->assertDatabaseHas('animal_groups', ['id' => $animalGroup->id]);
+        $this->assertDatabaseHas('breeds', ['id' => $breed->id]);
     }
 }

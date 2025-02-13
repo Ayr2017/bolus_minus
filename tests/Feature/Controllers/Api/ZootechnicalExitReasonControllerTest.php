@@ -4,11 +4,12 @@ namespace Tests\Feature\Controllers\Api;
 
 use AllowDynamicProperties;
 use App\Models\RestrictionReason;
+use App\Models\ZootechnicalExitReason;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
 
-#[AllowDynamicProperties] class RestrictionReasonsControllerTest extends TestCase
+#[AllowDynamicProperties] class ZootechnicalExitReasonControllerTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -20,7 +21,7 @@ use Tests\TestCase;
 
     public function test_index_for_admin()
     {
-        $response = $this->actingAs($this->admin)->getJson(route('api.restriction-reasons.index'));
+        $response = $this->actingAs($this->admin)->getJson(route('api.zootechnical-exit-reasons.index'));
         $response->assertOk();
         $response->assertJsonStructure([
             'message',
@@ -45,7 +46,7 @@ use Tests\TestCase;
 
     public function test_index_for_non_admin()
     {
-        $response = $this->actingAs($this->user)->getJson(route('api.restriction-reasons.index'));
+        $response = $this->actingAs($this->user)->getJson(route('api.zootechnical-exit-reasons.index'));
         $response->assertOk();
         $response->assertJsonStructure([
             'message',
@@ -76,7 +77,7 @@ use Tests\TestCase;
             'is_active' => true,
         ];
 
-        $response = $this->actingAs($this->admin)->postJson(route('api.restriction-reasons.store'), $data);
+        $response = $this->actingAs($this->admin)->postJson(route('api.zootechnical-exit-reasons.store'), $data);
         $response->assertSuccessful();
         $response->assertJsonStructure([
             'message',
@@ -87,12 +88,10 @@ use Tests\TestCase;
                 'name',
                 'description',
                 'is_active',
-                'created_at',
-                'updated_at',
             ],
         ]);
 
-        $this->assertDatabaseHas('restriction_reasons', $data);
+        $this->assertDatabaseHas('zootechnical_exit_reasons', $data);
     }
 
     public function test_store_for_non_admin()
@@ -103,7 +102,7 @@ use Tests\TestCase;
             'is_active' => true,
         ];
 
-        $response = $this->actingAs($this->user)->postJson(route('api.restriction-reasons.store'), $data);
+        $response = $this->actingAs($this->user)->postJson(route('api.zootechnical-exit-reasons.store'), $data);
         $response->assertSuccessful();
         $response->assertJsonStructure([
             'message',
@@ -114,18 +113,16 @@ use Tests\TestCase;
                 'name',
                 'description',
                 'is_active',
-                'created_at',
-                'updated_at',
             ],
         ]);
 
-        $this->assertDatabaseHas('restriction_reasons', $data);
+        $this->assertDatabaseHas('zootechnical_exit_reasons', $data);
     }
 
     public function test_show_for_admin()
     {
-        $restrictionReason = RestrictionReason::query()->first();
-        $response = $this->actingAs($this->admin)->getJson(route('api.restriction-reasons.show', $restrictionReason));
+        $zootechnicalExitReason = ZootechnicalExitReason::query()->first();
+        $response = $this->actingAs($this->admin)->getJson(route('api.zootechnical-exit-reasons.show', $zootechnicalExitReason));
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -133,7 +130,7 @@ use Tests\TestCase;
             'success',
             'error',
             'data' => [
-                'restrictionReason' => [
+                'zootechnicalExitReason' => [
                     'id',
                     'name',
                     'description',
@@ -145,13 +142,13 @@ use Tests\TestCase;
         ]);
         $response->assertJson([
             'data' => [
-                'restrictionReason' => [
-                    'id' => $restrictionReason->id,
-                    'name' => $restrictionReason->name,
-                    'description' => $restrictionReason->description,
-                    'is_active' => $restrictionReason->is_active,
-                    'created_at' => $restrictionReason->created_at,
-                    'updated_at' => $restrictionReason->updated_at,
+                'zootechnicalExitReason' => [
+                    'id' => $zootechnicalExitReason->id,
+                    'name' => $zootechnicalExitReason->name,
+                    'description' => $zootechnicalExitReason->description,
+                    'is_active' => $zootechnicalExitReason->is_active,
+                    'created_at' => $zootechnicalExitReason->created_at,
+                    'updated_at' => $zootechnicalExitReason->updated_at,
                 ]
             ]
         ]);
@@ -159,8 +156,8 @@ use Tests\TestCase;
 
     public function test_show_for_non_admin()
     {
-        $restrictionReason = RestrictionReason::query()->first();
-        $response = $this->actingAs($this->user)->getJson(route('api.restriction-reasons.show', $restrictionReason));
+        $zootechnicalExitReason = ZootechnicalExitReason::query()->first();
+        $response = $this->actingAs($this->user)->getJson(route('api.zootechnical-exit-reasons.show', $zootechnicalExitReason));
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -168,7 +165,7 @@ use Tests\TestCase;
             'success',
             'error',
             'data' => [
-                'restrictionReason' => [
+                'zootechnicalExitReason' => [
                     'id',
                     'name',
                     'description',
@@ -180,13 +177,13 @@ use Tests\TestCase;
         ]);
         $response->assertJson([
             'data' => [
-                'restrictionReason' => [
-                    'id' => $restrictionReason->id,
-                    'name' => $restrictionReason->name,
-                    'description' => $restrictionReason->description,
-                    'is_active' => $restrictionReason->is_active,
-                    'created_at' => $restrictionReason->created_at,
-                    'updated_at' => $restrictionReason->updated_at,
+                'zootechnicalExitReason' => [
+                    'id' => $zootechnicalExitReason->id,
+                    'name' => $zootechnicalExitReason->name,
+                    'description' => $zootechnicalExitReason->description,
+                    'is_active' => $zootechnicalExitReason->is_active,
+                    'created_at' => $zootechnicalExitReason->created_at,
+                    'updated_at' => $zootechnicalExitReason->updated_at,
                 ]
             ]
         ]);
@@ -194,17 +191,20 @@ use Tests\TestCase;
 
     public function test_update_for_admin()
     {
+        $zootechnicalExitReason = ZootechnicalExitReason::query()->first();
+
         $restrictionReason = RestrictionReason::query()->first();
 
         $requestData = [
             'name' => 'Updated Name',
             'description' => 'Updated Description',
             'is_active' => false,
+            'restriction_reason' => $restrictionReason->id,
         ];
 
         $responseData = Arr::except($requestData, ['restriction_reason']);
 
-        $response = $this->actingAs($this->admin)->putJson(route('api.restriction-reasons.update', $restrictionReason->id), $requestData);
+        $response = $this->actingAs($this->admin)->putJson(route('api.zootechnical-exit-reasons.update', $zootechnicalExitReason->id), $requestData);
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -212,7 +212,7 @@ use Tests\TestCase;
             'success',
             'error',
             'data' => [
-                "restrictionReason" => [
+                [
                     'id',
                     'name',
                     'description',
@@ -223,22 +223,25 @@ use Tests\TestCase;
             ],
         ]);
 
-        $this->assertDatabaseHas('restriction_reasons', $responseData);
+        $this->assertDatabaseHas('zootechnical_exit_reasons', $responseData);
     }
 
     public function test_update_for_non_admin()
     {
+        $zootechnicalExitReason = ZootechnicalExitReason::query()->first();
+
         $restrictionReason = RestrictionReason::query()->first();
 
         $requestData = [
             'name' => 'Updated Name',
             'description' => 'Updated Description',
             'is_active' => false,
+            'restriction_reason' => $restrictionReason->id,
         ];
 
         $responseData = Arr::except($requestData, ['restriction_reason']);
 
-        $response = $this->actingAs($this->user)->putJson(route('api.restriction-reasons.update', $restrictionReason->id), $requestData);
+        $response = $this->actingAs($this->user)->putJson(route('api.zootechnical-exit-reasons.update', $zootechnicalExitReason->id), $requestData);
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -246,7 +249,7 @@ use Tests\TestCase;
             'success',
             'error',
             'data' => [
-                "restrictionReason" => [
+                [
                     'id',
                     'name',
                     'description',
@@ -257,14 +260,14 @@ use Tests\TestCase;
             ],
         ]);
 
-        $this->assertDatabaseHas('restriction_reasons', $responseData);
+        $this->assertDatabaseHas('zootechnical_exit_reasons', $responseData);
     }
 
     public function test_destroy_for_admin()
     {
-        $restrictionReason = RestrictionReason::query()->first();
+        $zootechnicalExitReason = ZootechnicalExitReason::query()->first();
 
-        $response = $this->actingAs($this->admin)->deleteJson(route('api.restriction-reasons.destroy', $restrictionReason->id));
+        $response = $this->actingAs($this->admin)->deleteJson(route('api.zootechnical-exit-reasons.destroy', $zootechnicalExitReason->id));
 
         $response->assertOk();
         $response->assertJson([
@@ -272,14 +275,14 @@ use Tests\TestCase;
             'error' => null,
         ]);
 
-        $this->assertDatabaseMissing('restriction_reasons', ['id' => $restrictionReason->id]);
+        $this->assertDatabaseMissing('zootechnical_exit_reasons', ['id' => $zootechnicalExitReason->id]);
     }
 
     public function test_destroy_for_non_admin()
     {
-        $restrictionReason = RestrictionReason::query()->first();
+        $zootechnicalExitReason = ZootechnicalExitReason::query()->first();
 
-        $response = $this->actingAs($this->user)->deleteJson(route('api.restriction-reasons.destroy', $restrictionReason->id));
+        $response = $this->actingAs($this->user)->deleteJson(route('api.zootechnical-exit-reasons.destroy', $zootechnicalExitReason->id));
 
         $response->assertOk();
         $response->assertJson([
@@ -287,6 +290,6 @@ use Tests\TestCase;
             'error' => null,
         ]);
 
-        $this->assertDatabaseMissing('restriction_reasons', ['id' => $restrictionReason->id]);
+        $this->assertDatabaseMissing('zootechnical_exit_reasons', ['id' => $zootechnicalExitReason->id]);
     }
 }

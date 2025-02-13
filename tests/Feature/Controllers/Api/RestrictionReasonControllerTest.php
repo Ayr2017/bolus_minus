@@ -3,18 +3,24 @@
 namespace Tests\Feature\Controllers\Api;
 
 use AllowDynamicProperties;
-use App\Models\HerdEntryReason;
+use App\Models\RestrictionReason;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Arr;
 use Tests\TestCase;
-use App\Models\Animal;
 
-#[AllowDynamicProperties] class HerdEntryReasonsControllerTest extends TestCase
+#[AllowDynamicProperties] class RestrictionReasonControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->artisan('db:seed');
+    }
+
     public function test_index_for_admin()
     {
-        $response = $this->actingAs($this->admin)->getJson(route('api.herd-entry-reasons.index'));
+        $response = $this->actingAs($this->admin)->getJson(route('api.restriction-reasons.index'));
         $response->assertOk();
         $response->assertJsonStructure([
             'message',
@@ -39,7 +45,7 @@ use App\Models\Animal;
 
     public function test_index_for_non_admin()
     {
-        $response = $this->actingAs($this->user)->getJson(route('api.herd-entry-reasons.index'));
+        $response = $this->actingAs($this->user)->getJson(route('api.restriction-reasons.index'));
         $response->assertOk();
         $response->assertJsonStructure([
             'message',
@@ -70,7 +76,7 @@ use App\Models\Animal;
             'is_active' => true,
         ];
 
-        $response = $this->actingAs($this->admin)->postJson(route('api.herd-entry-reasons.store'), $data);
+        $response = $this->actingAs($this->admin)->postJson(route('api.restriction-reasons.store'), $data);
         $response->assertSuccessful();
         $response->assertJsonStructure([
             'message',
@@ -81,10 +87,12 @@ use App\Models\Animal;
                 'name',
                 'description',
                 'is_active',
+                'created_at',
+                'updated_at',
             ],
         ]);
 
-        $this->assertDatabaseHas('herd_entry_reasons', $data);
+        $this->assertDatabaseHas('restriction_reasons', $data);
     }
 
     public function test_store_for_non_admin()
@@ -95,7 +103,7 @@ use App\Models\Animal;
             'is_active' => true,
         ];
 
-        $response = $this->actingAs($this->user)->postJson(route('api.herd-entry-reasons.store'), $data);
+        $response = $this->actingAs($this->user)->postJson(route('api.restriction-reasons.store'), $data);
         $response->assertSuccessful();
         $response->assertJsonStructure([
             'message',
@@ -106,37 +114,44 @@ use App\Models\Animal;
                 'name',
                 'description',
                 'is_active',
+                'created_at',
+                'updated_at',
             ],
         ]);
 
-        $this->assertDatabaseHas('herd_entry_reasons', $data);
+        $this->assertDatabaseHas('restriction_reasons', $data);
     }
 
     public function test_show_for_admin()
     {
-        $item = HerdEntryReason::query()->first();
-        $response = $this->actingAs($this->admin)->json('GET', route('api.herd-entry-reasons.show', $item));
+        $restrictionReason = RestrictionReason::query()->first();
+        $response = $this->actingAs($this->admin)->getJson(route('api.restriction-reasons.show', $restrictionReason));
+
         $response->assertOk();
         $response->assertJsonStructure([
             'message',
             'success',
             'error',
             'data' => [
-                'herdEntryReason' => [
+                'restrictionReason' => [
                     'id',
                     'name',
                     'description',
                     'is_active',
+                    'created_at',
+                    'updated_at',
                 ]
             ],
         ]);
         $response->assertJson([
             'data' => [
-                'herdEntryReason' => [
-                    'id' => $item->id,
-                    'name' => $item->name,
-                    'description' => $item->description,
-                    'is_active' => $item->is_active,
+                'restrictionReason' => [
+                    'id' => $restrictionReason->id,
+                    'name' => $restrictionReason->name,
+                    'description' => $restrictionReason->description,
+                    'is_active' => $restrictionReason->is_active,
+                    'created_at' => $restrictionReason->created_at,
+                    'updated_at' => $restrictionReason->updated_at,
                 ]
             ]
         ]);
@@ -144,29 +159,34 @@ use App\Models\Animal;
 
     public function test_show_for_non_admin()
     {
-        $item = HerdEntryReason::query()->first();
-        $response = $this->actingAs($this->user)->json('GET', route('api.herd-entry-reasons.show', $item));
+        $restrictionReason = RestrictionReason::query()->first();
+        $response = $this->actingAs($this->user)->getJson(route('api.restriction-reasons.show', $restrictionReason));
+
         $response->assertOk();
         $response->assertJsonStructure([
             'message',
             'success',
             'error',
             'data' => [
-                'herdEntryReason' => [
+                'restrictionReason' => [
                     'id',
                     'name',
                     'description',
                     'is_active',
+                    'created_at',
+                    'updated_at',
                 ]
             ],
         ]);
         $response->assertJson([
             'data' => [
-                'herdEntryReason' => [
-                    'id' => $item->id,
-                    'name' => $item->name,
-                    'description' => $item->description,
-                    'is_active' => $item->is_active,
+                'restrictionReason' => [
+                    'id' => $restrictionReason->id,
+                    'name' => $restrictionReason->name,
+                    'description' => $restrictionReason->description,
+                    'is_active' => $restrictionReason->is_active,
+                    'created_at' => $restrictionReason->created_at,
+                    'updated_at' => $restrictionReason->updated_at,
                 ]
             ]
         ]);
@@ -174,117 +194,99 @@ use App\Models\Animal;
 
     public function test_update_for_admin()
     {
-        $item = HerdEntryReason::query()->first();
+        $restrictionReason = RestrictionReason::query()->first();
 
-        $data = [
+        $requestData = [
             'name' => 'Updated Name',
             'description' => 'Updated Description',
             'is_active' => false,
         ];
 
-        $response = $this->actingAs($this->admin)->putJson(route('api.herd-entry-reasons.update', $item->id), $data);
+        $responseData = Arr::except($requestData, ['restriction_reason']);
+
+        $response = $this->actingAs($this->admin)->putJson(route('api.restriction-reasons.update', $restrictionReason->id), $requestData);
+
         $response->assertOk();
         $response->assertJsonStructure([
             'message',
             'success',
             'error',
             'data' => [
-                'herdEntryReason' => [
+                "restrictionReason" => [
                     'id',
                     'name',
                     'description',
                     'is_active',
+                    'created_at',
+                    'updated_at',
                 ]
             ],
         ]);
 
-        $this->assertDatabaseHas('herd_entry_reasons', $data);
+        $this->assertDatabaseHas('restriction_reasons', $responseData);
     }
 
     public function test_update_for_non_admin()
     {
-        $item = HerdEntryReason::query()->first();
+        $restrictionReason = RestrictionReason::query()->first();
 
-        $data = [
+        $requestData = [
             'name' => 'Updated Name',
             'description' => 'Updated Description',
             'is_active' => false,
         ];
 
-        $response = $this->actingAs($this->user)->putJson(route('api.herd-entry-reasons.update', $item->id), $data);
+        $responseData = Arr::except($requestData, ['restriction_reason']);
+
+        $response = $this->actingAs($this->user)->putJson(route('api.restriction-reasons.update', $restrictionReason->id), $requestData);
+
         $response->assertOk();
         $response->assertJsonStructure([
             'message',
             'success',
             'error',
             'data' => [
-                'herdEntryReason' => [
+                "restrictionReason" => [
                     'id',
                     'name',
                     'description',
                     'is_active',
+                    'created_at',
+                    'updated_at',
                 ]
             ],
         ]);
 
-        $this->assertDatabaseHas('herd_entry_reasons', $data);
+        $this->assertDatabaseHas('restriction_reasons', $responseData);
     }
 
     public function test_destroy_for_admin()
     {
-        $item = HerdEntryReason::factory()->create();
+        $restrictionReason = RestrictionReason::query()->first();
 
-        $response = $this->actingAs($this->admin)->deleteJson(route('api.herd-entry-reasons.destroy', $item));
+        $response = $this->actingAs($this->admin)->deleteJson(route('api.restriction-reasons.destroy', $restrictionReason->id));
+
         $response->assertOk();
         $response->assertJson([
             'success' => true,
             'error' => null,
         ]);
 
-        $this->assertDatabaseMissing('herd_entry_reasons', ['id' => $item->id]);
-    }
-
-    public function test_destroy_with_relations_disabled_for_admin()
-    {
-        $item = HerdEntryReason::query()->first();
-        Animal::factory()->create(['herd_entry_reason_id' => $item->id]);
-
-        $response = $this->actingAs($this->admin)->deleteJson(route('api.herd-entry-reasons.destroy', $item));
-        $response->assertStatus(400);
-        $response->assertJson([
-            'success' => false,
-            'data' => null,
-        ]);
-
-        $this->assertDatabaseHas('herd_entry_reasons', ['id' => $item->id]);
+        $this->assertDatabaseMissing('restriction_reasons', ['id' => $restrictionReason->id]);
     }
 
     public function test_destroy_for_non_admin()
     {
-        $item = HerdEntryReason::factory()->create();
+        $restrictionReason = RestrictionReason::query()->first();
 
-        $response = $this->actingAs($this->user)->deleteJson(route('api.herd-entry-reasons.destroy', $item));
+        $response = $this->actingAs($this->user)->deleteJson(route('api.restriction-reasons.destroy', $restrictionReason->id));
+
         $response->assertOk();
         $response->assertJson([
             'success' => true,
             'error' => null,
         ]);
 
-        $this->assertDatabaseMissing('herd_entry_reasons', ['id' => $item->id]);
-    }
-
-    public function test_destroy_with_relations_disabled_for_non_admin()
-    {
-        $item = HerdEntryReason::query()->first();
-        Animal::factory()->create(['herd_entry_reason_id' => $item->id]);
-
-        $response = $this->actingAs($this->user)->deleteJson(route('api.herd-entry-reasons.destroy', $item));
-        $response->assertStatus(400);
-        $response->assertJson([
-            'success' => false,
-            'data' => null,
-        ]);
-
-        $this->assertDatabaseHas('herd_entry_reasons', ['id' => $item->id]);
+        $this->assertDatabaseMissing('restriction_reasons', ['id' => $restrictionReason->id]);
     }
 }

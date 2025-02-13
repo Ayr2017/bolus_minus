@@ -9,7 +9,7 @@ use Tests\TestCase;
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
 
-#[AllowDynamicProperties] class AnimalsControllerTest extends TestCase
+#[AllowDynamicProperties] class AnimalControllerTest extends TestCase
 {
     use RefreshDatabase;
 

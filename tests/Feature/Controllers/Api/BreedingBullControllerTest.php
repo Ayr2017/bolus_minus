@@ -7,7 +7,7 @@ use App\Models\BreedingBull;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-#[AllowDynamicProperties] class BreedingBullsControllerTest extends TestCase
+#[AllowDynamicProperties] class BreedingBullControllerTest extends TestCase
 {
     use RefreshDatabase;
 

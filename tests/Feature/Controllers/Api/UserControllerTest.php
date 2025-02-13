@@ -12,7 +12,7 @@ use Laravel\Sanctum\Sanctum;
 use Illuminate\Support\Facades\Hash;
 
 
-#[AllowDynamicProperties] class UsersControllerTest extends TestCase
+#[AllowDynamicProperties] class UserControllerTest extends TestCase
 {
     use RefreshDatabase;
 
