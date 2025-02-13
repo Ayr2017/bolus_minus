@@ -14,19 +14,17 @@ class Organisation extends Model
     use HasFactory;
 
     protected $fillable = [
-        'uuid',
         'name',
         'structural_unit_id',
         'parent_id',
-        'is_active',
+        'department',
         'activity_category',
-        'organisations',
         'inn',
-        'region',
-        'address',
         'abbreviated',
+        'region',
         'district',
-        'department'
+        'address',
+        'is_active',
     ];
 
     protected $casts = [

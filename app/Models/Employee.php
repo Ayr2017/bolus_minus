@@ -12,19 +12,19 @@ use Spatie\Permission\Traits\HasRoles;
 class Employee extends Model
 {
     use HasFactory, HasPermissions, HasRoles;
+
     protected $fillable = [
-        'uuid',
         'position',
         'organisation_id',
         'user_id',
         'is_active'
     ];
+
     protected string $guard_name = 'web';
 
     protected $casts = [
         'is_active' => 'boolean'
     ];
-
 
     public static function boot()
     {

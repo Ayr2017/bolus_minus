@@ -19,7 +19,6 @@ class EmployeeFactory extends Factory
     public function definition(): array
     {
         return [
-            'uuid' => fake()->name(),
             'position' => fake()->name(),
             'organisation_id' => Organisation::inRandomOrder()->first()->id,
             'user_id' => User::inRandomOrder()->first()->id ?? User::factory()->create()->id,

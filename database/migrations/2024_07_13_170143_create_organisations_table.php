@@ -18,8 +18,13 @@ return new class extends Migration
             $table->string('name');
             $table->unsignedBigInteger('structural_unit_id')->nullable();
             $table->unsignedBigInteger('parent_id')->nullable()->index();
-            $table->string('department')->after('name')->nullable();
+            $table->string('department')->nullable();
             $table->enum('activity_category', array_column(ActivityCategory::cases(), 'value'));
+            $table->bigInteger('inn')->nullable();
+            $table->string('abbreviated')->nullable();
+            $table->string('region')->nullable();
+            $table->string('district')->nullable();
+            $table->string('address')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
