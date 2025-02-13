@@ -7,7 +7,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
-class DefaultUsersSeeder extends Seeder
+class DefaultUserSeeder extends Seeder
 {
     public function __construct()
     {
@@ -24,14 +24,15 @@ class DefaultUsersSeeder extends Seeder
      */
     public function run(): void
     {
-        if($this->admin['email'] && $this->admin['password']) {
+        if ($this->admin['email'] && $this->admin['password']) {
             $user = User::firstOrCreate(
-                ['email'=>$this->admin['email']],
+                ['email' => $this->admin['email']],
                 [
                     'name' => $this->admin['name'],
                     'password' => Hash::make($this->admin['password']),
-                    'email_verified_at'=>date("Y-m-d H:i:s"),
-                ]);
+                    'email_verified_at' => date("Y-m-d H:i:s"),
+                ]
+            );
 
             $user->assignRole('super-admin');
             $user->assignRole('admin');

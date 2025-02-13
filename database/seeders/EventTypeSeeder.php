@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 
-class EventTypesSeeder extends Seeder
+class EventTypeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -61,9 +61,7 @@ class EventTypesSeeder extends Seeder
                             "rule_method" => 'update',
                         ]);
                     }
-
                 });
-
             }
         } else {
             $this->command->error("Файл event_types.json не найден.");

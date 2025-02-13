@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
-class InseminationMethodsSeeder extends Seeder
+class InseminationMethodSeeder extends Seeder
 {
     const INSEMINATION_METHODS = [
         ['id' => 1, 'name' => 'Традиционным семенем'],

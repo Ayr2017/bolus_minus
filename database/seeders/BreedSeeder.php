@@ -7,7 +7,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class BreedsSeeder extends Seeder
+class BreedSeeder extends Seeder
 {
     private array $breeds = [
         ["id" => 1, "name" => "Абердин-ангусская", "type" => "мясная"],

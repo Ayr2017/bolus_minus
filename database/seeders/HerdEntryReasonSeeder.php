@@ -6,7 +6,7 @@ use App\Models\HerdEntryReason;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class HerdEntryReasonsSeeder extends Seeder
+class HerdEntryReasonSeeder extends Seeder
 {
     /**
      * Run the database seeds.

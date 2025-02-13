@@ -8,7 +8,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
-class RestrictionReasonsSeeder extends Seeder
+class RestrictionReasonSeeder extends Seeder
 {
     const RESTRICTION_REASONS = [
         ['id' => 1, 'name' => 'Возраст'],

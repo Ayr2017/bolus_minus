@@ -6,7 +6,7 @@ use App\Models\AnimalGroup;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class AnimalGroupsSeeder extends Seeder
+class AnimalGroupSeeder extends Seeder
 {
 
     /**
@@ -30,6 +30,5 @@ class AnimalGroupsSeeder extends Seeder
                 'id' => $animalGroup['id'],
             ], $animalGroup);
         }
-
     }
 }

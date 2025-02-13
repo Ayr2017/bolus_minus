@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Bolus;
 
-class BolusesSeeder extends Seeder
+class BolusSeeder extends Seeder
 {
     const BOLUS_IDS = [
         'da066633-77d3-43a5-898e-36fb14175a3d',
@@ -18,7 +18,8 @@ class BolusesSeeder extends Seeder
     public function run(): void
     {
         foreach (self::BOLUS_IDS as $key => $bolus_id) {
-            Bolus::query()->firstOrCreate(['device_number' => $bolus_id],
+            Bolus::query()->firstOrCreate(
+                ['device_number' => $bolus_id],
                 [
                     'number' => str_pad($key, 6, '0', STR_PAD_LEFT),
                     'version' => 1,

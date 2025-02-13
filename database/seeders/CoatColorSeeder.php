@@ -27,6 +27,7 @@ class CoatColorSeeder extends Seeder
         ['id' => 15, 'name' => 'Темно-красная', 'description' => 'Шкура насыщенного темно-красного оттенка.'],
         ['id' => 16, 'name' => 'Без масти', 'description' => 'Не определено.'],
     ];
+
     /**
      * Run the database seeds.
      */
